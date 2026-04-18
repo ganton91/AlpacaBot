@@ -39,24 +39,12 @@ The daily candle is finalized at this point, making it the ideal time for end-of
 **Routing logic:**
 - **Monday–Friday (Weekdays)**: Run the FULL sequence (Steps 1-7) — stocks + crypto.
 - **Saturday–Sunday (Weekends)**: Run **CRYPTO-ONLY mode**:
-  - Skip Steps 2 (stock market health), 4a-4c (stock scanning), 5 (stock entries)
-  - DO run: Step 1 (account check), Step 3 for crypto positions only, Step 4 crypto scanning, Step 5 crypto entries, Step 6 (watchlist), Step 7 (report)
+  - Skip Steps 1 (market health), 4a-4c (stock scanning), 5 (stock entries)
+  - DO run: Step 2 (account check), Step 3 for crypto positions only, Step 4 crypto scanning, Step 5 crypto entries, Step 6 (watchlist), Step 7 (report)
   - In the report, note: "Weekend mode — crypto only, stock market closed."
 - **US Market Holidays**: Treat like weekends (the `get_clock` response will show `is_open=false` and `next_open` on a future date — if next_open is more than 18 hours away, it's a holiday or weekend → crypto-only mode).
 
-### STEP 1: ASSESS ENVIRONMENT
-**Actions:**
-1. Call `get_account_info` — get current equity, buying power, cash.
-2. Call `get_all_positions` — get all open positions (both stocks and crypto).
-3. Call `get_orders` with status="open" — get pending orders.
-
-**Calculate:**
-- Total equity
-- Number of open stock positions (max 5) and crypto positions (max 2)
-- Available slots for new trades
-- Current portfolio exposure % (positions value / equity)
-
-### STEP 2: MARKET HEALTH CHECK
+### STEP 1: MARKET HEALTH CHECK
 **Actions:**
 1. Run: `python scripts/market_health.py --json`
    *(The script fetches 250 days of SPY & QQQ bars from Alpaca, calculates 50-day and 200-day SMAs and their direction, retrieves the VIX from CBOE/Yahoo, checks market breadth via Alpaca market movers, and outputs a GREEN/YELLOW/RED signal with all supporting data.)*
@@ -67,7 +55,19 @@ The daily candle is finalized at this point, making it the ideal time for end-of
 - **YELLOW**: Mixed MA signals OR VIX 20-30 (but stable/falling) OR weak breadth. Max 3 positions, smaller sizes (0.5% risk instead of 1%).
 - **RED**: Both indices below 50-day MA, OR death cross (50MA < 200MA), OR VIX above 30 and rising. NO new longs. Only manage existing positions. Consider closing weak holdings.
 
-**If RED: Skip to Step 3 (position management only). Do NOT scan for new entries.**
+**If RED: Skip to Step 2 (account snapshot) then Step 3 (position management only). Do NOT scan for new entries.**
+
+### STEP 2: ASSESS ENVIRONMENT
+**Actions:**
+1. Call `get_account_info` — get current equity, buying power, cash.
+2. Call `get_all_positions` — get all open positions (both stocks and crypto).
+3. Call `get_orders` with status="open" — get pending orders.
+
+**Calculate:**
+- Total equity
+- Number of open stock positions (max 5) and crypto positions (max 2)
+- Available slots for new trades
+- Current portfolio exposure % (positions value / equity)
 
 ### STEP 3: MANAGE OPEN POSITIONS
 For EACH open position from `get_all_positions`:
