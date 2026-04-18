@@ -188,6 +188,16 @@ def combine_signals(spy: dict, qqq: dict, vix_color: str, vix_direction: str, br
 # Main
 # ---------------------------------------------------------------------------
 
+def save_report(result: dict) -> str:
+    reports_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "reports")
+    os.makedirs(reports_dir, exist_ok=True)
+    date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    path = os.path.join(reports_dir, f"market_health_{date_str}.json")
+    with open(path, "w") as f:
+        json.dump(result, f, indent=2)
+    return path
+
+
 def run() -> dict:
     client = get_data_client()
 
@@ -240,6 +250,7 @@ def main():
     args = parser.parse_args()
 
     result = run()
+    path = save_report(result)
 
     if args.json:
         print(json.dumps(result))
@@ -271,7 +282,8 @@ def main():
     if "error" not in b:
         print(f"\n  Breadth  gainers={b['gainers']}  losers={b['losers']}")
 
-    print(f"{'='*50}\n")
+    print(f"{'='*50}")
+    print(f"  Report saved: {path}\n")
 
 
 if __name__ == "__main__":
