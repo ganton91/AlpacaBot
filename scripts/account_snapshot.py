@@ -17,6 +17,8 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from broker.client import get_trading_client
+from alpaca.trading.requests import GetOrdersRequest
+from alpaca.trading.enums import QueryOrderStatus
 
 MAX_STOCK_POSITIONS = 5
 MAX_CRYPTO_POSITIONS = 2
@@ -41,7 +43,7 @@ def run() -> dict:
     positions_value = sum(float(p.market_value) for p in positions)
     exposure_pct = round((positions_value / equity) * 100, 1) if equity > 0 else 0
 
-    orders = client.get_orders(filter={"status": "open"})
+    orders = client.get_orders(GetOrdersRequest(status=QueryOrderStatus.OPEN))
 
     return {
         "account": {
