@@ -22,7 +22,7 @@ from alpaca.data.requests import StockBarsRequest, StockMarketMoversRequest
 from alpaca.data.timeframe import TimeFrame
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from utils.alpaca_client import get_data_client
+from alpaca.client import get_data_client
 
 
 # ---------------------------------------------------------------------------
