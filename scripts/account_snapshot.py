@@ -24,8 +24,8 @@ MAX_STOCK_POSITIONS = 5
 MAX_CRYPTO_POSITIONS = 2
 
 
-def is_crypto(symbol: str) -> bool:
-    return "/" in symbol
+def is_crypto(position) -> bool:
+    return str(position.asset_class).lower() == "crypto"
 
 
 def run() -> dict:
@@ -37,8 +37,8 @@ def run() -> dict:
     buying_power = float(account.buying_power)
 
     positions = client.get_all_positions()
-    stock_positions = [p for p in positions if not is_crypto(p.symbol)]
-    crypto_positions = [p for p in positions if is_crypto(p.symbol)]
+    stock_positions = [p for p in positions if not is_crypto(p)]
+    crypto_positions = [p for p in positions if is_crypto(p)]
 
     positions_value = sum(float(p.market_value) for p in positions)
     exposure_pct = round((positions_value / equity) * 100, 1) if equity > 0 else 0
