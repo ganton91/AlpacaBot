@@ -57,26 +57,9 @@ The daily candle is finalized at this point, making it the ideal time for end-of
 
 ### STEP 2: MARKET HEALTH CHECK
 **Actions:**
-1. Call `get_stock_bars` for SPY,QQQ with timeframe="1Day", days=250, feed="iex", adjustment="split"
-   - Need 250 days to calculate 200-day MA properly
-2. From the daily bars for SPY and QQQ, calculate:
-   - Current price vs 50-day and 200-day simple moving averages
-   - Is price above or below each MA?
-   - 50-day MA direction (rising/falling — compare current 50MA to its value 10 days ago)
-   - Recent trend: higher highs + higher lows (uptrend) or opposite?
-3. **VIX Check (actual CBOE VIX index):**
-   The VIX index is NOT available via Alpaca (it's not a tradable security). To get the real VIX value:
-   - Use `web_search` with query "VIX index current value today" 
-   - Extract the current VIX level from the search results
-   - **VIX interpretation (absolute levels):**
-     - VIX below 15: Low fear, complacent market → bullish for swing trades → GREEN
-     - VIX 15-20: Normal/moderate volatility → standard conditions → GREEN/YELLOW
-     - VIX 20-25: Elevated fear → reduce position sizes, tighter stops → YELLOW
-     - VIX 25-30: High fear, significant selling → very cautious, minimal new entries → YELLOW/RED
-     - VIX above 30: Panic/crisis mode → NO new entries, protect capital → RED
-   - Also note VIX direction: Is it rising (fear increasing) or falling (fear subsiding)?
-   - A falling VIX even at 25 is more bullish than a rising VIX at 20
-4. Call `get_market_movers` with market_type="stocks" — check breadth (ratio of gainers vs losers in top movers)
+1. Run: `python scripts/market_health.py --json`
+   *(The script fetches 250 days of SPY & QQQ bars from Alpaca, calculates 50-day and 200-day SMAs and their direction, retrieves the VIX from CBOE/Yahoo, checks market breadth via Alpaca market movers, and outputs a GREEN/YELLOW/RED signal with all supporting data.)*
+2. Read the JSON output — it contains the overall signal (GREEN/YELLOW/RED) plus SPY, QQQ, VIX, and breadth data.
 
 **Decision Matrix (combine ALL three signals: MAs + VIX + Breadth):**
 - **GREEN**: SPY & QQQ both above rising 50-day MA + VIX below 20 (or falling). Full exposure allowed (up to 5 positions, 1% risk per trade).
