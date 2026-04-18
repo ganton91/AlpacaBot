@@ -25,7 +25,7 @@ MAX_CRYPTO_POSITIONS = 2
 
 
 def is_crypto(position) -> bool:
-    return str(position.asset_class).lower() == "crypto"
+    return "crypto" in str(position.asset_class).lower()
 
 
 def run() -> dict:
