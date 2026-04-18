@@ -14,11 +14,12 @@ import argparse
 import json
 import os
 import sys
+from datetime import datetime, timezone
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from broker.client import get_trading_client
 from alpaca.trading.requests import GetOrdersRequest
-from alpaca.trading.enums import QueryOrderStatus
+from alpaca.trading.enums import QueryOrderStatus, OrderStatus
 
 MAX_STOCK_POSITIONS = 5
 MAX_CRYPTO_POSITIONS = 2
@@ -26,6 +27,22 @@ MAX_CRYPTO_POSITIONS = 2
 
 def is_crypto(position) -> bool:
     return "crypto" in str(position.asset_class).lower()
+
+
+def get_days_open(client, symbol: str) -> int | None:
+    try:
+        orders = client.get_orders(GetOrdersRequest(
+            status=QueryOrderStatus.CLOSED,
+            symbols=[symbol],
+        ))
+        filled = [o for o in orders if str(o.status) == "OrderStatus.FILLED" and o.filled_at]
+        if not filled:
+            return None
+        oldest = min(filled, key=lambda o: o.filled_at)
+        delta = datetime.now(timezone.utc) - oldest.filled_at
+        return delta.days
+    except Exception:
+        return None
 
 
 def run() -> dict:
@@ -65,6 +82,7 @@ def run() -> dict:
                     "current_price": float(p.current_price),
                     "market_value": float(p.market_value),
                     "unrealized_pl_pct": round(float(p.unrealized_plpc) * 100, 2),
+                    "days_open": get_days_open(client, p.symbol),
                 }
                 for p in stock_positions
             ],
@@ -76,6 +94,7 @@ def run() -> dict:
                     "current_price": float(p.current_price),
                     "market_value": float(p.market_value),
                     "unrealized_pl_pct": round(float(p.unrealized_plpc) * 100, 2),
+                    "days_open": get_days_open(client, p.symbol),
                 }
                 for p in crypto_positions
             ],
@@ -124,14 +143,16 @@ def main():
         for s in p["stock"]:
             pl = s["unrealized_pl_pct"]
             pl_str = f"+{pl}%" if pl >= 0 else f"{pl}%"
-            print(f"    {s['symbol']:8s}  qty={s['qty']}  entry=${s['entry_price']}  now=${s['current_price']}  P&L={pl_str}")
+            days = f"  days={s['days_open']}" if s["days_open"] is not None else ""
+            print(f"    {s['symbol']:8s}  qty={s['qty']}  entry=${s['entry_price']}  now=${s['current_price']}  P&L={pl_str}{days}")
 
     if p["crypto"]:
         print(f"\n  CRYPTO:")
         for c in p["crypto"]:
             pl = c["unrealized_pl_pct"]
             pl_str = f"+{pl}%" if pl >= 0 else f"{pl}%"
-            print(f"    {c['symbol']:10s}  qty={c['qty']}  entry=${c['entry_price']}  now=${c['current_price']}  P&L={pl_str}")
+            days = f"  days={c['days_open']}" if c["days_open"] is not None else ""
+            print(f"    {c['symbol']:10s}  qty={c['qty']}  entry=${c['entry_price']}  now=${c['current_price']}  P&L={pl_str}{days}")
 
     if result["open_orders"]:
         print(f"\n  OPEN ORDERS ({len(result['open_orders'])}):")
