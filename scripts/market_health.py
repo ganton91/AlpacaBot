@@ -67,15 +67,17 @@ def fetch_closes(client: StockHistoricalDataClient, symbol: str, days: int) -> l
     return closes
 
 
-def fetch_vix() -> tuple[float | None, str]:
+def fetch_vix() -> tuple[float | None, float | None, str]:
+    """Returns (vix_today, vix_yesterday, source)."""
     try:
         url = "https://cdn.cboe.com/api/global/us_indices/daily_prices/VIX_History.json"
         resp = requests.get(url, timeout=10)
         resp.raise_for_status()
         data = resp.json()
-        last = data["data"][-1]
-        vix = float(last[4])
-        return vix, "cboe"
+        rows = data["data"]
+        vix_now = float(rows[-1][4])
+        vix_prev = float(rows[-2][4]) if len(rows) >= 2 else None
+        return vix_now, vix_prev, "cboe"
     except Exception:
         pass
 
@@ -85,13 +87,14 @@ def fetch_vix() -> tuple[float | None, str]:
         resp = requests.get(url, timeout=10, headers=headers)
         resp.raise_for_status()
         data = resp.json()
-        closes = data["chart"]["result"][0]["indicators"]["quote"][0]["close"]
-        vix = float([c for c in closes if c is not None][-1])
-        return vix, "yahoo"
+        closes = [c for c in data["chart"]["result"][0]["indicators"]["quote"][0]["close"] if c is not None]
+        vix_now = float(closes[-1])
+        vix_prev = float(closes[-2]) if len(closes) >= 2 else None
+        return vix_now, vix_prev, "yahoo"
     except Exception:
         pass
 
-    return None, "unavailable"
+    return None, None, "unavailable"
 
 
 def fetch_market_movers() -> dict:
@@ -193,17 +196,7 @@ def run() -> dict:
     spy = ma_signal("SPY", spy_closes)
     qqq = ma_signal("QQQ", qqq_closes)
 
-    vix_now, vix_source = fetch_vix()
-    vix_prev = None
-    try:
-        url = "https://cdn.cboe.com/api/global/us_indices/daily_prices/VIX_History.json"
-        resp = requests.get(url, timeout=10)
-        data = resp.json()
-        if len(data["data"]) >= 2:
-            vix_prev = float(data["data"][-2][4])
-    except Exception:
-        pass
-
+    vix_now, vix_prev, vix_source = fetch_vix()
     vix_color, vix_direction = vix_signal(vix_now, vix_prev)
     breadth = fetch_market_movers()
     overall = combine_signals(spy, qqq, vix_color, vix_direction, breadth)
