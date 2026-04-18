@@ -1,0 +1,32 @@
+{
+  "timestamp": "2026-04-18T22:30:47.864254+00:00",
+  "signal": "YELLOW",
+  "spy": {
+    "symbol": "SPY",
+    "price": 710.06,
+    "ma50": 674.96,
+    "ma200": 666.46,
+    "above_50ma": true,
+    "above_200ma": true,
+    "ma50_rising": false
+  },
+  "qqq": {
+    "symbol": "QQQ",
+    "price": 648.73,
+    "ma50": 602.08,
+    "ma200": 598.88,
+    "above_50ma": true,
+    "above_200ma": true,
+    "ma50_rising": false
+  },
+  "vix": {
+    "value": 17.48,
+    "direction": "falling",
+    "signal": "GREEN",
+    "source": "yahoo"
+  },
+  "breadth": {
+    "gainers": 10,
+    "losers": 10
+  }
+}
