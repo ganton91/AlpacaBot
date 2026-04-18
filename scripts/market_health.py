@@ -23,6 +23,7 @@ from alpaca.data.timeframe import TimeFrame
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from alpaca.client import get_data_client
+from github.push import git_push
 
 
 # ---------------------------------------------------------------------------
@@ -251,6 +252,7 @@ def main():
 
     result = run()
     path = save_report(result)
+    git_push(f"Market health report {result['timestamp'][:10]}", [path])
 
     if args.json:
         print(json.dumps(result))
