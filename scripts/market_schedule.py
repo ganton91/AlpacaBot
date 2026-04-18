@@ -67,12 +67,12 @@ def main():
     print(f"\n{'='*50}")
     print(f"  MARKET SCHEDULE — {result['timestamp'][:10]}")
     print(f"{'='*50}")
-    print(f"  Mode     : {mode_label}")
     print(f"  Day      : {result['weekday']}")
-    print(f"  Reason   : {result['reason']}")
     print(f"  Market   : {'OPEN' if result['market_open'] else 'CLOSED'}")
+    print(f"  Reason   : {result['reason']}")
     if result["next_open"]:
         print(f"  Next open: {result['next_open'][:16]} UTC ({result['hours_until_open']}h away)")
+    print(f"  Mode     : {mode_label}")
     print(f"{'='*50}\n")
 
 

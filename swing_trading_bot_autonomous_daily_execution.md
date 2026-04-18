@@ -32,8 +32,9 @@ The daily candle is finalized at this point, making it the ideal time for end-of
 
 ### STEP 0: DAY & SCHEDULE CHECK
 **Actions:**
-1. Determine the current day of the week (Monday through Sunday).
-2. Call `get_clock` — check market status and next open/close times.
+1. Run: `python scripts/market_schedule.py --json`
+   *(The script checks the current day, calls the Alpaca clock, detects weekends and market holidays, and outputs the mode — `full` or `crypto_only` — along with market open/close times.)*
+2. Read the JSON output and follow the routing logic below.
 
 **Routing logic:**
 - **Monday–Friday (Weekdays)**: Run the FULL sequence (Steps 1-7) — stocks + crypto.
