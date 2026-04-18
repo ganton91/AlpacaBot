@@ -1,10 +1,18 @@
 import os
 from alpaca.data.historical import StockHistoricalDataClient
+from alpaca.data.historical.screener import ScreenerClient
 from alpaca.trading.client import TradingClient
 
 
 def get_data_client() -> StockHistoricalDataClient:
     return StockHistoricalDataClient(
+        api_key=os.environ["ALPACA_API_KEY"],
+        secret_key=os.environ["ALPACA_SECRET_KEY"],
+    )
+
+
+def get_screener_client() -> ScreenerClient:
+    return ScreenerClient(
         api_key=os.environ["ALPACA_API_KEY"],
         secret_key=os.environ["ALPACA_SECRET_KEY"],
     )

@@ -18,12 +18,13 @@ from datetime import datetime, timedelta, timezone
 
 import requests
 from alpaca.data.historical import StockHistoricalDataClient
-from alpaca.data.requests import StockBarsRequest, StockMarketMoversRequest
+from alpaca.data.historical.screener import ScreenerClient
+from alpaca.data.requests import StockBarsRequest, MarketMoversRequest
 from alpaca.data.timeframe import TimeFrame
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from alpaca.client import get_data_client
 from github.push import git_push
+from broker.client import get_data_client, get_screener_client
 
 
 # ---------------------------------------------------------------------------
@@ -37,7 +38,6 @@ def sma(prices: list[float], period: int) -> float | None:
 
 
 def sma_n_days_ago(prices: list[float], period: int, n: int) -> float | None:
-    """SMA(period) calculated as of `n` bars ago."""
     end = len(prices) - n
     if end < period:
         return None
@@ -50,7 +50,7 @@ def sma_n_days_ago(prices: list[float], period: int, n: int) -> float | None:
 
 def fetch_closes(client: StockHistoricalDataClient, symbol: str, days: int) -> list[float]:
     end = datetime.now(timezone.utc)
-    start = end - timedelta(days=days + 60)  # buffer for weekends/holidays
+    start = end - timedelta(days=days + 60)
     req = StockBarsRequest(
         symbol_or_symbols=symbol,
         timeframe=TimeFrame.Day,
@@ -68,25 +68,17 @@ def fetch_closes(client: StockHistoricalDataClient, symbol: str, days: int) -> l
 
 
 def fetch_vix() -> tuple[float | None, str]:
-    """
-    Fetch current VIX from CBOE's public JSON endpoint.
-    Returns (vix_value, source_note).
-    Falls back to Yahoo Finance as a backup.
-    """
-    # Primary: CBOE public data
     try:
         url = "https://cdn.cboe.com/api/global/us_indices/daily_prices/VIX_History.json"
         resp = requests.get(url, timeout=10)
         resp.raise_for_status()
         data = resp.json()
         last = data["data"][-1]
-        # last row format: [date, open, high, low, close]
         vix = float(last[4])
         return vix, "cboe"
     except Exception:
         pass
 
-    # Fallback: Yahoo Finance
     try:
         url = "https://query1.finance.yahoo.com/v8/finance/chart/%5EVIX?interval=1d&range=5d"
         headers = {"User-Agent": "Mozilla/5.0"}
@@ -102,11 +94,11 @@ def fetch_vix() -> tuple[float | None, str]:
     return None, "unavailable"
 
 
-def fetch_market_movers(client: StockHistoricalDataClient) -> dict:
-    """Returns gainers/losers counts from market movers."""
+def fetch_market_movers() -> dict:
     try:
-        req = StockMarketMoversRequest(market_type="stocks")
-        movers = client.get_stock_market_movers(req)
+        screener = get_screener_client()
+        req = MarketMoversRequest(market_type="stocks")
+        movers = screener.get_market_movers(req)
         gainers = len(movers.gainers) if movers.gainers else 0
         losers = len(movers.losers) if movers.losers else 0
         return {"gainers": gainers, "losers": losers}
@@ -119,7 +111,6 @@ def fetch_market_movers(client: StockHistoricalDataClient) -> dict:
 # ---------------------------------------------------------------------------
 
 def vix_signal(vix: float | None, prev_vix: float | None) -> tuple[str, str]:
-    """Returns (color, description)."""
     if vix is None:
         return "YELLOW", "VIX unavailable — assuming moderate conditions"
 
@@ -163,12 +154,6 @@ def ma_signal(symbol: str, closes: list[float]) -> dict:
 
 
 def combine_signals(spy: dict, qqq: dict, vix_color: str, vix_direction: str, breadth: dict) -> str:
-    """
-    Decision matrix from the MD:
-    GREEN  → both above rising 50MA + VIX < 20 (or falling)
-    RED    → both below 50MA, OR death cross, OR VIX > 30 rising
-    YELLOW → everything else
-    """
     both_above_50 = spy["above_50ma"] and qqq["above_50ma"]
     both_below_50 = not spy["above_50ma"] and not qqq["above_50ma"]
     spy_death_cross = (spy["ma50"] and spy["ma200"] and spy["ma50"] < spy["ma200"])
@@ -202,17 +187,13 @@ def save_report(result: dict) -> str:
 def run() -> dict:
     client = get_data_client()
 
-    # SPY & QQQ closes (250 trading days ≈ 1 year)
     spy_closes = fetch_closes(client, "SPY", 250)
     qqq_closes = fetch_closes(client, "QQQ", 250)
 
     spy = ma_signal("SPY", spy_closes)
     qqq = ma_signal("QQQ", qqq_closes)
 
-    # VIX — use last two available closes to determine direction
     vix_now, vix_source = fetch_vix()
-    # We don't have yesterday's VIX easily, so direction is approximated via
-    # a second call to CBOE history (last 2 rows).
     vix_prev = None
     try:
         url = "https://cdn.cboe.com/api/global/us_indices/daily_prices/VIX_History.json"
@@ -224,9 +205,7 @@ def run() -> dict:
         pass
 
     vix_color, vix_direction = vix_signal(vix_now, vix_prev)
-
-    breadth = fetch_market_movers(client)
-
+    breadth = fetch_market_movers()
     overall = combine_signals(spy, qqq, vix_color, vix_direction, breadth)
 
     result = {
@@ -258,7 +237,6 @@ def main():
         print(json.dumps(result))
         return
 
-    # Human-readable summary
     s = result["signal"]
     color_emoji = {"GREEN": "🟢", "YELLOW": "🟡", "RED": "🔴"}.get(s, "⚪")
     print(f"\n{'='*50}")
