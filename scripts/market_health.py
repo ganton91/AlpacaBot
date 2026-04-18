@@ -18,12 +18,26 @@ from datetime import datetime, timedelta, timezone
 
 import requests
 from alpaca.data.historical import StockHistoricalDataClient
-from alpaca.data.requests import StockBarsRequest, StockMarketMoversRequest
+from alpaca.data.historical.screener import ScreenerClient
+from alpaca.data.requests import StockBarsRequest, MarketMoversRequest
 from alpaca.data.timeframe import TimeFrame
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from alpaca.client import get_data_client
 from github.push import git_push
+
+
+def get_data_client() -> StockHistoricalDataClient:
+    return StockHistoricalDataClient(
+        api_key=os.environ["ALPACA_API_KEY"],
+        secret_key=os.environ["ALPACA_SECRET_KEY"],
+    )
+
+
+def get_screener_client() -> ScreenerClient:
+    return ScreenerClient(
+        api_key=os.environ["ALPACA_API_KEY"],
+        secret_key=os.environ["ALPACA_SECRET_KEY"],
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -102,11 +116,12 @@ def fetch_vix() -> tuple[float | None, str]:
     return None, "unavailable"
 
 
-def fetch_market_movers(client: StockHistoricalDataClient) -> dict:
+def fetch_market_movers() -> dict:
     """Returns gainers/losers counts from market movers."""
     try:
-        req = StockMarketMoversRequest(market_type="stocks")
-        movers = client.get_stock_market_movers(req)
+        screener = get_screener_client()
+        req = MarketMoversRequest(market_type="stocks")
+        movers = screener.get_market_movers(req)
         gainers = len(movers.gainers) if movers.gainers else 0
         losers = len(movers.losers) if movers.losers else 0
         return {"gainers": gainers, "losers": losers}
@@ -225,7 +240,7 @@ def run() -> dict:
 
     vix_color, vix_direction = vix_signal(vix_now, vix_prev)
 
-    breadth = fetch_market_movers(client)
+    breadth = fetch_market_movers()
 
     overall = combine_signals(spy, qqq, vix_color, vix_direction, breadth)
 

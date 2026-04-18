@@ -12,7 +12,8 @@ def git_push(message: str, files: list[str]) -> bool:
     try:
         subprocess.run(["git", "add"] + files, check=True)
         subprocess.run(["git", "commit", "-m", message], check=True)
-        subprocess.run(["git", "push", "origin", "main"], check=True)
+        branch = subprocess.check_output(["git", "branch", "--show-current"], text=True).strip()
+        subprocess.run(["git", "push", "-u", "origin", branch], check=True)
         return True
     except subprocess.CalledProcessError as e:
         print(f"Git error: {e}", file=sys.stderr)
