@@ -1,7 +1,5 @@
 import os
 from alpaca.data.historical import StockHistoricalDataClient
-from alpaca.data.requests import StockBarsRequest, StockMarketMoversRequest
-from alpaca.data.timeframe import TimeFrame
 from alpaca.trading.client import TradingClient
 
 
