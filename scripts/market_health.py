@@ -122,9 +122,9 @@ def ma_data(symbol: str, closes: list[float]) -> dict:
         "price": round(price, 2),
         "ma50": round(ma50, 2) if ma50 else None,
         "ma200": round(ma200, 2) if ma200 else None,
-        "above_50ma": (price > ma50) if ma50 else None,
-        "above_200ma": (price > ma200) if ma200 else None,
-        "ma50_rising": (ma50 > ma50_10d_ago) if (ma50 and ma50_10d_ago) else None,
+        "above_50ma": (price > ma50) if ma50 is not None else None,
+        "above_200ma": (price > ma200) if ma200 is not None else None,
+        "ma50_rising": (ma50 > ma50_10d_ago) if (ma50 is not None and ma50_10d_ago is not None) else None,
     }
 
 
@@ -153,8 +153,8 @@ def run() -> dict:
         "spy": spy,
         "qqq": qqq,
         "vix": {
-            "value": round(vix_now, 2) if vix_now else None,
-            "prev_value": round(vix_prev, 2) if vix_prev else None,
+            "value": round(vix_now, 2) if vix_now is not None else None,
+            "prev_value": round(vix_prev, 2) if vix_prev is not None else None,
             "direction": vix_direction,
             "source": vix_source,
         },

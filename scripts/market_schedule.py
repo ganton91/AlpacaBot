@@ -30,7 +30,7 @@ def run() -> dict:
     next_open = clock.next_open
     hours_until_open = (next_open - now).total_seconds() / 3600 if next_open else None
 
-    is_holiday = (not is_weekend) and (hours_until_open is not None) and (hours_until_open > 18)
+    is_holiday = (not is_weekend) and (hours_until_open is not None) and (hours_until_open > 24)
 
     if is_weekend or is_holiday:
         mode = "skip"

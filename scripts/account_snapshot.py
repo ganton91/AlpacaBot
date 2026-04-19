@@ -39,7 +39,7 @@ def get_days_open(client, symbol: str) -> int | None:
             status=QueryOrderStatus.CLOSED,
             symbols=[symbol],
         ))
-        filled = [o for o in orders if o.status == OrderStatus.FILLED and o.filled_at]
+        filled = [o for o in orders if o.status == OrderStatus.FILLED and o.filled_at and o.side.value == "buy"]
         if not filled:
             return None
         oldest = min(filled, key=lambda o: o.filled_at)
@@ -52,7 +52,7 @@ def get_days_open(client, symbol: str) -> int | None:
 def get_ma_analysis(data_client, symbol: str) -> dict:
     try:
         end = datetime.now(timezone.utc)
-        start = end - timedelta(days=90)
+        start = end - timedelta(days=120)
         req = StockBarsRequest(
             symbol_or_symbols=symbol,
             timeframe=TimeFrame.Day,
@@ -177,9 +177,9 @@ def main():
             pl = s["unrealized_pl_pct"]
             pl_str = f"+{pl}%" if pl >= 0 else f"{pl}%"
             days = f"  days={s['days_open']}" if s["days_open"] is not None else ""
-            ma10 = f"  10MA={ma_str(s.get('ma10'), s.get('above_ma10'))}" if s.get("ma10") else ""
-            ma20 = f"  20MA={ma_str(s.get('ma20'), s.get('above_ma20'))}" if s.get("ma20") else ""
-            ma50 = f"  50MA={ma_str(s.get('ma50'), s.get('above_ma50'))}" if s.get("ma50") else ""
+            ma10 = f"  10MA={ma_str(s.get('ma10'), s.get('above_ma10'))}" if s.get("ma10") is not None else ""
+            ma20 = f"  20MA={ma_str(s.get('ma20'), s.get('above_ma20'))}" if s.get("ma20") is not None else ""
+            ma50 = f"  50MA={ma_str(s.get('ma50'), s.get('above_ma50'))}" if s.get("ma50") is not None else ""
             print(f"    {s['symbol']:8s}  qty={s['qty']}  entry=${s['entry_price']}  now=${s['current_price']}  P&L={pl_str}{days}")
             print(f"    {'':8s}{ma10}{ma20}{ma50}")
 
