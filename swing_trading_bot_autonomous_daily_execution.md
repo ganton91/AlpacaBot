@@ -32,7 +32,7 @@ The daily candle is finalized at this point, making it the ideal time for end-of
 ### STEP 0: DAY & SCHEDULE CHECK
 
 **Description:**
-This is the very first step that runs every day before anything else. Its sole purpose is to determine whether the bot should execute at all. The script `market_schedule.py` does three things: (1) checks the current day of the week to detect weekends, (2) calls the Alpaca clock API to get the next scheduled market open time, and (3) calculates the hours until next open — if it's a weekday but the next open is more than 18 hours away, it means today is a market holiday. Based on this logic, the script outputs a `mode` field set to either `"run"` or `"skip"`. If the mode is `"skip"`, the bot stops immediately without making any further API calls, saving tokens and avoiding unnecessary computation.
+This is the very first step that runs every day before anything else. Its sole purpose is to determine whether the bot should execute at all. The script `market_schedule.py` calls the Alpaca calendar API to check if today is an official trading day — this is the most reliable way to detect both weekends and market holidays. It also calls the Alpaca clock API to get the next market open/close times for informational purposes. Based on this, the script outputs a `mode` field set to either `"run"` or `"skip"`. If the mode is `"skip"`, the bot stops immediately without making any further API calls, saving tokens and avoiding unnecessary computation.
 
 **Actions:**
 1. Run: `python scripts/market_schedule.py --json`
