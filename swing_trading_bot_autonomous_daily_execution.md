@@ -118,7 +118,6 @@ Call `get_watchlists` using the TradingClient from `broker/client.py` and retrie
 4. Run: `python scripts/trend_template.py --symbols [new candidates] --json`
 5. Add passing stocks to the "SwingBot" watchlist via `add_to_watchlist` using the TradingClient from `broker/client.py`.
 
-
 ### STEP 5: EXECUTE NEW TRADES
 
 **Identify setup type for qualifying stocks:**
