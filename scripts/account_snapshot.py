@@ -2,7 +2,7 @@
 """
 Account Snapshot (Step 2 of the swing trading bot).
 
-Fetches account info, open positions, and open orders from Alpaca.
+Fetches account info, open stock positions, and open orders from Alpaca.
 Calculates available slots and portfolio exposure.
 
 Usage:
@@ -19,28 +19,16 @@ from datetime import datetime, timezone
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from broker.client import get_trading_client
 from alpaca.trading.requests import GetOrdersRequest
-from alpaca.trading.enums import QueryOrderStatus, OrderStatus
+from alpaca.trading.enums import QueryOrderStatus
 
 MAX_STOCK_POSITIONS = 5
-MAX_CRYPTO_POSITIONS = 2
-
-
-def is_crypto(position) -> bool:
-    return "crypto" in str(position.asset_class).lower()
-
-
-def normalize_symbol(symbol: str) -> str:
-    """Convert BTCUSD → BTC/USD for crypto order lookups."""
-    if "/" not in symbol and symbol.endswith("USD") and len(symbol) > 4:
-        return symbol[:-3] + "/USD"
-    return symbol
 
 
 def get_days_open(client, symbol: str) -> int | None:
     try:
         orders = client.get_orders(GetOrdersRequest(
             status=QueryOrderStatus.CLOSED,
-            symbols=[normalize_symbol(symbol)],
+            symbols=[symbol],
         ))
         filled = [o for o in orders if str(o.status) == "OrderStatus.FILLED" and o.filled_at]
         if not filled:
@@ -60,11 +48,10 @@ def run() -> dict:
     cash = float(account.cash)
     buying_power = float(account.buying_power)
 
-    positions = client.get_all_positions()
-    stock_positions = [p for p in positions if not is_crypto(p)]
-    crypto_positions = [p for p in positions if is_crypto(p)]
+    all_positions = client.get_all_positions()
+    stock_positions = [p for p in all_positions if "crypto" not in str(p.asset_class).lower()]
 
-    positions_value = sum(float(p.market_value) for p in positions)
+    positions_value = sum(float(p.market_value) for p in stock_positions)
     exposure_pct = round((positions_value / equity) * 100, 1) if equity > 0 else 0
 
     orders = client.get_orders(GetOrdersRequest(status=QueryOrderStatus.OPEN))
@@ -77,11 +64,9 @@ def run() -> dict:
             "exposure_pct": exposure_pct,
         },
         "positions": {
-            "stock_count": len(stock_positions),
-            "crypto_count": len(crypto_positions),
-            "stock_slots_available": MAX_STOCK_POSITIONS - len(stock_positions),
-            "crypto_slots_available": MAX_CRYPTO_POSITIONS - len(crypto_positions),
-            "stock": [
+            "count": len(stock_positions),
+            "slots_available": MAX_STOCK_POSITIONS - len(stock_positions),
+            "stocks": [
                 {
                     "symbol": p.symbol,
                     "qty": float(p.qty),
@@ -92,18 +77,6 @@ def run() -> dict:
                     "days_open": get_days_open(client, p.symbol),
                 }
                 for p in stock_positions
-            ],
-            "crypto": [
-                {
-                    "symbol": p.symbol,
-                    "qty": float(p.qty),
-                    "entry_price": float(p.avg_entry_price),
-                    "current_price": float(p.current_price),
-                    "market_value": float(p.market_value),
-                    "unrealized_pl_pct": round(float(p.unrealized_plpc) * 100, 2),
-                    "days_open": get_days_open(client, p.symbol),
-                }
-                for p in crypto_positions
             ],
         },
         "open_orders": [
@@ -142,24 +115,15 @@ def main():
     print(f"  Buying Power : ${a['buying_power']:,.2f}")
     print(f"  Exposure     : {a['exposure_pct']}%")
     print()
-    print(f"  Stock positions  : {p['stock_count']}/{MAX_STOCK_POSITIONS} ({p['stock_slots_available']} slots free)")
-    print(f"  Crypto positions : {p['crypto_count']}/{MAX_CRYPTO_POSITIONS} ({p['crypto_slots_available']} slots free)")
+    print(f"  Positions : {p['count']}/{MAX_STOCK_POSITIONS} ({p['slots_available']} slots free)")
 
-    if p["stock"]:
+    if p["stocks"]:
         print(f"\n  STOCKS:")
-        for s in p["stock"]:
+        for s in p["stocks"]:
             pl = s["unrealized_pl_pct"]
             pl_str = f"+{pl}%" if pl >= 0 else f"{pl}%"
             days = f"  days={s['days_open']}" if s["days_open"] is not None else ""
             print(f"    {s['symbol']:8s}  qty={s['qty']}  entry=${s['entry_price']}  now=${s['current_price']}  P&L={pl_str}{days}")
-
-    if p["crypto"]:
-        print(f"\n  CRYPTO:")
-        for c in p["crypto"]:
-            pl = c["unrealized_pl_pct"]
-            pl_str = f"+{pl}%" if pl >= 0 else f"{pl}%"
-            days = f"  days={c['days_open']}" if c["days_open"] is not None else ""
-            print(f"    {c['symbol']:10s}  qty={c['qty']}  entry=${c['entry_price']}  now=${c['current_price']}  P&L={pl_str}{days}")
 
     if result["open_orders"]:
         print(f"\n  OPEN ORDERS ({len(result['open_orders'])}):")
