@@ -242,8 +242,7 @@ def main():
     if "error" not in b:
         print(f"\n  Breadth  gainers={b['gainers']}  losers={b['losers']}")
 
-    print(f"{'='*50}")
-    print(f"  Report saved: {path}\n")
+    print(f"{'='*50}\n")
 
 
 if __name__ == "__main__":
