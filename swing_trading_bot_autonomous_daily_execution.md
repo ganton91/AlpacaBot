@@ -113,7 +113,7 @@ Call `get_watchlists` using the TradingClient from `broker/client.py` and retrie
 2. Use `web_search` for additional candidates: "stocks breaking out today high volume" or "momentum stocks near 52 week high"
 3. Combine both lists, remove duplicates and any symbols already in the watchlist.
 4. Run: `python scripts/trend_template.py --symbols [new candidates] --json`
-5. Add passing stocks to the watchlist via `add_to_watchlist` using the TradingClient from `broker/client.py`.
+5. Add passing stocks to the "SwingBot" watchlist via `add_to_watchlist` using the TradingClient from `broker/client.py`.
 
 **4a. Find candidates:**
 1. Run: `python scripts/candidates.py --json`
