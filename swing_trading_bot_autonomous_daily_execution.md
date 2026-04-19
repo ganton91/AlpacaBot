@@ -74,25 +74,29 @@ Before managing positions or looking for new trades, the bot needs a complete pi
 2. Read the JSON output — it contains equity, cash, buying power, exposure %, positions with full MA analysis, slots available, and open orders with IDs.
 
 ### STEP 3: MANAGE OPEN POSITIONS
-For EACH position in the JSON from Step 2, apply the following rules based on the pre-calculated MA data and P&L — no additional API calls needed for analysis.
 
-**Exit rules (execute immediately via `close_position`):**
-- Stock closed below 20-day MA AND was in first week of trade → EXIT FULL
-- Stock closed below 50-day MA → EXIT FULL
-- Position is down more than 7-8% from entry → EXIT FULL (hard stop violated)
-- Position has been open 10+ trading days with less than 2% gain → EXIT FULL (time stop)
+**Description:**
+This step applies position management rules to every open stock position from Step 2 — no additional API calls are needed since all the data (MAs, P&L%, days open, open order IDs) is already in the JSON. The rules follow three priorities in order: first check if the position should be exited entirely, then check if the trailing stop needs to be adjusted, then check if partial profits should be taken. Exit decisions happen first — if a position is exited, there is no need to update its stop. After all actions for a position are complete, any outdated stop orders for that symbol are cancelled.
 
-**Trailing stop rules (adjust via `replace_order_by_id` if stop order exists, or place new stop):**
-- Position up 5-10%: Trail stop to breakeven (entry price)
-- Position up 10-20%: Trail stop to 10-day MA
-- Position up 20%+: Trail stop to 20-day MA
-- Place/update the stop as a `stop` order via `place_stock_order` with side="sell", type="stop"
+**Actions:**
+1. For each position in the `positions.stocks` array from Step 2:
 
-**Partial profit rules:**
-- Position up 15%+: Close 33% via `close_position` with percentage=33
-- Position up 25%+: Close another 33% (so 66% total closed, riding the rest)
+   a. **Exit rules** — if any condition is true, call `close_position` for the full position and skip to the next:
+      - `above_ma20: false` AND `days_open < 7` → closed below 20-day MA in first week
+      - `above_ma50: false` → closed below 50-day MA
+      - `unrealized_pl_pct < -7` → hard stop violated
+      - `days_open >= 10` AND `unrealized_pl_pct < 2` → time stop (no progress)
 
-**After managing each position, cancel any outdated stop orders for that symbol using `cancel_order_by_id`.**
+   b. **Trailing stop rules** — place or update a stop order via `place_stock_order` (side="sell", type="stop"). If a stop order already exists for this symbol in the open orders, update it via `replace_order_by_id` instead:
+      - `unrealized_pl_pct` between 5–10%: set stop at entry price (breakeven)
+      - `unrealized_pl_pct` between 10–20%: set stop at `ma10` value
+      - `unrealized_pl_pct > 20%`: set stop at `ma20` value
+
+   c. **Partial profit rules** — call `close_position` with the specified percentage:
+      - `unrealized_pl_pct >= 15%`: close 33% of the position
+      - `unrealized_pl_pct >= 25%`: close another 33% (66% total closed, remainder runs)
+
+   d. **Cleanup** — cancel any remaining outdated stop orders for this symbol using `cancel_order_by_id`.
 
 ### STEP 4: SCAN FOR NEW SETUPS (only if GREEN/YELLOW and slots available)
 
