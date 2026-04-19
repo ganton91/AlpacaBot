@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """
-Account Snapshot (Step 2 of the swing trading bot).
+Account Snapshot (Steps 2 & 3 of the swing trading bot).
 
-Fetches account info, open stock positions, and open orders from Alpaca.
-Calculates available slots and portfolio exposure.
+Fetches account info, open stock positions with MA analysis, and open orders.
+Calculates available slots, portfolio exposure, and moving averages per position
+so the bot can make exit/stop decisions without additional API calls.
 
 Usage:
     python scripts/account_snapshot.py
@@ -14,14 +15,22 @@ import argparse
 import json
 import os
 import sys
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from broker.client import get_trading_client
+from broker.client import get_trading_client, get_data_client
 from alpaca.trading.requests import GetOrdersRequest
 from alpaca.trading.enums import QueryOrderStatus
+from alpaca.data.requests import StockBarsRequest
+from alpaca.data.timeframe import TimeFrame
 
 MAX_STOCK_POSITIONS = 5
+
+
+def sma(prices: list[float], period: int) -> float | None:
+    if len(prices) < period:
+        return None
+    return round(sum(prices[-period:]) / period, 2)
 
 
 def get_days_open(client, symbol: str) -> int | None:
@@ -40,21 +49,69 @@ def get_days_open(client, symbol: str) -> int | None:
         return None
 
 
-def run() -> dict:
-    client = get_trading_client()
+def get_ma_analysis(data_client, symbol: str) -> dict:
+    try:
+        end = datetime.now(timezone.utc)
+        start = end - timedelta(days=90)
+        req = StockBarsRequest(
+            symbol_or_symbols=symbol,
+            timeframe=TimeFrame.Day,
+            start=start,
+            end=end,
+            feed="iex",
+            adjustment="split",
+        )
+        bars = data_client.get_stock_bars(req)
+        df = bars.df
+        if df.empty:
+            return {}
+        closes = df.xs(symbol, level="symbol")["close"].tolist()
+        price = closes[-1]
+        ma10 = sma(closes, 10)
+        ma20 = sma(closes, 20)
+        ma50 = sma(closes, 50)
+        return {
+            "ma10": ma10,
+            "ma20": ma20,
+            "ma50": ma50,
+            "above_ma10": price > ma10 if ma10 else None,
+            "above_ma20": price > ma20 if ma20 else None,
+            "above_ma50": price > ma50 if ma50 else None,
+        }
+    except Exception:
+        return {}
 
-    account = client.get_account()
+
+def run() -> dict:
+    trading_client = get_trading_client()
+    data_client = get_data_client()
+
+    account = trading_client.get_account()
     equity = float(account.equity)
     cash = float(account.cash)
     buying_power = float(account.buying_power)
 
-    all_positions = client.get_all_positions()
+    all_positions = trading_client.get_all_positions()
     stock_positions = [p for p in all_positions if "crypto" not in str(p.asset_class).lower()]
 
     positions_value = sum(float(p.market_value) for p in stock_positions)
     exposure_pct = round((positions_value / equity) * 100, 1) if equity > 0 else 0
 
-    orders = client.get_orders(GetOrdersRequest(status=QueryOrderStatus.OPEN))
+    orders = trading_client.get_orders(GetOrdersRequest(status=QueryOrderStatus.OPEN))
+
+    stocks = []
+    for p in stock_positions:
+        ma = get_ma_analysis(data_client, p.symbol)
+        stocks.append({
+            "symbol": p.symbol,
+            "qty": float(p.qty),
+            "entry_price": float(p.avg_entry_price),
+            "current_price": float(p.current_price),
+            "market_value": float(p.market_value),
+            "unrealized_pl_pct": round(float(p.unrealized_plpc) * 100, 2),
+            "days_open": get_days_open(trading_client, p.symbol),
+            **ma,
+        })
 
     return {
         "account": {
@@ -66,18 +123,7 @@ def run() -> dict:
         "positions": {
             "count": len(stock_positions),
             "slots_available": MAX_STOCK_POSITIONS - len(stock_positions),
-            "stocks": [
-                {
-                    "symbol": p.symbol,
-                    "qty": float(p.qty),
-                    "entry_price": float(p.avg_entry_price),
-                    "current_price": float(p.current_price),
-                    "market_value": float(p.market_value),
-                    "unrealized_pl_pct": round(float(p.unrealized_plpc) * 100, 2),
-                    "days_open": get_days_open(client, p.symbol),
-                }
-                for p in stock_positions
-            ],
+            "stocks": stocks,
         },
         "open_orders": [
             {
@@ -123,7 +169,11 @@ def main():
             pl = s["unrealized_pl_pct"]
             pl_str = f"+{pl}%" if pl >= 0 else f"{pl}%"
             days = f"  days={s['days_open']}" if s["days_open"] is not None else ""
+            ma10 = f"  10MA={s['ma10']}" if s.get("ma10") else ""
+            ma20 = f"  20MA={s['ma20']}" if s.get("ma20") else ""
+            ma50 = f"  50MA={s['ma50']}" if s.get("ma50") else ""
             print(f"    {s['symbol']:8s}  qty={s['qty']}  entry=${s['entry_price']}  now=${s['current_price']}  P&L={pl_str}{days}")
+            print(f"    {'':8s}{ma10}{ma20}{ma50}")
 
     if result["open_orders"]:
         print(f"\n  OPEN ORDERS ({len(result['open_orders'])}):")
