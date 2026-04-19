@@ -81,22 +81,22 @@ This step applies position management rules to every open stock position from St
 **Actions:**
 1. For each position in the `positions.stocks` array from Step 2:
 
-   a. **Exit rules** — if any condition is true, call `close_position` for the full position and skip to the next:
+   a. **Exit rules** — if any condition is true, call `close_position` for the full position, cancel ALL open orders for this symbol using `cancel_order_by_id`, then move to the next position:
       - `above_ma20: false` AND `days_open < 7` → closed below 20-day MA in first week
       - `above_ma50: false` → closed below 50-day MA
       - `unrealized_pl_pct < -7` → hard stop violated
       - `days_open >= 10` AND `unrealized_pl_pct < 2` → time stop (no progress)
 
-   b. **Trailing stop rules** — place or update a stop order via `place_stock_order` (side="sell", type="stop"). If a stop order already exists for this symbol in the open orders, update it via `replace_order_by_id` instead:
+   b. **Partial profit rules** — call `close_position` with the specified percentage:
+      - `unrealized_pl_pct >= 15%`: close 33% of the position
+      - `unrealized_pl_pct >= 25%`: close another 33% (66% total closed, remainder runs)
+
+   c. **Trailing stop rules** — place or update a stop order for the **current remaining quantity** via `place_stock_order` (side="sell", type="stop"). If a stop order already exists for this symbol in the open orders, update it via `replace_order_by_id` instead:
       - `unrealized_pl_pct` between 5–10%: set stop at entry price (breakeven)
       - `unrealized_pl_pct` between 10–20%: set stop at `ma10` value
       - `unrealized_pl_pct > 20%`: set stop at `ma20` value
 
-   c. **Partial profit rules** — call `close_position` with the specified percentage:
-      - `unrealized_pl_pct >= 15%`: close 33% of the position
-      - `unrealized_pl_pct >= 25%`: close another 33% (66% total closed, remainder runs)
-
-   d. **Cleanup** — cancel any remaining outdated stop orders for this symbol using `cancel_order_by_id`.
+   d. **Cleanup** — cancel any old stop orders for this symbol using `cancel_order_by_id`, keeping only the stop placed or updated in step c.
 
 ### STEP 4: SCAN FOR NEW SETUPS (only if GREEN/YELLOW and slots available)
 
