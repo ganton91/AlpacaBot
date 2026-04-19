@@ -101,17 +101,20 @@ This step applies position management rules to every open stock position from St
 ### STEP 4: ACTIVE WATCHLIST MANAGEMENT
 
 **Description:**
-The SwingBot watchlist is the universe of stocks the bot monitors daily — every stock in it has passed the Minervini Trend Template and is therefore in a confirmed strong uptrend. This step has three actions: first, retrieve the current watchlist and remove any stocks that no longer pass the Trend Template (broken trend); second, scan for new candidates using `candidates.py` (top gainers + most active by volume, price >= $10) and web search, then screen them through `trend_template.py` and add the passing ones. The Trend Template screening is done by `trend_template.py` which fetches 250 days of IEX bar data for each symbol and applies 9 criteria: price above 50/150/200-day MA, 50MA above 150MA, 150MA above 200MA, 200MA trending up vs 20 days ago, price within 25% of 52-week high, price at least 30% above 52-week low, and average daily volume >= 500,000. A stock must pass ALL criteria to be kept or added. This ensures the watchlist only ever contains stocks with the strongest trends.
+The SwingBot watchlist is the universe of stocks the bot monitors daily — every stock in it has passed the Minervini Trend Template and is therefore in a confirmed strong uptrend. This step has four actions: first, retrieve the current watchlist; second, remove any symbols already held or with pending buy orders; third, screen the remaining symbols through the Trend Template and remove those that no longer pass; fourth, scan for new candidates using `candidates.py` (top gainers + most active by volume, price >= $10) and web search, then screen them through `trend_template.py` and add the passing ones. The Trend Template screening is done by `trend_template.py` which fetches 250 days of IEX bar data for each symbol and applies 9 criteria: price above 50/150/200-day MA, 50MA above 150MA, 150MA above 200MA, 200MA trending up vs 20 days ago, price within 25% of 52-week high, price at least 30% above 52-week low, and average daily volume >= 500,000. A stock must pass ALL criteria to be kept or added. This ensures the watchlist only ever contains stocks with the strongest trends.
 
 **Action 1 — Get the watchlist:**
 Call `get_watchlists` using the TradingClient from `broker/client.py` and retrieve the "SwingBot" watchlist. Extract the list of symbols.
 
-**Action 2 — Screen existing watchlist against Trend Template:**
-1. Run: `python scripts/trend_template.py --symbols [all watchlist symbols] --json`
+**Action 2 — Remove symbols already held or pending:**
+Using the data from Step 2 (account snapshot), remove from the watchlist any symbol that already has an open position or a pending buy order. Use `remove_from_watchlist` via the TradingClient from `broker/client.py`. No extra API calls needed — the data is already available.
+
+**Action 3 — Screen remaining watchlist against Trend Template:**
+1. Run: `python scripts/trend_template.py --symbols [remaining watchlist symbols] --json`
 2. Symbols that pass → keep in watchlist.
 3. Symbols that fail → remove from watchlist via `remove_from_watchlist`.
 
-**Action 3 — Find new candidates:**
+**Action 4 — Find new candidates:**
 1. Run: `python scripts/candidates.py --json`
 2. Use `web_search` for additional candidates: "stocks breaking out today high volume" or "momentum stocks near 52 week high"
 3. Combine both lists, remove duplicates and any symbols already in the watchlist.
