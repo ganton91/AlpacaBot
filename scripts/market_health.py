@@ -177,11 +177,16 @@ def main():
     print(f"  MARKET HEALTH DATA — {result['timestamp'][:10]}")
     print(f"{'='*50}")
 
+    def flag(val, true_label, false_label):
+        if val is None:
+            return "N/A"
+        return true_label if val else false_label
+
     for key in ("spy", "qqq"):
         d = result[key]
-        above50  = "above" if d["above_50ma"]  else "below"
-        above200 = "above" if d["above_200ma"] else "below"
-        rising50 = "rising" if d["ma50_rising"] else "falling"
+        above50  = flag(d["above_50ma"],  "above",  "below")
+        above200 = flag(d["above_200ma"], "above",  "below")
+        rising50 = flag(d["ma50_rising"], "rising", "falling")
         print(f"  {d['symbol']:4s}  price=${d['price']:.2f}  "
               f"50MA={d['ma50']} ({above50}, {rising50})  "
               f"200MA={d['ma200']} ({above200})")
