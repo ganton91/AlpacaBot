@@ -55,15 +55,11 @@ The daily candle is finalized at this point, making it the ideal time for end-of
 ### STEP 2: ASSESS ENVIRONMENT
 **Actions:**
 1. Run: `python scripts/account_snapshot.py --json`
-   *(The script fetches account info, all open stock positions with P&L and days open, and open orders. Calculates available slots and portfolio exposure.)*
-2. Read the JSON output — it contains equity, cash, buying power, positions, slots available, exposure %, and open orders.
+   *(The script fetches account info, all open stock positions with P&L, days open, 10/20/50-day MAs, and whether the current price is above or below each MA. Also fetches open orders. Calculates available slots and portfolio exposure.)*
+2. Read the JSON output — it contains equity, cash, buying power, positions with full MA analysis, slots available, exposure %, and open orders.
 
 ### STEP 3: MANAGE OPEN POSITIONS
-For EACH open position from `get_all_positions`:
-
-1. Call `get_stock_bars` for that symbol, timeframe="1Day", days=30, feed="iex", adjustment="split"
-2. Calculate: 10-day MA, 20-day MA, 50-day MA from the bars
-3. Check current price vs these MAs
+For EACH position in the JSON from Step 2, apply the following rules based on the pre-calculated MA data and P&L — no additional API calls needed for analysis.
 
 **Exit rules (execute immediately via `close_position`):**
 - Stock closed below 20-day MA AND was in first week of trade → EXIT FULL
