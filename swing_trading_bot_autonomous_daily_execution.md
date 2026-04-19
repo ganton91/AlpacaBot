@@ -126,6 +126,7 @@ Calculate from the daily bars:
 - [ ] 200-day MA trending up (higher than 20 days ago)
 - [ ] Price within 25% of 52-week high
 - [ ] Price at least 30% above 52-week low
+- [ ] Average daily volume (20-day) >= 500,000
 
 **If a stock fails ANY criterion, skip it.**
 
