@@ -29,11 +29,18 @@ def is_crypto(position) -> bool:
     return "crypto" in str(position.asset_class).lower()
 
 
+def normalize_symbol(symbol: str) -> str:
+    """Convert BTCUSD → BTC/USD for crypto order lookups."""
+    if "/" not in symbol and symbol.endswith("USD") and len(symbol) > 4:
+        return symbol[:-3] + "/USD"
+    return symbol
+
+
 def get_days_open(client, symbol: str) -> int | None:
     try:
         orders = client.get_orders(GetOrdersRequest(
             status=QueryOrderStatus.CLOSED,
-            symbols=[symbol],
+            symbols=[normalize_symbol(symbol)],
         ))
         filled = [o for o in orders if str(o.status) == "OrderStatus.FILLED" and o.filled_at]
         if not filled:
