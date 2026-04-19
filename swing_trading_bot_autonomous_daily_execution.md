@@ -65,10 +65,13 @@ Before looking at any individual stock, the bot needs to understand the overall 
    - **RED** — No new longs. Skip Steps 4–5. Proceed directly to Step 2 then Step 3 (position management only).
 
 ### STEP 2: ASSESS ENVIRONMENT
+
+**Description:**
+Before managing positions or looking for new trades, the bot needs a complete picture of the current account state. This step runs `account_snapshot.py` which fetches three things: (1) account-level data — equity, cash, buying power, and total exposure as a percentage of equity; (2) all open stock positions (crypto excluded) — for each position it calculates the 10-day, 20-day, and 50-day SMAs using the last 120 calendar days of IEX bar data, checks whether the current price is above or below each MA, calculates unrealized P&L as a percentage, and counts the days the position has been open by finding the oldest filled buy order for that symbol; (3) all open stock orders with their IDs, type, side, stop price, and limit price. This data is everything needed for Step 3 — no additional API calls are required to make exit, stop, or partial profit decisions.
+
 **Actions:**
 1. Run: `python scripts/account_snapshot.py --json`
-   *(The script fetches account info, all open stock positions with P&L, days open, 10/20/50-day MAs, and whether the current price is above or below each MA. Also fetches open orders. Calculates available slots and portfolio exposure.)*
-2. Read the JSON output — it contains equity, cash, buying power, positions with full MA analysis, slots available, exposure %, and open orders.
+2. Read the JSON output — it contains equity, cash, buying power, exposure %, positions with full MA analysis, slots available, and open orders with IDs.
 
 ### STEP 3: MANAGE OPEN POSITIONS
 For EACH position in the JSON from Step 2, apply the following rules based on the pre-calculated MA data and P&L — no additional API calls needed for analysis.
