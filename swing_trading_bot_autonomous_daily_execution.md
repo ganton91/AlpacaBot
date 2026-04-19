@@ -98,7 +98,22 @@ This step applies position management rules to every open stock position from St
 
    d. **Cleanup** — cancel any old stop orders for this symbol using `cancel_order_by_id`, keeping only the stop placed or updated in step c.
 
-### STEP 4: SCAN FOR NEW SETUPS (only if GREEN/YELLOW and slots available)
+### STEP 4: ACTIVE WATCHLIST MANAGEMENT
+
+**Action 1 — Get the watchlist:**
+Call `get_watchlists` using the TradingClient from `broker/client.py` and retrieve the "SwingBot" watchlist. Extract the list of symbols.
+
+**Action 2 — Screen existing watchlist against Trend Template:**
+1. Run: `python scripts/trend_template.py --symbols [all watchlist symbols] --json`
+2. Symbols that pass → keep in watchlist.
+3. Symbols that fail → remove from watchlist via `remove_from_watchlist`.
+
+**Action 3 — Find new candidates:**
+1. Run: `python scripts/candidates.py --json`
+2. Use `web_search` for additional candidates: "stocks breaking out today high volume" or "momentum stocks near 52 week high"
+3. Combine both lists, remove duplicates and any symbols already in the watchlist.
+4. Run: `python scripts/trend_template.py --symbols [new candidates] --json`
+5. Add passing stocks to the watchlist via `add_to_watchlist` using the TradingClient from `broker/client.py`.
 
 **4a. Find candidates:**
 1. Run: `python scripts/candidates.py --json`
