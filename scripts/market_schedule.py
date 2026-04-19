@@ -2,7 +2,7 @@
 """
 Market Schedule Check (Step 0 of the swing trading bot).
 
-Determines whether to run in full mode (stocks + crypto) or crypto-only mode.
+Determines whether the bot should run today or skip.
 
 Usage:
     python scripts/market_schedule.py
@@ -24,20 +24,19 @@ def run() -> dict:
     clock = client.get_clock()
 
     now = datetime.now(timezone.utc)
-    weekday = now.strftime("%A")  # Monday, Tuesday, etc.
-    is_weekend = now.weekday() >= 5  # 5=Saturday, 6=Sunday
+    weekday = now.strftime("%A")
+    is_weekend = now.weekday() >= 5
 
     next_open = clock.next_open
     hours_until_open = (next_open - now).total_seconds() / 3600 if next_open else None
 
-    # Holiday detection: if next_open is more than 18 hours away on a weekday
     is_holiday = (not is_weekend) and (hours_until_open is not None) and (hours_until_open > 18)
 
     if is_weekend or is_holiday:
-        mode = "crypto_only"
+        mode = "skip"
         reason = "weekend" if is_weekend else "market_holiday"
     else:
-        mode = "full"
+        mode = "run"
         reason = "weekday"
 
     return {
@@ -63,7 +62,7 @@ def main():
         print(json.dumps(result))
         return
 
-    mode_label = "🟢 FULL (stocks + crypto)" if result["mode"] == "full" else "🌙 CRYPTO ONLY"
+    mode_label = "🟢 RUN" if result["mode"] == "run" else "⛔ SKIP"
     print(f"\n{'='*50}")
     print(f"  MARKET SCHEDULE — {result['timestamp'][:10]}")
     print(f"{'='*50}")
