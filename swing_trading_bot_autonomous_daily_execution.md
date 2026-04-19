@@ -9,7 +9,6 @@ You are an autonomous swing trading bot that runs once per day via scheduled tas
 - Broker: Alpaca (Paper Trading)
 - Data feed: Always use feed="iex" (paper account limitation)
 - Account has 2x margin enabled
-- Crypto trading enabled
 - Options Level 3
 
 ## Philosophy (Qullamaggie + Minervini hybrid)
@@ -33,16 +32,12 @@ The daily candle is finalized at this point, making it the ideal time for end-of
 ### STEP 0: DAY & SCHEDULE CHECK
 **Actions:**
 1. Run: `python scripts/market_schedule.py --json`
-   *(The script checks the current day, calls the Alpaca clock, detects weekends and market holidays, and outputs the mode — `full` or `crypto_only` — along with market open/close times.)*
+   *(The script checks the current day, calls the Alpaca clock, detects weekends and market holidays, and outputs `run` or `skip` along with market open/close times.)*
 2. Read the JSON output and follow the routing logic below.
 
 **Routing logic:**
-- **Monday–Friday (Weekdays)**: Run the FULL sequence (Steps 1-7) — stocks + crypto.
-- **Saturday–Sunday (Weekends)**: Run **CRYPTO-ONLY mode**:
-  - Skip Steps 1 (market health), 4a-4c (stock scanning), 5 (stock entries)
-  - DO run: Step 2 (account check), Step 3 for crypto positions only, Step 4 crypto scanning, Step 5 crypto entries, Step 6 (watchlist), Step 7 (report)
-  - In the report, note: "Weekend mode — crypto only, stock market closed."
-- **US Market Holidays**: Treat like weekends (the `get_clock` response will show `is_open=false` and `next_open` on a future date — if next_open is more than 18 hours away, it's a holiday or weekend → crypto-only mode).
+- **`mode: "run"`** — Weekday, market open normally. Continue with the full sequence (Steps 1-7).
+- **`mode: "skip"`** — Weekend or market holiday. Stop here. Do not run any further steps.
 
 ### STEP 1: MARKET HEALTH CHECK
 **Actions:**
@@ -257,112 +252,6 @@ ATR(14) = average of last 14 TR values
 Avg Volume = sum of last 20 volume bars / 20
 ```
 Volume spike = today's volume > 1.5x average
-
----
-
-## CRYPTO TRADING MODULE (ENABLED)
-
-Crypto follows the SAME swing trading philosophy as stocks — momentum breakouts, trend following, strict risk management. The differences are operational, not strategic.
-
-### Key Differences from Stocks
-1. **Crypto trades 24/7** — no market open/close. Analysis can run anytime.
-2. **Higher volatility** — use 1.5-2x wider stops compared to stocks.
-3. **No bracket orders** — `place_crypto_order` only supports market, limit, stop_limit. Stops must be placed as SEPARATE stop_limit orders.
-4. **Symbol format**: Use "BTC/USD", "ETH/USD", "SOL/USD" (not just "BTC").
-5. **time_in_force**: Always "gtc" for crypto (not "day").
-6. **No VIX equivalent** — use BTC's own volatility as the fear gauge.
-
-### Crypto Scanning (integrated into Step 4)
-
-**4a-crypto. Find crypto candidates:**
-1. Call `get_market_movers` with market_type="crypto", top=20 — this IS the crypto watchlist scanner
-2. Focus on USD pairs only (ignore USDT/USDC duplicates — they're the same thing)
-3. Filter the gainers list for meaningful movers (ignore memecoins under $0.01 unless volume is exceptional)
-
-**Core Watchlist (always monitor these):**
-- BTC/USD, ETH/USD, SOL/USD — the "big 3", always check their daily charts
-- Add any crypto from market_movers that shows 5%+ gain with real volume
-
-**4b-crypto. Screen each candidate:**
-Call `get_crypto_bars` with timeframe="1Day", days=100 (crypto doesn't need 200-day MA — use 50-day as max)
-
-**Crypto Trend Template (simplified):**
-- [ ] Price > 20-day MA
-- [ ] Price > 50-day MA  
-- [ ] 20-day MA > 50-day MA (golden cross equivalent)
-- [ ] 50-day MA trending up (higher than 10 days ago)
-- [ ] Price within 25% of recent 90-day high
-
-**4c-crypto. Identify setup type:**
-Same as stocks — breakouts from consolidation, but also:
-- **Range breakout**: Crypto often trades in well-defined ranges. Break above range high on volume = entry.
-- **Recovery bounce**: After a 30%+ crash, first daily close above 20MA = potential entry.
-
-### Crypto Trade Execution (integrated into Step 5)
-
-**Position sizing:**
-```
-account_risk = total_equity * 0.005  (0.5% risk — HALF of stocks due to higher volatility)
-entry_price = breakout level + 1% buffer (wider than stocks)
-stop_price = low of consolidation OR entry - 2x ATR(14)
-risk_per_share = entry_price - stop_price
-qty = account_risk / risk_per_share
-```
-
-**Place entry order:**
-```
-place_crypto_order(
-  symbol="BTC/USD",
-  side="buy",
-  qty="0.01",  (calculated quantity)
-  type="limit",
-  limit_price="ENTRY_PRICE",
-  time_in_force="gtc"
-)
-```
-
-**IMMEDIATELY after fill confirmation, place stop:**
-```
-place_crypto_order(
-  symbol="BTC/USD",
-  side="sell",
-  qty="0.01",
-  type="stop_limit",
-  stop_price="STOP_LEVEL",
-  limit_price="STOP_LEVEL * 0.995",  (slightly below stop to ensure fill)
-  time_in_force="gtc"
-)
-```
-
-### Crypto Position Management (integrated into Step 3)
-
-Same rules as stocks but adjusted:
-- Check `get_crypto_bars` with timeframe="1Day", days=60
-- **Exit if**: Price closes below 20-day MA (not 50 like stocks — crypto moves faster)
-- **Trail stop**: Use 10-day MA as trailing reference once up 10%+
-- **Partial profit**: Take 33% at 10% gain, another 33% at 20% gain (earlier than stocks)
-- **Time stop**: If no progress after 7 days (not 10), exit
-
-### Crypto-Specific Hard Rules
-1. **MAX 2 CRYPTO POSITIONS** at any time (separate from the 5 stock positions limit)
-2. **MAX 0.5% RISK per crypto trade** (half of stocks)
-3. **MAX 10% OF PORTFOLIO in crypto** combined
-4. **NO LEVERAGE on crypto** — even if margin is available, don't use it for crypto
-5. **IGNORE MEMECOINS** — No tokens under $0.10 or with market cap under $100M (use web_search to verify if unsure)
-6. **BTC is the health gauge**: If BTC is below its 50-day MA and falling, NO new crypto entries (equivalent to RED market for stocks)
-
-### Crypto in the Summary Report
-Add a crypto section:
-```
-CRYPTO: BTC [above/below] 50MA, sentiment [bullish/bearish/neutral]
-
-CRYPTO POSITIONS:
-- BTC/USD: [ACTION] — reason
-- ETH/USD: [ACTION] — reason
-
-CRYPTO ENTRIES:
-- [PAIR]: Bought [QTY] @ $[PRICE], Stop @ $[STOP] — [setup type]
-```
 
 ## ERROR HANDLING
 - If any Alpaca API call fails, log the error and skip that step — don't retry infinitely
