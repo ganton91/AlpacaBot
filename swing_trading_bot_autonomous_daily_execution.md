@@ -101,10 +101,10 @@ This step applies position management rules to every open stock position from St
 ### STEP 4: SCAN FOR NEW SETUPS (only if GREEN/YELLOW and slots available)
 
 **4a. Find candidates:**
-1. Call `get_market_movers` with market_type="stocks", top=20 — look at top gainers
-2. Call `get_most_active_stocks` with by="volume", top=30
-3. Use `web_search` to find: "stocks breaking out today high volume" or "momentum stocks near 52 week high"
-4. Combine results into a candidate list (remove duplicates, penny stocks under $10, or anything with unclear fundamentals)
+1. Run: `python scripts/candidates.py --json`
+2. Read the JSON output — it contains a deduplicated list of stocks from top gainers and most active by volume, already filtered for price >= $10.
+3. Use `web_search` to find additional candidates: "stocks breaking out today high volume" or "momentum stocks near 52 week high" — add any new symbols to the list manually, removing duplicates.
+4. The combined list from steps 2 and 3 is the input for step 4b.
 
 **4b. Screen each candidate (Minervini Trend Template):**
 For each candidate, call `get_stock_bars` with timeframe="1Day", days=250, feed="iex", adjustment="split"
