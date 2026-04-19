@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-Market Health Check (Step 2 of the swing trading bot).
+Market Health Check (Step 1 of the swing trading bot).
 
-Outputs a JSON result with signal GREEN / YELLOW / RED plus supporting data,
-so the bot can consume it without re-doing the calculations.
+Outputs raw market data as JSON so the bot can decide the GREEN/YELLOW/RED
+signal itself based on the rules in the execution guide.
 
 Usage:
     python scripts/market_health.py
@@ -18,7 +18,6 @@ from datetime import datetime, timedelta, timezone
 
 import requests
 from alpaca.data.historical import StockHistoricalDataClient
-from alpaca.data.historical.screener import ScreenerClient
 from alpaca.data.requests import StockBarsRequest, MarketMoversRequest
 from alpaca.data.timeframe import TimeFrame
 
@@ -109,67 +108,24 @@ def fetch_market_movers() -> dict:
 
 
 # ---------------------------------------------------------------------------
-# Signal logic
+# MA data
 # ---------------------------------------------------------------------------
 
-def vix_signal(vix: float | None, prev_vix: float | None) -> tuple[str, str]:
-    if vix is None:
-        return "YELLOW", "VIX unavailable — assuming moderate conditions"
-
-    direction = "unknown"
-    if prev_vix is not None:
-        direction = "rising" if vix > prev_vix else "falling"
-
-    if vix < 15:
-        color = "GREEN"
-    elif vix < 20:
-        color = "GREEN" if direction != "rising" else "YELLOW"
-    elif vix < 25:
-        color = "YELLOW"
-    elif vix < 30:
-        color = "YELLOW" if direction == "falling" else "RED"
-    else:
-        color = "RED"
-
-    return color, direction
-
-
-def ma_signal(symbol: str, closes: list[float]) -> dict:
+def ma_data(symbol: str, closes: list[float]) -> dict:
     price = closes[-1]
     ma50 = sma(closes, 50)
     ma200 = sma(closes, 200)
     ma50_10d_ago = sma_n_days_ago(closes, 50, 10)
-
-    above_50 = price > ma50 if ma50 else None
-    above_200 = price > ma200 if ma200 else None
-    ma50_rising = (ma50 > ma50_10d_ago) if (ma50 and ma50_10d_ago) else None
 
     return {
         "symbol": symbol,
         "price": round(price, 2),
         "ma50": round(ma50, 2) if ma50 else None,
         "ma200": round(ma200, 2) if ma200 else None,
-        "above_50ma": above_50,
-        "above_200ma": above_200,
-        "ma50_rising": ma50_rising,
+        "above_50ma": (price > ma50) if ma50 else None,
+        "above_200ma": (price > ma200) if ma200 else None,
+        "ma50_rising": (ma50 > ma50_10d_ago) if (ma50 and ma50_10d_ago) else None,
     }
-
-
-def combine_signals(spy: dict, qqq: dict, vix_color: str, vix_direction: str, breadth: dict) -> str:
-    both_above_50 = spy["above_50ma"] and qqq["above_50ma"]
-    both_below_50 = not spy["above_50ma"] and not qqq["above_50ma"]
-    spy_death_cross = (spy["ma50"] and spy["ma200"] and spy["ma50"] < spy["ma200"])
-    qqq_death_cross = (qqq["ma50"] and qqq["ma200"] and qqq["ma50"] < qqq["ma200"])
-    death_cross = spy_death_cross or qqq_death_cross
-
-    if vix_color == "RED" or both_below_50 or death_cross:
-        return "RED"
-
-    both_rising_50 = spy["ma50_rising"] and qqq["ma50_rising"]
-    if both_above_50 and both_rising_50 and vix_color == "GREEN":
-        return "GREEN"
-
-    return "YELLOW"
 
 
 # ---------------------------------------------------------------------------
@@ -182,28 +138,28 @@ def run() -> dict:
     spy_closes = fetch_closes(client, "SPY", 250)
     qqq_closes = fetch_closes(client, "QQQ", 250)
 
-    spy = ma_signal("SPY", spy_closes)
-    qqq = ma_signal("QQQ", qqq_closes)
+    spy = ma_data("SPY", spy_closes)
+    qqq = ma_data("QQQ", qqq_closes)
 
     vix_now, vix_prev, vix_source = fetch_vix()
-    vix_color, vix_direction = vix_signal(vix_now, vix_prev)
-    breadth = fetch_market_movers()
-    overall = combine_signals(spy, qqq, vix_color, vix_direction, breadth)
+    vix_direction = "unknown"
+    if vix_now is not None and vix_prev is not None:
+        vix_direction = "rising" if vix_now > vix_prev else "falling"
 
-    result = {
+    breadth = fetch_market_movers()
+
+    return {
         "timestamp": datetime.now(timezone.utc).isoformat(),
-        "signal": overall,
         "spy": spy,
         "qqq": qqq,
         "vix": {
             "value": round(vix_now, 2) if vix_now else None,
+            "prev_value": round(vix_prev, 2) if vix_prev else None,
             "direction": vix_direction,
-            "signal": vix_color,
             "source": vix_source,
         },
         "breadth": breadth,
     }
-    return result
 
 
 def main():
@@ -217,26 +173,22 @@ def main():
         print(json.dumps(result))
         return
 
-    s = result["signal"]
-    color_emoji = {"GREEN": "🟢", "YELLOW": "🟡", "RED": "🔴"}.get(s, "⚪")
     print(f"\n{'='*50}")
-    print(f"  MARKET HEALTH CHECK — {result['timestamp'][:10]}")
+    print(f"  MARKET HEALTH DATA — {result['timestamp'][:10]}")
     print(f"{'='*50}")
-    print(f"  Overall Signal : {color_emoji}  {s}")
-    print()
 
     for key in ("spy", "qqq"):
         d = result[key]
-        above50  = "✅ above" if d["above_50ma"]  else "❌ below"
-        above200 = "✅ above" if d["above_200ma"] else "❌ below"
-        rising50 = "↑ rising" if d["ma50_rising"] else "↓ falling"
+        above50  = "above" if d["above_50ma"]  else "below"
+        above200 = "above" if d["above_200ma"] else "below"
+        rising50 = "rising" if d["ma50_rising"] else "falling"
         print(f"  {d['symbol']:4s}  price=${d['price']:.2f}  "
               f"50MA={d['ma50']} ({above50}, {rising50})  "
               f"200MA={d['ma200']} ({above200})")
 
     v = result["vix"]
     vix_str = f"{v['value']}" if v["value"] else "N/A"
-    print(f"\n  VIX   {vix_str} ({v['direction']}) → {v['signal']}  [source: {v['source']}]")
+    print(f"\n  VIX   {vix_str} ({v['direction']})  [source: {v['source']}]")
 
     b = result["breadth"]
     if "error" not in b:
