@@ -56,7 +56,7 @@ def fetch_bars(client, symbol: str) -> tuple[list[float], list[float], list[floa
     """Returns (closes, highs, volumes) or None if insufficient data."""
     try:
         end = datetime.now(timezone.utc)
-        start = end - timedelta(days=DAYS_TO_FETCH + 60)
+        start = end - timedelta(days=int(DAYS_TO_FETCH * 1.6))
         req = StockBarsRequest(
             symbol_or_symbols=symbol,
             timeframe=TimeFrame.Day,
