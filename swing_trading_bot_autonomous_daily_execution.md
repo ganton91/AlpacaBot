@@ -42,17 +42,17 @@ This is the very first step that runs every day before anything else. Its sole p
    - **`mode: "skip"`** — Weekend or market holiday. Stop here. Do not run any further steps.
 
 ### STEP 1: MARKET HEALTH CHECK
+
+**Description:**
+Before looking at any individual stock, the bot needs to understand the overall market environment. This step runs `market_health.py` which fetches 250 days of daily bars for SPY and QQQ from Alpaca (using the IEX feed), calculates the 50-day and 200-day SMAs for each index, and checks whether each index is currently above those MAs and whether the 50-day MA is rising or falling. It also fetches the current VIX value from CBOE (with Yahoo Finance as fallback) and compares it to the previous day to determine if volatility is rising or falling. Finally, it checks market breadth via the Alpaca market movers API (number of gainers vs losers). All three signals — MAs, VIX, and breadth — are combined into a single overall signal: GREEN, YELLOW, or RED. This signal controls how aggressively the bot trades for the rest of the session: GREEN means full exposure, YELLOW means reduced size, and RED means no new entries at all.
+
 **Actions:**
 1. Run: `python scripts/market_health.py --json`
-   *(The script fetches 250 days of SPY & QQQ bars from Alpaca, calculates 50-day and 200-day SMAs and their direction, retrieves the VIX from CBOE/Yahoo, checks market breadth via Alpaca market movers, and outputs a GREEN/YELLOW/RED signal with all supporting data.)*
-2. Read the JSON output — it contains the overall signal (GREEN/YELLOW/RED) plus SPY, QQQ, VIX, and breadth data.
-
-**Decision Matrix (combine ALL three signals: MAs + VIX + Breadth):**
-- **GREEN**: SPY & QQQ both above rising 50-day MA + VIX below 20 (or falling). Full exposure allowed (up to 5 positions, 1% risk per trade).
-- **YELLOW**: Mixed MA signals OR VIX 20-30 (but stable/falling) OR weak breadth. Max 3 positions, smaller sizes (0.5% risk instead of 1%).
-- **RED**: Both indices below 50-day MA, OR death cross (50MA < 200MA), OR VIX above 30 and rising. NO new longs. Only manage existing positions. Consider closing weak holdings.
-
-**If RED: Skip to Step 2 (account snapshot) then Step 3 (position management only). Do NOT scan for new entries.**
+2. Read the JSON output and note the `signal` field (GREEN / YELLOW / RED).
+3. Apply the signal for the rest of the session:
+   - **GREEN** — SPY & QQQ both above rising 50-day MA + VIX below 20 (or falling). Full exposure: up to 5 positions, 1% risk per trade.
+   - **YELLOW** — Mixed MA signals OR VIX 20–30 (stable/falling) OR weak breadth. Reduced exposure: max 3 positions, 0.5% risk per trade.
+   - **RED** — Both indices below 50-day MA, OR death cross (50MA < 200MA), OR VIX above 30 and rising. No new longs. Skip Steps 4–5. Proceed directly to Step 2 then Step 3 (position management only).
 
 ### STEP 2: ASSESS ENVIRONMENT
 **Actions:**
