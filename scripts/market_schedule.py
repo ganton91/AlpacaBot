@@ -13,10 +13,11 @@ import argparse
 import json
 import os
 import sys
-from datetime import datetime, timezone
+from datetime import datetime, date, timezone
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from broker.client import get_trading_client
+from alpaca.trading.requests import GetCalendarRequest
 
 
 def run() -> dict:
@@ -25,16 +26,17 @@ def run() -> dict:
 
     now = datetime.now(timezone.utc)
     weekday = now.strftime("%A")
-    is_weekend = now.weekday() >= 5
+    today = date.today()
+
+    calendar = client.get_calendar(GetCalendarRequest(start=today, end=today))
+    is_trading_day = len(calendar) > 0
 
     next_open = clock.next_open
     hours_until_open = (next_open - now).total_seconds() / 3600 if next_open else None
 
-    is_holiday = (not is_weekend) and (hours_until_open is not None) and (hours_until_open > 24)
-
-    if is_weekend or is_holiday:
+    if not is_trading_day:
         mode = "skip"
-        reason = "weekend" if is_weekend else "market_holiday"
+        reason = "weekend" if now.weekday() >= 5 else "market_holiday"
     else:
         mode = "run"
         reason = "weekday"
