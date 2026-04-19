@@ -20,7 +20,7 @@ from datetime import datetime, timedelta, timezone
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from broker.client import get_trading_client, get_data_client
 from alpaca.trading.requests import GetOrdersRequest
-from alpaca.trading.enums import QueryOrderStatus
+from alpaca.trading.enums import QueryOrderStatus, OrderStatus, AssetClass
 from alpaca.data.requests import StockBarsRequest
 from alpaca.data.timeframe import TimeFrame
 
@@ -39,7 +39,7 @@ def get_days_open(client, symbol: str) -> int | None:
             status=QueryOrderStatus.CLOSED,
             symbols=[symbol],
         ))
-        filled = [o for o in orders if str(o.status) == "OrderStatus.FILLED" and o.filled_at]
+        filled = [o for o in orders if o.status == OrderStatus.FILLED and o.filled_at]
         if not filled:
             return None
         oldest = min(filled, key=lambda o: o.filled_at)
@@ -74,9 +74,9 @@ def get_ma_analysis(data_client, symbol: str) -> dict:
             "ma10": ma10,
             "ma20": ma20,
             "ma50": ma50,
-            "above_ma10": price > ma10 if ma10 else None,
-            "above_ma20": price > ma20 if ma20 else None,
-            "above_ma50": price > ma50 if ma50 else None,
+            "above_ma10": (price > ma10) if ma10 is not None else None,
+            "above_ma20": (price > ma20) if ma20 is not None else None,
+            "above_ma50": (price > ma50) if ma50 is not None else None,
         }
     except Exception:
         return {}
@@ -92,12 +92,13 @@ def run() -> dict:
     buying_power = float(account.buying_power)
 
     all_positions = trading_client.get_all_positions()
-    stock_positions = [p for p in all_positions if "crypto" not in str(p.asset_class).lower()]
+    stock_positions = [p for p in all_positions if p.asset_class == AssetClass.US_EQUITY]
 
     positions_value = sum(float(p.market_value) for p in stock_positions)
     exposure_pct = round((positions_value / equity) * 100, 1) if equity > 0 else 0
 
-    orders = trading_client.get_orders(GetOrdersRequest(status=QueryOrderStatus.OPEN))
+    all_orders = trading_client.get_orders(GetOrdersRequest(status=QueryOrderStatus.OPEN))
+    stock_orders = [o for o in all_orders if o.asset_class == AssetClass.US_EQUITY]
 
     stocks = []
     for p in stock_positions:
@@ -135,9 +136,16 @@ def run() -> dict:
                 "stop_price": float(o.stop_price) if o.stop_price else None,
                 "limit_price": float(o.limit_price) if o.limit_price else None,
             }
-            for o in orders
+            for o in stock_orders
         ],
     }
+
+
+def ma_str(val, above):
+    if val is None:
+        return ""
+    flag = "✅" if above else "❌"
+    return f"{val} {flag}"
 
 
 def main():
@@ -169,12 +177,6 @@ def main():
             pl = s["unrealized_pl_pct"]
             pl_str = f"+{pl}%" if pl >= 0 else f"{pl}%"
             days = f"  days={s['days_open']}" if s["days_open"] is not None else ""
-            def ma_str(val, above):
-                if val is None:
-                    return ""
-                flag = "✅" if above else "❌"
-                return f"{val} {flag}"
-
             ma10 = f"  10MA={ma_str(s.get('ma10'), s.get('above_ma10'))}" if s.get("ma10") else ""
             ma20 = f"  20MA={ma_str(s.get('ma20'), s.get('above_ma20'))}" if s.get("ma20") else ""
             ma50 = f"  50MA={ma_str(s.get('ma50'), s.get('above_ma50'))}" if s.get("ma50") else ""
