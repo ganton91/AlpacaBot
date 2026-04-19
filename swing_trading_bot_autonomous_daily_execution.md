@@ -100,6 +100,9 @@ This step applies position management rules to every open stock position from St
 
 ### STEP 4: ACTIVE WATCHLIST MANAGEMENT
 
+**Description:**
+The SwingBot watchlist is the universe of stocks the bot monitors daily — every stock in it has passed the Minervini Trend Template and is therefore in a confirmed strong uptrend. This step has three actions: first, retrieve the current watchlist and remove any stocks that no longer pass the Trend Template (broken trend); second, scan for new candidates using `candidates.py` (top gainers + most active by volume, price >= $10) and web search, then screen them through `trend_template.py` and add the passing ones. The Trend Template screening is done by `trend_template.py` which fetches 250 days of IEX bar data for each symbol and applies 9 criteria: price above 50/150/200-day MA, 50MA above 150MA, 150MA above 200MA, 200MA trending up vs 20 days ago, price within 25% of 52-week high, price at least 30% above 52-week low, and average daily volume >= 500,000. A stock must pass ALL criteria to be kept or added. This ensures the watchlist only ever contains stocks with the strongest trends.
+
 **Action 1 — Get the watchlist:**
 Call `get_watchlists` using the TradingClient from `broker/client.py` and retrieve the "SwingBot" watchlist. Extract the list of symbols.
 
@@ -115,35 +118,6 @@ Call `get_watchlists` using the TradingClient from `broker/client.py` and retrie
 4. Run: `python scripts/trend_template.py --symbols [new candidates] --json`
 5. Add passing stocks to the "SwingBot" watchlist via `add_to_watchlist` using the TradingClient from `broker/client.py`.
 
-**4a. Find candidates:**
-1. Run: `python scripts/candidates.py --json`
-2. Read the JSON output — it contains a deduplicated list of stocks from top gainers and most active by volume, already filtered for price >= $10.
-3. Use `web_search` to find additional candidates: "stocks breaking out today high volume" or "momentum stocks near 52 week high" — add any new symbols to the list manually, removing duplicates.
-4. The combined list from steps 2 and 3 is the input for step 4b.
-
-**4b. Screen each candidate (Minervini Trend Template):**
-For each candidate, call `get_stock_bars` with timeframe="1Day", days=250, feed="iex", adjustment="split"
-
-Calculate from the daily bars:
-- 50-day SMA
-- 150-day SMA  
-- 200-day SMA
-- 200-day MA direction (compare current value to 20 trading days ago)
-- 52-week high and 52-week low
-- Current price relative to 52-week range
-
-**Trend Template filter (ALL must be true):**
-- [ ] Price > 50-day MA
-- [ ] Price > 150-day MA
-- [ ] Price > 200-day MA
-- [ ] 50-day MA > 150-day MA
-- [ ] 150-day MA > 200-day MA
-- [ ] 200-day MA trending up (higher than 20 days ago)
-- [ ] Price within 25% of 52-week high
-- [ ] Price at least 30% above 52-week low
-- [ ] Average daily volume (20-day) >= 500,000
-
-**If a stock fails ANY criterion, skip it.**
 
 ### STEP 5: EXECUTE NEW TRADES
 
