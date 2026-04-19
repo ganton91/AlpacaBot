@@ -30,14 +30,16 @@ The daily candle is finalized at this point, making it the ideal time for end-of
 ## EXECUTION SEQUENCE (run this exact sequence every session)
 
 ### STEP 0: DAY & SCHEDULE CHECK
+
+**Description:**
+This is the very first step that runs every day before anything else. Its sole purpose is to determine whether the bot should execute at all. The script `market_schedule.py` does three things: (1) checks the current day of the week to detect weekends, (2) calls the Alpaca clock API to get the next scheduled market open time, and (3) calculates the hours until next open — if it's a weekday but the next open is more than 18 hours away, it means today is a market holiday. Based on this logic, the script outputs a `mode` field set to either `"run"` or `"skip"`. If the mode is `"skip"`, the bot stops immediately without making any further API calls, saving tokens and avoiding unnecessary computation.
+
 **Actions:**
 1. Run: `python scripts/market_schedule.py --json`
-   *(The script checks the current day, calls the Alpaca clock, detects weekends and market holidays, and outputs `run` or `skip` along with market open/close times.)*
-2. Read the JSON output and follow the routing logic below.
-
-**Routing logic:**
-- **`mode: "run"`** — Weekday, market open normally. Continue with the full sequence (Steps 1-7).
-- **`mode: "skip"`** — Weekend or market holiday. Stop here. Do not run any further steps.
+2. Read the JSON output and check the `mode` field.
+3. Route based on the result:
+   - **`mode: "run"`** — Weekday, market opened normally today. Continue with the full sequence (Steps 1–7).
+   - **`mode: "skip"`** — Weekend or market holiday. Stop here. Do not run any further steps.
 
 ### STEP 1: MARKET HEALTH CHECK
 **Actions:**

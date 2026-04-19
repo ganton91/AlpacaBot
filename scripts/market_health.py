@@ -23,7 +23,6 @@ from alpaca.data.requests import StockBarsRequest, MarketMoversRequest
 from alpaca.data.timeframe import TimeFrame
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from github.push import git_push
 from broker.client import get_data_client, get_screener_client
 
 
@@ -177,16 +176,6 @@ def combine_signals(spy: dict, qqq: dict, vix_color: str, vix_direction: str, br
 # Main
 # ---------------------------------------------------------------------------
 
-def save_report(result: dict) -> str:
-    reports_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "reports")
-    os.makedirs(reports_dir, exist_ok=True)
-    date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    path = os.path.join(reports_dir, f"market_health_{date_str}.json")
-    with open(path, "w") as f:
-        json.dump(result, f, indent=2)
-    return path
-
-
 def run() -> dict:
     client = get_data_client()
 
@@ -223,8 +212,6 @@ def main():
     args = parser.parse_args()
 
     result = run()
-    path = save_report(result)
-    git_push(f"Market health report {result['timestamp'][:10]}", [path])
 
     if args.json:
         print(json.dumps(result))
