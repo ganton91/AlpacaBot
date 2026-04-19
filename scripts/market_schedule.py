@@ -47,7 +47,7 @@ def run() -> dict:
         "market_open": clock.is_open,
         "next_open": next_open.isoformat() if next_open else None,
         "next_close": clock.next_close.isoformat() if clock.next_close else None,
-        "hours_until_open": round(hours_until_open, 1) if hours_until_open else None,
+        "hours_until_open": round(hours_until_open, 1) if hours_until_open is not None else None,
     }
 
 
