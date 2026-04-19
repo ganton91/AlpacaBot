@@ -54,15 +54,9 @@ The daily candle is finalized at this point, making it the ideal time for end-of
 
 ### STEP 2: ASSESS ENVIRONMENT
 **Actions:**
-1. Call `get_account_info` — get current equity, buying power, cash.
-2. Call `get_all_positions` — get all open positions (both stocks and crypto).
-3. Call `get_orders` with status="open" — get pending orders.
-
-**Calculate:**
-- Total equity
-- Number of open stock positions (max 5) and crypto positions (max 2)
-- Available slots for new trades
-- Current portfolio exposure % (positions value / equity)
+1. Run: `python scripts/account_snapshot.py --json`
+   *(The script fetches account info, all open stock positions with P&L and days open, and open orders. Calculates available slots and portfolio exposure.)*
+2. Read the JSON output — it contains equity, cash, buying power, positions, slots available, exposure %, and open orders.
 
 ### STEP 3: MANAGE OPEN POSITIONS
 For EACH open position from `get_all_positions`:
