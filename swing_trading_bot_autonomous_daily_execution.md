@@ -145,7 +145,9 @@ Calculate from the daily bars:
 
 **If a stock fails ANY criterion, skip it.**
 
-**4c. Identify setup type for qualifying stocks:**
+### STEP 5: EXECUTE NEW TRADES
+
+**Identify setup type for qualifying stocks:**
 
 **Breakout Setup:**
 - Look at last 10-20 bars: Is the stock in a tight range (low volatility)?
@@ -158,8 +160,6 @@ Calculate from the daily bars:
 - Did the stock gap up 8%+ today on volume 2x+ its average?
 - Check via web_search if there was a major catalyst (earnings beat, FDA, contract)
 - If YES → potential EP entry
-
-### STEP 5: EXECUTE NEW TRADES
 
 For each valid setup (max entries per session: 2):
 
