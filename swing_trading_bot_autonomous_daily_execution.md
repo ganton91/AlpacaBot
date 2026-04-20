@@ -123,6 +123,9 @@ Using the data from Step 2 (account snapshot), remove from the watchlist any sym
 
 ### STEP 5: EXECUTE NEW TRADES
 
+**Description:**
+This step scans every stock in the SwingBot watchlist for actionable entry setups and places orders for those that qualify. It has two actions: first, run `setup_scanner.py` against the watchlist symbols to get consolidation and EP metrics for each stock, then identify which stocks have a valid Breakout or Episodic Pivot setup; second, for each qualifying setup (max 2 per session), calculate position size, verify the trade meets all risk rules, and place the order. Breakout setups use the consolidation high as the entry trigger and the consolidation low as the stop. EP setups require a confirmed catalyst via web search and use the low of the gap day as the stop. All entries must use bracket orders where possible so that stop loss and take profit are set automatically at entry.
+
 **Action 1 — Scan watchlist for setups:**
 1. Take the symbols from the watchlist retrieved in Step 4.
 2. Run: `python scripts/setup_scanner.py --symbols [watchlist symbols] --json`
@@ -196,70 +199,6 @@ place_stock_order(
 
 **Prefer bracket orders** (order_class="bracket") when possible — they automatically set stop loss and take profit. If bracket is not possible, place a separate stop order immediately after the buy.
 
----
-
-**Identify setup type for qualifying stocks:**
-
-**Breakout Setup:**
-- Look at last 10-20 bars: Is the stock in a tight range (low volatility)?
-- Is volume declining during consolidation?
-- Calculate the consolidation high (resistance level)
-- Is current price within 3% of that resistance?
-- If YES → this is a breakout candidate
-
-**Episodic Pivot:**
-- Did the stock gap up 8%+ today on volume 2x+ its average?
-- Check via web_search if there was a major catalyst (earnings beat, FDA, contract)
-- If YES → potential EP entry
-
-For each valid setup (max entries per session: 2):
-
-**Calculate position size:**
-```
-account_risk = total_equity * 0.01  (1% risk)
-entry_price = breakout level + 0.5% buffer
-stop_price = low of consolidation (or low of gap day for EPs)
-risk_per_share = entry_price - stop_price
-shares = floor(account_risk / risk_per_share)
-position_value = shares * entry_price
-```
-
-**Verify:**
-- position_value must be ≤ 20% of total equity
-- risk_per_share / entry_price must be ≤ 8% (stop not too wide)
-- R/R must be ≥ 3:1 (estimate target as 2x the consolidation range above breakout)
-
-**Place the order using `place_stock_order`:**
-
-Option A — If stock is approaching breakout but hasn't broken yet:
-```
-place_stock_order(
-  symbol="TICKER",
-  side="buy",
-  qty="SHARES",
-  type="stop_limit",
-  stop_price="BREAKOUT_LEVEL",
-  limit_price="BREAKOUT_LEVEL + 1%",
-  time_in_force="day"
-)
-```
-
-Option B — If stock already broke out today with confirmation:
-```
-place_stock_order(
-  symbol="TICKER",
-  side="buy",
-  qty="SHARES",
-  type="limit",
-  limit_price="CURRENT_PRICE + 0.5%",
-  time_in_force="day",
-  order_class="bracket",
-  stop_loss_stop_price="STOP_LEVEL",
-  take_profit_limit_price="TARGET_LEVEL"
-)
-```
-
-**Prefer bracket orders** (order_class="bracket") when possible — they automatically set stop loss and take profit.
 
 ### STEP 6: BRIEF SUMMARY (output to user)
 After all actions, provide a SHORT summary:
