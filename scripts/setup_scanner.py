@@ -81,8 +81,9 @@ def breakout_metrics(closes, highs, lows, volumes) -> dict:
     c_range_pct       = round((resistance - support) / support * 100, 2)
     pct_from_resistance = round((price - resistance) / resistance * 100, 2)
 
-    recent_vol_avg = sum(c_vols[-5:]) / 5
-    prior_vol_avg  = sum(c_vols[:10]) / 10
+    base_vols      = volumes[-n:-1]  # exclude today so breakout volume doesn't contaminate base quality
+    recent_vol_avg = sum(base_vols[-5:]) / 5
+    prior_vol_avg  = sum(base_vols[:9]) / 9
     volume_declining = recent_vol_avg < prior_vol_avg
 
     avg_vol_20d = sum(volumes[-21:-1]) / 20 if len(volumes) >= 21 else None
