@@ -89,7 +89,7 @@ def screen(symbol: str, closes: list[float], highs: list[float], lows: list[floa
     ma150 = sma(closes, 150)
     ma200 = sma(closes, 200)
     ma200_20d_ago = sma_n_days_ago(closes, 200, 20)
-    avg_vol_20d = sma(volumes, 20)
+    avg_vol_20d = sum(volumes[-21:-1]) / 20 if len(volumes) >= 21 else None
 
     if any(v is None for v in [ma50, ma150, ma200, ma200_20d_ago, avg_vol_20d]):
         return None
