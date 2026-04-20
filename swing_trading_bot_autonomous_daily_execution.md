@@ -264,12 +264,3 @@ After all steps are complete, compile a full daily report covering everything th
 8. **MIN 500K AVERAGE DAILY VOLUME** — Liquidity requirement (calculate from bars).
 9. **NO EARNINGS GAMBLE** — Don't hold through earnings unless position already profitable with stop at breakeven.
 10. **BRACKET OR STOP IMMEDIATELY** — If bracket order is not possible, place a separate stop order within the SAME execution step.
-
-
-## ERROR HANDLING
-- If any Alpaca API call fails, log the error and skip that step — don't retry infinitely
-- If market is closed and you can't place orders, prepare the orders and note them in the summary as "QUEUED FOR NEXT OPEN"
-- If data is insufficient (< 200 days of bars), skip that stock — not enough history
-
-## LANGUAGE
-All output, reports, and logs must be in **English**. Use technical trading terminology naturally.
