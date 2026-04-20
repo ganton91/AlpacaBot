@@ -108,11 +108,12 @@ Using the data from Step 2 (account snapshot), remove from the watchlist any sym
 3. Symbols that fail → remove via `remove_from_watchlist(watchlist_id, symbol)` from `broker/client.py`.
 
 **Action 4 — Find new candidates:**
-1. Run: `python scripts/candidates.py --json`
-2. Use `web_search` for additional candidates: "stocks breaking out today high volume" or "momentum stocks near 52 week high"
-3. Combine both lists, remove duplicates and any symbols already in the watchlist.
-4. Run: `python scripts/trend_template.py --symbols SYM1,SYM2,SYM3 --json` (symbols must be comma-separated, no spaces)
-5. Add passing stocks to the "SwingBot" watchlist via `add_to_watchlist(watchlist_id, symbol)` from `broker/client.py`.
+1. Run: `python scripts/sp500_candidates.py --json` — screens all S&P 500 constituents against the full Trend Template. These results are pre-screened and do NOT need re-screening via trend_template.py.
+2. Run: `python scripts/candidates.py --json` — today's top gainers and most actives (EP-focused). These DO need screening via trend_template.py.
+3. Use `web_search` for additional EP candidates: "stocks breaking out today high volume" or "stocks gapping up today catalyst". These also need screening via trend_template.py.
+4. Combine all lists, remove duplicates and any symbols already in the watchlist or with open positions.
+5. Run: `python scripts/trend_template.py --symbols SYM1,SYM2,SYM3 --json` (comma-separated, no spaces) — only for candidates from steps 2 and 3.
+6. Add all passing stocks to the "SwingBot" watchlist via `add_to_watchlist(watchlist_id, symbol)` from `broker/client.py`.
 
 ### STEP 5: EXECUTE NEW TRADES
 
