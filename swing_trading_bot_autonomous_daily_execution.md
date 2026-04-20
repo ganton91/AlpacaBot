@@ -124,7 +124,7 @@ This step scans every stock in the SwingBot watchlist for actionable entry setup
 2. Run: `python scripts/setup_scanner.py --symbols SYM1,SYM2,SYM3 --json` (symbols must be comma-separated, no spaces)
 3. Read the JSON output and identify:
    - **Breakout approaching** (Option A): `pct_from_resistance` between -3% and 0% AND `volume_declining: true`
-   - **Breakout confirmed today** (Option B): `pct_from_resistance` between 0% and +3% AND `volume_declining: true`
+   - **Breakout confirmed today** (Option B): `pct_from_resistance` between 0% and +3% AND `today_volume_ratio >= 1.5` (breakout must be on above-average volume)
    - **EP candidates**: `is_ep_candidate: true` → use `web_search` to confirm a major catalyst (earnings beat, FDA approval, major contract). If no catalyst found, skip.
 4. If no setups qualify, skip to Step 6.
 

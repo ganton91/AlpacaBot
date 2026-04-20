@@ -85,14 +85,18 @@ def breakout_metrics(closes, highs, lows, volumes) -> dict:
     prior_vol_avg  = sum(c_vols[:10]) / 10
     volume_declining = recent_vol_avg < prior_vol_avg
 
+    avg_vol_20d = sum(volumes[-21:-1]) / 20 if len(volumes) >= 21 else None
+    today_volume_ratio = round(volumes[-1] / avg_vol_20d, 2) if avg_vol_20d else None
+
     return {
-        "consolidation_high":     round(resistance, 2),
-        "consolidation_low":      round(support, 2),
+        "consolidation_high":      round(resistance, 2),
+        "consolidation_low":       round(support, 2),
         "consolidation_range_pct": c_range_pct,
-        "pct_from_resistance":    pct_from_resistance,
-        "volume_declining":       volume_declining,
-        "recent_vol_avg":         int(recent_vol_avg),
-        "prior_vol_avg":          int(prior_vol_avg),
+        "pct_from_resistance":     pct_from_resistance,
+        "volume_declining":        volume_declining,
+        "recent_vol_avg":          int(recent_vol_avg),
+        "prior_vol_avg":           int(prior_vol_avg),
+        "today_volume_ratio":      today_volume_ratio,
     }
 
 
