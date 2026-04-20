@@ -17,7 +17,10 @@ import argparse
 import json
 import os
 import sys
+import urllib.request
 from datetime import datetime, timedelta, timezone
+
+import pandas as pd
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from broker.client import get_data_client
@@ -27,8 +30,21 @@ from alpaca.data.timeframe import TimeFrame
 DAYS_TO_FETCH = 250
 BATCH_SIZE = 50
 MIN_AVG_VOLUME = 500_000
+WIKIPEDIA_URL = "https://en.wikipedia.org/wiki/List_of_S%26P_500_companies"
 
-SP500_SYMBOLS = [
+
+def fetch_sp500_symbols() -> list[str]:
+    """Fetch current S&P 500 symbols from Wikipedia. Falls back to hardcoded list on failure."""
+    try:
+        tables = pd.read_html(urllib.request.urlopen(WIKIPEDIA_URL, timeout=10))
+        symbols = tables[0]["Symbol"].tolist()
+        # Wikipedia uses dots (e.g. BRK.B) — Alpaca uses slashes (BRK/B)
+        symbols = [s.replace(".", "/") for s in symbols]
+        return symbols
+    except Exception:
+        return FALLBACK_SYMBOLS
+
+FALLBACK_SYMBOLS = [
     # Technology
     "AAPL", "MSFT", "NVDA", "AVGO", "ORCL", "CRM", "AMD", "QCOM", "TXN", "INTC",
     "AMAT", "LRCX", "KLAC", "MU", "ADI", "MCHP", "CDNS", "SNPS", "ANSS", "FTNT",
@@ -88,7 +104,7 @@ SP500_SYMBOLS = [
 ]
 
 # Remove duplicates while preserving order
-SP500_SYMBOLS = list(dict.fromkeys(SP500_SYMBOLS))
+FALLBACK_SYMBOLS = list(dict.fromkeys(FALLBACK_SYMBOLS))
 
 
 def sma(prices: list[float], period: int) -> float | None:
@@ -192,7 +208,8 @@ def run() -> dict:
     failed = []
     errors = []
 
-    batches = [SP500_SYMBOLS[i:i + BATCH_SIZE] for i in range(0, len(SP500_SYMBOLS), BATCH_SIZE)]
+    symbols = fetch_sp500_symbols()
+    batches = [symbols[i:i + BATCH_SIZE] for i in range(0, len(symbols), BATCH_SIZE)]
 
     for batch in batches:
         data = fetch_batch(client, batch)
@@ -213,7 +230,7 @@ def run() -> dict:
         "failed":       failed,
         "failed_count": len(failed),
         "errors":       errors,
-        "total":        len(SP500_SYMBOLS),
+        "total":        len(symbols),
     }
 
 
