@@ -34,13 +34,13 @@ def get_trading_client() -> TradingClient:
 
 def get_watchlists() -> list:
     """Returns all watchlists. Note: assets are NOT populated — use get_watchlist_symbols()."""
-    return get_trading_client().get_all_watchlists()
+    return get_trading_client().get_watchlists()
 
 
 def get_watchlist_symbols(name: str) -> tuple[str | None, list[str]]:
     """Returns (watchlist_id, list of symbols) for the named watchlist, or (None, []) if not found."""
     client = get_trading_client()
-    for wl in client.get_all_watchlists():
+    for wl in client.get_watchlists():
         if wl.name == name:
             full = client.get_watchlist_by_id(wl.id)
             symbols = [a.symbol for a in (full.assets or [])]

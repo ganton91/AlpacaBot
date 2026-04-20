@@ -201,7 +201,7 @@ After all steps are complete, compile a full daily report covering everything th
 **Actions:**
 1. Compile the report using the template below.
 2. Save to `reports/daily_YYYY-MM-DD.md`.
-3. Run: `git add reports/daily_YYYY-MM-DD.md && git commit -m "Daily report YYYY-MM-DD" && git push origin main`
+3. Run: `git add reports/daily_YYYY-MM-DD.md && git commit -m "Daily report YYYY-MM-DD" && git push origin HEAD:main`
 4. Call `send_report_document(filepath)` from `telegram/notifier.py` to send the file.
 
 **Report template:**
