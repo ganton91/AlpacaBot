@@ -17,10 +17,7 @@ import argparse
 import json
 import os
 import sys
-import urllib.request
 from datetime import datetime, timedelta, timezone
-
-import pandas as pd
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from broker.client import get_data_client
@@ -30,26 +27,13 @@ from alpaca.data.timeframe import TimeFrame
 DAYS_TO_FETCH = 250
 BATCH_SIZE = 50
 MIN_AVG_VOLUME = 500_000
-WIKIPEDIA_URL = "https://en.wikipedia.org/wiki/List_of_S%26P_500_companies"
 
-
-def fetch_sp500_symbols() -> list[str]:
-    """Fetch current S&P 500 symbols from Wikipedia. Falls back to hardcoded list on failure."""
-    try:
-        tables = pd.read_html(urllib.request.urlopen(WIKIPEDIA_URL, timeout=10))
-        symbols = tables[0]["Symbol"].tolist()
-        # Wikipedia uses dots (e.g. BRK.B) — Alpaca uses slashes (BRK/B)
-        symbols = [s.replace(".", "/") for s in symbols]
-        return symbols
-    except Exception:
-        return FALLBACK_SYMBOLS
-
-FALLBACK_SYMBOLS = [
+SP500_SYMBOLS = [
     # Technology
     "AAPL", "MSFT", "NVDA", "AVGO", "ORCL", "CRM", "AMD", "QCOM", "TXN", "INTC",
-    "AMAT", "LRCX", "KLAC", "MU", "ADI", "MCHP", "CDNS", "SNPS", "ANSS", "FTNT",
+    "AMAT", "LRCX", "KLAC", "MU", "ADI", "MCHP", "CDNS", "SNPS", "FTNT",
     "PANW", "CRWD", "ZBRA", "TEL", "APH", "GLW", "HPQ", "HPE", "CSCO", "IBM",
-    "ACN", "IT", "CTSH", "CDW", "LDOS", "SAIC", "DXC", "MSI", "JNPR", "NTAP",
+    "ACN", "IT", "CTSH", "CDW", "LDOS", "SAIC", "DXC", "MSI", "NTAP",
     "WDC", "STX", "KEYS", "TDY", "TRMB", "FFIV", "AKAM", "VRT", "GEN", "GDDY",
     # Software & Internet
     "GOOGL", "GOOG", "META", "AMZN", "NFLX", "ADBE", "INTU", "NOW", "WDAY", "TEAM",
@@ -57,7 +41,7 @@ FALLBACK_SYMBOLS = [
     "ANGI", "ZG", "TTD", "RBLX", "U", "MTCH", "IAC", "LYV", "TWLO", "DOCN",
     # Financials
     "JPM", "BAC", "WFC", "GS", "MS", "C", "BLK", "SCHW", "AXP", "COF",
-    "DFS", "SYF", "USB", "PNC", "TFC", "RF", "KEY", "HBAN", "CFG", "MTB",
+    "SYF", "USB", "PNC", "TFC", "RF", "KEY", "HBAN", "CFG", "MTB",
     "FITB", "MCO", "SPGI", "CME", "ICE", "NDAQ", "CBOE", "BX", "KKR", "APO",
     "CG", "BAM", "TROW", "BEN", "IVZ", "STT", "BK", "NTRS", "AMP", "PRU",
     "MET", "AFL", "ALL", "PGR", "TRV", "CB", "HIG", "MMC", "AON", "AJG", "WTW",
@@ -65,7 +49,7 @@ FALLBACK_SYMBOLS = [
     "UNH", "LLY", "JNJ", "ABBV", "PFE", "MRK", "BMY", "AMGN", "GILD", "BIIB",
     "REGN", "VRTX", "ISRG", "BSX", "MDT", "ABT", "SYK", "BDX", "BAX", "EW",
     "IDXX", "MTD", "WAT", "A", "DXCM", "PODD", "IQV", "CRL", "HCA", "THC",
-    "UHS", "CNC", "MOH", "HUM", "CVS", "CI", "ELV", "MCK", "CAH", "ABC",
+    "UHS", "CNC", "MOH", "HUM", "CVS", "CI", "ELV", "MCK", "CAH", "COR",
     # Consumer Discretionary
     "TSLA", "HD", "MCD", "NKE", "SBUX", "TJX", "LOW", "BKNG", "CMG", "ABNB",
     "UBER", "LYFT", "EXPE", "MAR", "HLT", "H", "WH", "RCL", "CCL", "NCLH",
@@ -73,13 +57,13 @@ FALLBACK_SYMBOLS = [
     "TOL", "F", "GM", "APTV", "LKQ", "AZO", "ORLY", "KMX", "AN", "PAG",
     "TSCO", "BBY", "W", "ETSY", "EBAY", "AMZN",
     # Consumer Staples
-    "PG", "KO", "PEP", "MDLZ", "PM", "MO", "KHC", "GIS", "K", "CAG",
+    "PG", "KO", "PEP", "MDLZ", "PM", "MO", "KHC", "GIS", "CAG",
     "HRL", "MKC", "CLX", "CHD", "EL", "KMB", "CL", "WMT", "COST", "TGT",
     "KR", "SFM", "CASY", "GO",
     # Energy
-    "XOM", "CVX", "COP", "EOG", "SLB", "PSX", "VLO", "MPC", "HES", "DVN",
-    "APA", "MRO", "FANG", "EQT", "OXY", "TRGP", "LNG", "KMI", "WMB", "ET",
-    "EPD", "PXD", "HAL", "BKR", "NOV", "FTI",
+    "XOM", "CVX", "COP", "EOG", "SLB", "PSX", "VLO", "MPC", "DVN",
+    "APA", "FANG", "EQT", "OXY", "TRGP", "LNG", "KMI", "WMB", "ET",
+    "EPD", "HAL", "BKR", "NOV", "FTI",
     # Industrials
     "GE", "HON", "RTX", "LMT", "NOC", "GD", "BA", "LHX", "CAT", "DE",
     "EMR", "ETN", "ROK", "PH", "ITW", "GWW", "SNA", "PNR", "IR", "XYL",
@@ -104,7 +88,7 @@ FALLBACK_SYMBOLS = [
 ]
 
 # Remove duplicates while preserving order
-FALLBACK_SYMBOLS = list(dict.fromkeys(FALLBACK_SYMBOLS))
+SP500_SYMBOLS = list(dict.fromkeys(SP500_SYMBOLS))
 
 
 def sma(prices: list[float], period: int) -> float | None:
@@ -208,8 +192,7 @@ def run() -> dict:
     failed = []
     errors = []
 
-    symbols = fetch_sp500_symbols()
-    batches = [symbols[i:i + BATCH_SIZE] for i in range(0, len(symbols), BATCH_SIZE)]
+    batches = [SP500_SYMBOLS[i:i + BATCH_SIZE] for i in range(0, len(SP500_SYMBOLS), BATCH_SIZE)]
 
     for batch in batches:
         data = fetch_batch(client, batch)
@@ -230,7 +213,7 @@ def run() -> dict:
         "failed":       failed,
         "failed_count": len(failed),
         "errors":       errors,
-        "total":        len(symbols),
+        "total":        len(SP500_SYMBOLS),
     }
 
 
