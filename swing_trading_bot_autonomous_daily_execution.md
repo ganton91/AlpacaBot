@@ -156,7 +156,10 @@ place_stock_order(
   type="stop_limit",
   stop_price=CONSOLIDATION_HIGH,
   limit_price=CONSOLIDATION_HIGH * 1.01,
-  time_in_force="day"
+  time_in_force="day",
+  order_class="bracket",
+  stop_loss_stop_price=CONSOLIDATION_LOW,
+  take_profit_limit_price=TARGET_LEVEL
 )
 ```
 
