@@ -186,14 +186,7 @@ place_stock_order(
 
 **Prefer bracket orders** (order_class="bracket") when possible — they automatically set stop loss and take profit.
 
-### STEP 6: WATCHLIST MAINTENANCE
-1. Call `get_watchlists` — find or create a "SwingBot" watchlist
-2. If it doesn't exist, `create_watchlist` with name="SwingBot"
-3. Add any stocks that passed the Trend Template but aren't quite ready to break out yet
-4. Remove stocks that have broken their trend or are no longer interesting
-5. Keep the watchlist to max 15-20 symbols
-
-### STEP 7: BRIEF SUMMARY (output to user)
+### STEP 6: BRIEF SUMMARY (output to user)
 After all actions, provide a SHORT summary:
 
 ```
