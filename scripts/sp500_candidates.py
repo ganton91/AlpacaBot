@@ -36,7 +36,8 @@ WIKIPEDIA_URL = "https://en.wikipedia.org/wiki/List_of_S%26P_500_companies"
 def fetch_sp500_symbols() -> list[str]:
     """Fetch current S&P 500 symbols from Wikipedia. Falls back to hardcoded list on failure."""
     try:
-        tables = pd.read_html(urllib.request.urlopen(WIKIPEDIA_URL, timeout=10))
+        req = urllib.request.Request(WIKIPEDIA_URL, headers={"User-Agent": "Mozilla/5.0"})
+        tables = pd.read_html(urllib.request.urlopen(req, timeout=10))
         symbols = tables[0]["Symbol"].tolist()
         # Wikipedia uses dots (e.g. BRK.B) — Alpaca uses slashes (BRK/B)
         symbols = [s.replace(".", "/") for s in symbols]
