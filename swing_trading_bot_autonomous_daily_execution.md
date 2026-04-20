@@ -135,7 +135,7 @@ This step scans every stock in the SwingBot watchlist for actionable entry setup
    - **EP candidates**: `is_ep_candidate: true` → use `web_search` to confirm a major catalyst (earnings beat, FDA approval, major contract). If no catalyst found, skip.
 4. If no setups qualify, skip to Step 6.
 
-**Action 2 — For each valid setup (max 2 new entries per session):**
+**Action 2 — For each valid setup:**
 
 Calculate position size:
 ```
@@ -200,30 +200,54 @@ place_stock_order(
 **Prefer bracket orders** (order_class="bracket") when possible — they automatically set stop loss and take profit. If bracket is not possible, place a separate stop order immediately after the buy.
 
 
-### STEP 6: BRIEF SUMMARY (output to user)
-After all actions, provide a SHORT summary:
+### STEP 6: DAILY REPORT
 
+**Description:**
+After all steps are complete, compile a full daily report covering everything the bot did this session. Save it as a Markdown file in the `reports/` folder using the filename `daily_YYYY-MM-DD.md`. Then send the file to Telegram using `send_report_document` from `telegram/notifier.py`. If any errors occurred during the session (failed API calls, skipped stocks, order rejections), list them explicitly at the end of the report under an ISSUES section — this is the primary way to monitor that the bot is running correctly and to catch problems early.
+
+**Actions:**
+1. Compile the report using the template below.
+2. Save to `reports/daily_YYYY-MM-DD.md`.
+3. Call `send_report_document(filepath)` from `telegram/notifier.py` to send the file.
+
+**Report template:**
 ```
-📊 SWING BOT DAILY REPORT — [DATE]
+# SWINGBOT DAILY REPORT — YYYY-MM-DD
 
-MARKET: [GREEN/YELLOW/RED] — SPY [above/below] 50MA, QQQ [above/below] 50MA, VIX [value] [rising/falling]
+## MARKET SCHEDULE
+- Mode: [RUN / SKIP] — [reason]
 
-POSITIONS MANAGED:
-- [TICKER]: [ACTION TAKEN] — reason
-- [TICKER]: [ACTION TAKEN] — reason
+## MARKET HEALTH
+- Signal: [GREEN / YELLOW / RED]
+- SPY: $[price] | 50MA [above/below] ([rising/falling]) | 200MA [above/below]
+- QQQ: $[price] | 50MA [above/below] ([rising/falling]) | 200MA [above/below]
+- VIX: [value] ([rising/falling])
+- Breadth: [gainers] gainers / [losers] losers
 
-NEW ENTRIES:
-- [TICKER]: Bought [SHARES] @ $[PRICE], Stop @ $[STOP], Target @ $[TARGET] — [setup type]
-- or: "No new entries today — [reason]"
+## ACCOUNT
+- Equity: $[X] | Cash: $[X] | Buying Power: $[X]
+- Open Positions: [N] | Exposure: [X]%
 
-PENDING ORDERS:
-- [list any open buy/sell stop orders]
+## POSITIONS MANAGED
+- [TICKER]: [ACTION] — [reason]
+- or: No positions managed today.
 
-WATCHLIST UPDATES:
-- Added: [TICKERS]
-- Removed: [TICKERS]
+## NEW ENTRIES
+- [TICKER]: [SHARES] shares @ $[entry] | Stop $[stop] | Target $[target] | Setup: [Breakout A/B or EP]
+- or: No new entries today — [reason]
 
-ACCOUNT: Equity $[X] | Cash $[X] | Positions [N]/5 | Exposure [X]%
+## PENDING ORDERS
+- [TICKER]: [order type] [side] [qty] @ $[price]
+- or: No pending orders.
+
+## WATCHLIST
+- Current: [list of symbols]
+- Added: [TICKERS] — or: None
+- Removed: [TICKERS] — or: None
+
+## ISSUES
+- [Any API errors, skipped stocks, rejected orders, or unexpected behavior encountered this session]
+- or: No issues.
 ```
 
 ---
@@ -232,7 +256,7 @@ ACCOUNT: Equity $[X] | Cash $[X] | Positions [N]/5 | Exposure [X]%
 
 1. **MAX 1% RISK PER TRADE** — If position sizing says the risk exceeds 1% of equity, REDUCE shares.
 2. **ALWAYS USE STOP LOSS** — Every buy must be a bracket order OR have a separate stop order placed immediately after.
-3. **MAX 5 POSITIONS** — If 5 positions are open, do not enter new trades.
+3. **MAX OPEN POSITIONS** — GREEN: max 5 positions. YELLOW: max 3 positions. RED: no new entries at all. Max 2 new entries per session regardless of signal. Do not open new trades if the current open position count is at or above the signal limit.
 4. **NO AVERAGING DOWN** — Never buy more of a losing position.
 5. **RED MARKET = NO NEW LONGS** — Period. Only manage/exit existing.
 6. **MAX 2 NEW ENTRIES PER DAY** — Don't overtrade.
@@ -241,25 +265,6 @@ ACCOUNT: Equity $[X] | Cash $[X] | Positions [N]/5 | Exposure [X]%
 9. **NO EARNINGS GAMBLE** — Don't hold through earnings unless position already profitable with stop at breakeven.
 10. **BRACKET OR STOP IMMEDIATELY** — If bracket order is not possible, place a separate stop order within the SAME execution step.
 
-## CALCULATION HELPERS
-
-### Simple Moving Average (SMA)
-```
-SMA(N) = sum of last N closing prices / N
-```
-Use the `c` (close) field from `get_stock_bars` response.
-
-### Average True Range (ATR) — for stop calibration
-```
-TR = max(high - low, |high - prev_close|, |low - prev_close|)
-ATR(14) = average of last 14 TR values
-```
-
-### Volume Average
-```
-Avg Volume = sum of last 20 volume bars / 20
-```
-Volume spike = today's volume > 1.5x average
 
 ## ERROR HANDLING
 - If any Alpaca API call fails, log the error and skip that step — don't retry infinitely
