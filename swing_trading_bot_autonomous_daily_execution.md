@@ -123,6 +123,81 @@ Using the data from Step 2 (account snapshot), remove from the watchlist any sym
 
 ### STEP 5: EXECUTE NEW TRADES
 
+**Action 1 — Scan watchlist for setups:**
+1. Take the symbols from the watchlist retrieved in Step 4.
+2. Run: `python scripts/setup_scanner.py --symbols [watchlist symbols] --json`
+3. Read the JSON output and identify:
+   - **Breakout approaching** (Option A): `pct_from_resistance` between -3% and 0% AND `volume_declining: true`
+   - **Breakout confirmed today** (Option B): `pct_from_resistance` between 0% and +3% AND `volume_declining: true`
+   - **EP candidates**: `is_ep_candidate: true` → use `web_search` to confirm a major catalyst (earnings beat, FDA approval, major contract). If no catalyst found, skip.
+4. If no setups qualify, skip to Step 6.
+
+**Action 2 — For each valid setup (max 2 new entries per session):**
+
+Calculate position size:
+```
+account_risk    = total_equity * 0.01          (GREEN: 1% / YELLOW: 0.5%)
+entry_price     = consolidation_high + 0.5%    (Breakout) or current_price + 0.5% (EP)
+stop_price      = consolidation_low            (Breakout) or low of gap day (EP)
+risk_per_share  = entry_price - stop_price
+shares          = floor(account_risk / risk_per_share)
+position_value  = shares * entry_price
+```
+
+Verify before placing:
+- `position_value` ≤ 20% of total equity
+- `risk_per_share / entry_price` ≤ 8% (stop not too wide)
+- R/R ≥ 3:1 (target = breakout level + 2x consolidation range)
+
+Place the order:
+
+**Option A — Breakout not yet triggered (price below resistance):**
+```
+place_stock_order(
+  symbol="TICKER",
+  side="buy",
+  qty=SHARES,
+  type="stop_limit",
+  stop_price=CONSOLIDATION_HIGH,
+  limit_price=CONSOLIDATION_HIGH * 1.01,
+  time_in_force="day"
+)
+```
+
+**Option B — Breakout already confirmed today:**
+```
+place_stock_order(
+  symbol="TICKER",
+  side="buy",
+  qty=SHARES,
+  type="limit",
+  limit_price=CURRENT_PRICE * 1.005,
+  time_in_force="day",
+  order_class="bracket",
+  stop_loss_stop_price=STOP_LEVEL,
+  take_profit_limit_price=TARGET_LEVEL
+)
+```
+
+**Option C — Episodic Pivot entry:**
+```
+place_stock_order(
+  symbol="TICKER",
+  side="buy",
+  qty=SHARES,
+  type="limit",
+  limit_price=CURRENT_PRICE * 1.005,
+  time_in_force="day",
+  order_class="bracket",
+  stop_loss_stop_price=GAP_DAY_LOW,
+  take_profit_limit_price=TARGET_LEVEL
+)
+```
+
+**Prefer bracket orders** (order_class="bracket") when possible — they automatically set stop loss and take profit. If bracket is not possible, place a separate stop order immediately after the buy.
+
+---
+
 **Identify setup type for qualifying stocks:**
 
 **Breakout Setup:**
