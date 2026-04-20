@@ -103,7 +103,7 @@ Call `get_watchlist_symbols("SwingBot")` from `broker/client.py`. This returns `
 Using the data from Step 2 (account snapshot), remove from the watchlist any symbol that already has an open position or a pending buy order. Call `remove_from_watchlist(watchlist_id, symbol)` from `broker/client.py`. No extra API calls needed — the data is already available.
 
 **Action 3 — Screen remaining watchlist against Trend Template:**
-1. Run: `python scripts/trend_template.py --symbols [remaining watchlist symbols] --json`
+1. Run: `python scripts/trend_template.py --symbols SYM1,SYM2,SYM3 --json` (symbols must be comma-separated, no spaces)
 2. Symbols that pass → keep in watchlist.
 3. Symbols that fail → remove via `remove_from_watchlist(watchlist_id, symbol)` from `broker/client.py`.
 
@@ -111,7 +111,7 @@ Using the data from Step 2 (account snapshot), remove from the watchlist any sym
 1. Run: `python scripts/candidates.py --json`
 2. Use `web_search` for additional candidates: "stocks breaking out today high volume" or "momentum stocks near 52 week high"
 3. Combine both lists, remove duplicates and any symbols already in the watchlist.
-4. Run: `python scripts/trend_template.py --symbols [new candidates] --json`
+4. Run: `python scripts/trend_template.py --symbols SYM1,SYM2,SYM3 --json` (symbols must be comma-separated, no spaces)
 5. Add passing stocks to the "SwingBot" watchlist via `add_to_watchlist(watchlist_id, symbol)` from `broker/client.py`.
 
 ### STEP 5: EXECUTE NEW TRADES
@@ -121,7 +121,7 @@ This step scans every stock in the SwingBot watchlist for actionable entry setup
 
 **Action 1 — Scan watchlist for setups:**
 1. Take the symbols from the watchlist retrieved in Step 4.
-2. Run: `python scripts/setup_scanner.py --symbols [watchlist symbols] --json`
+2. Run: `python scripts/setup_scanner.py --symbols SYM1,SYM2,SYM3 --json` (symbols must be comma-separated, no spaces)
 3. Read the JSON output and identify:
    - **Breakout approaching** (Option A): `pct_from_resistance` between -3% and 0% AND `volume_declining: true`
    - **Breakout confirmed today** (Option B): `pct_from_resistance` between 0% and +3% AND `volume_declining: true`
