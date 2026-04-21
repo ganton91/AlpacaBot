@@ -139,7 +139,7 @@ This step scans every stock in the SwingBot watchlist for actionable entry setup
 
 **Action 2 — For each valid setup:**
 
-Calculate position size:
+1. Calculate position size:
 ```
 account_risk    = total_equity * 0.01          (GREEN: 1% / YELLOW: 0.5%)
 entry_price     = consolidation_high + 0.5%    (Breakout) or current_price + 0.5% (EP)
@@ -149,12 +149,12 @@ shares          = floor(account_risk / risk_per_share)
 position_value  = shares * entry_price
 ```
 
-Verify before placing:
-- `position_value` ≤ 20% of total equity
-- `risk_per_share / entry_price` ≤ 8% (stop not too wide)
-- R/R ≥ 3:1 (target = breakout level + 2x consolidation range)
+2. Verify before placing:
+   - `position_value` ≤ 20% of total equity
+   - `risk_per_share / entry_price` ≤ 8% (stop not too wide)
+   - R/R ≥ 3:1 (target = breakout level + 2x consolidation range)
 
-Place the order:
+3. Place the order using the appropriate option. Prefer bracket orders (`order_class="bracket"`) — they automatically set stop loss and take profit. If bracket is not possible, place a separate stop order immediately after the buy.
 
 **Option A — Breakout not yet triggered (price below resistance):**
 ```
@@ -201,8 +201,6 @@ place_stock_order(
   take_profit_limit_price=TARGET_LEVEL
 )
 ```
-
-**Prefer bracket orders** (order_class="bracket") when possible — they automatically set stop loss and take profit. If bracket is not possible, place a separate stop order immediately after the buy.
 
 **Action 3 — Record the new position:**
 After each confirmed entry, add the position to `positions_memory.md` using the template defined in that file.
