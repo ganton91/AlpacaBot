@@ -98,7 +98,7 @@ This step applies position management rules to every open stock position from St
       - `unrealized_pl_pct` between 10–20%: set stop at `ma10` value
       - `unrealized_pl_pct > 20%`: set stop at `ma20` value
 
-   d. **Cleanup** — cancel any old stop orders for this symbol using `cancel_order_by_id`, keeping only the stop placed or updated in step c.
+   d. **Cleanup** — only if a new stop was placed or updated in step c: cancel any previous stop orders for this symbol using `cancel_order_by_id`, keeping only the new one. If no stop was placed or updated in step c, do not cancel anything — the existing stop remains active. After cleanup, verify that there is at least one active stop order for this symbol in open_orders. If there is none, place a stop immediately using the most recent stop price from `positions_memory.md`.
 
 ### STEP 4: ACTIVE WATCHLIST MANAGEMENT
 
