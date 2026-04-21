@@ -88,9 +88,9 @@ This step applies position management rules to every open stock position from St
       - `unrealized_pl_pct < -7` → hard stop violated
       - `days_open >= 10` AND `price_change_10d < 2%` → stagnant position (no recent momentum)
 
-   b. **Partial profit rules** — check `positions_memory.md` for `Total closed` to determine which level applies. Call `close_position` with the specified percentage only if that level has NOT been taken yet:
-      - `Total closed: 0%` AND `unrealized_pl_pct >= 15%`: close 33% of the position
-      - `Total closed: 33%` AND `unrealized_pl_pct >= 25%`: close another 33% (66% total closed, remainder runs)
+   b. **Partial profit rules** — check `positions_memory.md` for `Total closed` and `Original qty` to determine which level applies. All percentages are based on the **original quantity**. Call `close_position` with the calculated shares only if that level has NOT been taken yet:
+      - `Total closed: 0%` AND `unrealized_pl_pct >= 15%`: close `floor(Original qty * 0.33)` shares
+      - `Total closed: 33%` AND `unrealized_pl_pct >= 25%`: close another `floor(Original qty * 0.33)` shares (66% total closed, remaining ~34% runs)
       - `Total closed: 66%` or higher: no further partial profits
 
    c. **Trailing stop rules** — place or update a stop order for the **current remaining quantity** via `place_stock_order` (side="sell", type="stop"). If a stop order already exists for this symbol in the open orders, update it via `replace_order_by_id` instead. **The new stop price must NEVER be lower than the most recent stop in the stop history from `positions_memory.md`. If the calculated stop is lower, skip the update.**
