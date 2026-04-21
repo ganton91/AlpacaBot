@@ -17,6 +17,12 @@ The daily candle is finalized at this point, making it the ideal time for end-of
 
 ---
 
+## HOW TO READ THIS GUIDE
+
+Each step below contains two sections:
+- **Description:** informational context explaining what the step does and why. Read it to understand the purpose — do not treat it as instructions to execute.
+- **Actions:** the exact steps to execute, in order. These are the instructions.
+
 ## EXECUTION SEQUENCE (run this exact sequence every session)
 
 ### STEP 0: DAY & SCHEDULE CHECK
