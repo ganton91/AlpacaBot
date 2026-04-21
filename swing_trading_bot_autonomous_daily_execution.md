@@ -204,7 +204,8 @@ place_stock_order(
 
 **Prefer bracket orders** (order_class="bracket") when possible — they automatically set stop loss and take profit. If bracket is not possible, place a separate stop order immediately after the buy.
 
-**After each confirmed new entry**, add the position to `positions_memory.md` using the template defined in that file.
+**Action 3 — Record the new position:**
+After each confirmed entry, add the position to `positions_memory.md` using the template defined in that file.
 
 
 ### STEP 6: DAILY REPORT
