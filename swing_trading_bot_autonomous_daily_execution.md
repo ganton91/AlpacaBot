@@ -141,30 +141,27 @@ This step scans every stock in the SwingBot watchlist for actionable entry setup
    - **EP candidates**: `is_ep_candidate: true` → use `web_search` to confirm a major catalyst (earnings beat, FDA approval, major contract). If no catalyst found, skip.
 4. If no setups qualify, skip to Step 6.
 
-**Action 2 — For each valid setup:**
+**Action 2 — For each qualifying setup (max 2 per session), execute the corresponding option:**
 
-1. Calculate position size:
-```
-account_risk    = total_equity * 0.01          (GREEN: 1% / YELLOW: 0.5%)
-entry_price     = consolidation_high + 0.5%    (Breakout) or current_price + 0.5% (EP)
-stop_price      = consolidation_low            (Breakout) or low of gap day (EP)
-risk_per_share  = entry_price - stop_price
-shares          = floor(account_risk / risk_per_share)
-position_value  = shares * entry_price
-```
+All orders use `order_class="oto"` which automatically triggers a stop loss when the buy fills. No take profit is set at entry — exits are managed by Step 3.
 
-2. Verify before placing:
-   - `position_value` ≤ 20% of total equity
-   - `risk_per_share / entry_price` ≤ 8% (stop not too wide)
-
-3. Place the order using the appropriate option below. All orders use `order_class="oto"` which automatically triggers a stop loss when the buy fills. No take profit is set at entry — exits are managed by Step 3.
+---
 
 **Option A — Breakout not yet triggered (price below resistance):**
+```
+entry_price    = CONSOLIDATION_HIGH
+stop_price     = CONSOLIDATION_LOW
+risk_per_share = entry_price - stop_price
+account_risk   = total_equity * 0.01  (GREEN) or * 0.005 (YELLOW)
+shares         = floor(account_risk / risk_per_share)
+position_value = shares * entry_price
+```
+Verify: `risk_per_share / entry_price` ≤ 8% AND `position_value` ≤ 20% of total equity. If either fails, skip this setup.
 ```
 place_stock_order(
   symbol="TICKER",
   side="buy",
-  qty=SHARES,
+  qty=shares,
   type="stop_limit",
   stop_price=CONSOLIDATION_HIGH,
   limit_price=CONSOLIDATION_HIGH * 1.01,
@@ -174,26 +171,48 @@ place_stock_order(
 )
 ```
 
+---
+
 **Option B — Breakout already confirmed today:**
+```
+entry_price    = CURRENT_PRICE
+stop_price     = CONSOLIDATION_LOW
+risk_per_share = entry_price - stop_price
+account_risk   = total_equity * 0.01  (GREEN) or * 0.005 (YELLOW)
+shares         = floor(account_risk / risk_per_share)
+position_value = shares * entry_price
+```
+Verify: `risk_per_share / entry_price` ≤ 8% AND `position_value` ≤ 20% of total equity. If either fails, skip this setup.
 ```
 place_stock_order(
   symbol="TICKER",
   side="buy",
-  qty=SHARES,
+  qty=shares,
   type="limit",
   limit_price=CURRENT_PRICE * 1.005,
   time_in_force="day",
   order_class="oto",
-  stop_loss_stop_price=STOP_LEVEL
+  stop_loss_stop_price=CONSOLIDATION_LOW
 )
 ```
 
+---
+
 **Option C — Episodic Pivot entry:**
+```
+entry_price    = CURRENT_PRICE
+stop_price     = GAP_DAY_LOW
+risk_per_share = entry_price - stop_price
+account_risk   = total_equity * 0.01  (GREEN) or * 0.005 (YELLOW)
+shares         = floor(account_risk / risk_per_share)
+position_value = shares * entry_price
+```
+Verify: `risk_per_share / entry_price` ≤ 8% AND `position_value` ≤ 20% of total equity. If either fails, skip this setup.
 ```
 place_stock_order(
   symbol="TICKER",
   side="buy",
-  qty=SHARES,
+  qty=shares,
   type="limit",
   limit_price=CURRENT_PRICE * 1.005,
   time_in_force="day",
