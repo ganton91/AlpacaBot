@@ -279,7 +279,6 @@ After all steps are complete, compile a full daily report covering everything th
 ---
 
 ## HARD RULES (NEVER VIOLATE)
-
 1. **MAX RISK PER TRADE** — GREEN: 1% of equity. YELLOW: 0.5% of equity. If position sizing exceeds this, reduce shares.
 2. **ALWAYS USE OTO STOP LOSS** — Every buy must use `order_class="oto"` with a `stop_loss_stop_price`. No buy order without automatic stop protection.
 3. **MAX OPEN POSITIONS** — GREEN: max 5. YELLOW: max 3. RED: no new entries. Never open new trades if already at the signal limit.
