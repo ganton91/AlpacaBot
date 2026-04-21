@@ -70,6 +70,7 @@ def get_ma_analysis(data_client, symbol: str) -> dict:
         ma10 = sma(closes, 10)
         ma20 = sma(closes, 20)
         ma50 = sma(closes, 50)
+        price_change_10d = round((closes[-1] - closes[-11]) / closes[-11] * 100, 2) if len(closes) >= 11 else None
         return {
             "ma10": ma10,
             "ma20": ma20,
@@ -77,6 +78,7 @@ def get_ma_analysis(data_client, symbol: str) -> dict:
             "above_ma10": (price > ma10) if ma10 is not None else None,
             "above_ma20": (price > ma20) if ma20 is not None else None,
             "above_ma50": (price > ma50) if ma50 is not None else None,
+            "price_change_10d": price_change_10d,
         }
     except Exception:
         return {}
