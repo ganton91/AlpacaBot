@@ -82,6 +82,8 @@ This step applies position management rules to every open stock position from St
 
    **IMPORTANT: Rules a → b → c → d must be executed strictly in this order. Never reorder or skip ahead. Partial profits (b) must complete before the trailing stop (c) is updated, so that the stop always reflects the correct remaining quantity.**
 
+   **IMPORTANT: If any value required to evaluate a rule is `None` (e.g. `days_open`, `price_change_10d`, `ma10`, `ma20`), skip that rule entirely — do not treat `None` as zero or false.**
+
    a. **Exit rules** — if any condition is true, call `close_position` for the full position, cancel ALL open orders for this symbol using `cancel_order_by_id`, then move to the next position:
       - `above_ma20: false` AND `days_open < 7` → closed below 20-day MA in first week
       - `above_ma50: false` → closed below 50-day MA
