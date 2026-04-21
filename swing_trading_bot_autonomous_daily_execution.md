@@ -80,6 +80,8 @@ This step applies position management rules to every open stock position from St
 
 1. For each position in the `positions.stocks` array from Step 2:
 
+   **IMPORTANT: Rules a → b → c → d must be executed strictly in this order. Never reorder or skip ahead. Partial profits (b) must complete before the trailing stop (c) is updated, so that the stop always reflects the correct remaining quantity.**
+
    a. **Exit rules** — if any condition is true, call `close_position` for the full position, cancel ALL open orders for this symbol using `cancel_order_by_id`, then move to the next position:
       - `above_ma20: false` AND `days_open < 7` → closed below 20-day MA in first week
       - `above_ma50: false` → closed below 50-day MA
@@ -125,7 +127,7 @@ Using the data from Step 2 (account snapshot), remove from the watchlist any sym
 ### STEP 5: EXECUTE NEW TRADES
 
 **Description:**
-This step scans every stock in the SwingBot watchlist for actionable entry setups and places orders for those that qualify. It has two actions: first, run `setup_scanner.py` against the watchlist symbols to get consolidation and EP metrics for each stock, then identify which stocks have a valid Breakout or Episodic Pivot setup; second, for each qualifying setup (max 2 per session), calculate position size, verify the trade meets all risk rules, and place the order. Breakout setups use the consolidation high as the entry trigger and the consolidation low as the stop. EP setups require a confirmed catalyst via web search and use the low of the gap day as the stop. All entries must use bracket orders where possible so that stop loss and take profit are set automatically at entry. Each confirmed entry is also recorded in `positions_memory.md` using the template defined in that file.
+This step scans every stock in the SwingBot watchlist for actionable entry setups and places orders for those that qualify. It has two actions: first, run `setup_scanner.py` against the watchlist symbols to get consolidation and EP metrics for each stock, then identify which stocks have a valid Breakout or Episodic Pivot setup; second, for each qualifying setup (max 2 per session), calculate position size, verify the trade meets all risk rules, and place the order. Breakout setups use the consolidation high as the entry trigger and the consolidation low as the stop. EP setups require a confirmed catalyst via web search and use the low of the gap day as the stop. All entries use an OTO order (one-triggers-other) to automatically set a stop loss at entry. Take profit is not set at entry — exits are managed actively by Step 3 through partial profits and trailing stops. Each confirmed entry is also recorded in `positions_memory.md` using the template defined in that file.
 
 **Action 1 — Scan watchlist for setups:**
 1. Take the symbols from the watchlist retrieved in Step 4.
@@ -153,7 +155,7 @@ position_value  = shares * entry_price
    - `risk_per_share / entry_price` ≤ 8% (stop not too wide)
    - R/R ≥ 3:1 (target = breakout level + 2x consolidation range)
 
-3. Place the order using the appropriate option. Prefer bracket orders (`order_class="bracket"`) — they automatically set stop loss and take profit. If bracket is not possible, place a separate stop order immediately after the buy.
+3. Place the order using the appropriate option below. All orders use `order_class="oto"` which automatically triggers a stop loss when the buy fills. No take profit is set at entry — exits are managed by Step 3.
 
 **Option A — Breakout not yet triggered (price below resistance):**
 ```
@@ -165,9 +167,8 @@ place_stock_order(
   stop_price=CONSOLIDATION_HIGH,
   limit_price=CONSOLIDATION_HIGH * 1.01,
   time_in_force="day",
-  order_class="bracket",
-  stop_loss_stop_price=CONSOLIDATION_LOW,
-  take_profit_limit_price=TARGET_LEVEL
+  order_class="oto",
+  stop_loss_stop_price=CONSOLIDATION_LOW
 )
 ```
 
@@ -180,9 +181,8 @@ place_stock_order(
   type="limit",
   limit_price=CURRENT_PRICE * 1.005,
   time_in_force="day",
-  order_class="bracket",
-  stop_loss_stop_price=STOP_LEVEL,
-  take_profit_limit_price=TARGET_LEVEL
+  order_class="oto",
+  stop_loss_stop_price=STOP_LEVEL
 )
 ```
 
@@ -195,9 +195,8 @@ place_stock_order(
   type="limit",
   limit_price=CURRENT_PRICE * 1.005,
   time_in_force="day",
-  order_class="bracket",
-  stop_loss_stop_price=GAP_DAY_LOW,
-  take_profit_limit_price=TARGET_LEVEL
+  order_class="oto",
+  stop_loss_stop_price=GAP_DAY_LOW
 )
 ```
 
