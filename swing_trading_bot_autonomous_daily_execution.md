@@ -151,12 +151,13 @@ stop_price      = consolidation_low            (Breakout) or low of gap day (EP)
 risk_per_share  = entry_price - stop_price
 shares          = floor(account_risk / risk_per_share)
 position_value  = shares * entry_price
+target_price    = entry_price + 3 × risk_per_share
 ```
 
 2. Verify before placing:
    - `position_value` ≤ 20% of total equity
    - `risk_per_share / entry_price` ≤ 8% (stop not too wide)
-   - R/R ≥ 3:1 (target = breakout level + 2x consolidation range)
+   - R/R ≥ 3:1 (target_price = entry_price + 3 × risk_per_share)
 
 3. Place the order using the appropriate option below. All orders use `order_class="oto"` which automatically triggers a stop loss when the buy fills. No take profit is set at entry — exits are managed by Step 3.
 
