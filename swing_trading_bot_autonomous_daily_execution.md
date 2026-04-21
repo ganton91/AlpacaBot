@@ -280,13 +280,10 @@ After all steps are complete, compile a full daily report covering everything th
 
 ## HARD RULES (NEVER VIOLATE)
 
-1. **MAX 1% RISK PER TRADE** — If position sizing says the risk exceeds 1% of equity, REDUCE shares.
-2. **ALWAYS USE STOP LOSS** — Every buy must be a bracket order OR have a separate stop order placed immediately after.
-3. **MAX OPEN POSITIONS** — GREEN: max 5 positions. YELLOW: max 3 positions. RED: no new entries at all. Max 2 new entries per session regardless of signal. Do not open new trades if the current open position count is at or above the signal limit.
-4. **NO AVERAGING DOWN** — Never buy more of a losing position.
-5. **RED MARKET = NO NEW LONGS** — Period. Only manage/exit existing.
-6. **MAX 2 NEW ENTRIES PER DAY** — Don't overtrade.
-7. **MIN $10 STOCK PRICE** — No penny stocks.
-8. **MIN 500K AVERAGE DAILY VOLUME** — Liquidity requirement (calculate from bars).
-9. **NO EARNINGS GAMBLE** — Don't hold through earnings unless position already profitable with stop at breakeven.
-10. **BRACKET OR STOP IMMEDIATELY** — If bracket order is not possible, place a separate stop order within the SAME execution step.
+1. **MAX RISK PER TRADE** — GREEN: 1% of equity. YELLOW: 0.5% of equity. If position sizing exceeds this, reduce shares.
+2. **ALWAYS USE OTO STOP LOSS** — Every buy must use `order_class="oto"` with a `stop_loss_stop_price`. No buy order without automatic stop protection.
+3. **MAX OPEN POSITIONS** — GREEN: max 5. YELLOW: max 3. RED: no new entries. Never open new trades if already at the signal limit.
+4. **MAX 2 NEW ENTRIES PER SESSION** — Regardless of signal or available slots.
+5. **NO AVERAGING DOWN** — Never buy more of a losing or flat position.
+6. **RED MARKET = NO NEW LONGS** — Only manage and exit existing positions.
+7. **CLOSE BEFORE EARNINGS** — Always close a position before its next earnings date. No exceptions.
