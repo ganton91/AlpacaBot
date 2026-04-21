@@ -84,8 +84,7 @@ This step applies position management rules to every open stock position from St
       - `above_ma20: false` AND `days_open < 7` → closed below 20-day MA in first week
       - `above_ma50: false` → closed below 50-day MA
       - `unrealized_pl_pct < -7` → hard stop violated
-      - `days_open >= 10` AND `unrealized_pl_pct < 2%` → time stop (no progress)
-      - `days_open >= 20` AND `price_change_10d < 2%` → stagnant position (stuck, no recent momentum)
+      - `days_open >= 10` AND `price_change_10d < 2%` → stagnant position (no recent momentum)
 
    b. **Partial profit rules** — check `positions_memory.md` for `Total closed` to determine which level applies. Call `close_position` with the specified percentage only if that level has NOT been taken yet:
       - `Total closed: 0%` AND `unrealized_pl_pct >= 15%`: close 33% of the position
