@@ -15,10 +15,19 @@ Last updated: —
 - **Entry price**: $X.XX
 - **Original qty**: N
 - **Setup**: [Breakout A / Breakout B / EP]
-- **Initial stop**: $X.XX
-- **Current stop**: $X.XX
-- **Partial profits taken**: none
-- **Last updated**: YYYY-MM-DD
+- **Initial stop**: $X.XX (consolidation low / gap day low)
+
+**Stop history:**
+- YYYY-MM-DD: $X.XX — initial stop (entry day)
+
+**Current stop**: $X.XX (set YYYY-MM-DD)
+
+**Partial profits:**
+- none
+
+**Total closed**: 0% | **Remaining qty**: N shares
+
+**Last updated**: YYYY-MM-DD
 
 -->
 
