@@ -27,6 +27,7 @@ from alpaca.data.timeframe import TimeFrame
 DAYS_TO_FETCH = 250
 BATCH_SIZE = 50
 MIN_AVG_VOLUME = 500_000
+MIN_PRICE = 10.0
 
 SP500_SYMBOLS = [
     # Technology
@@ -201,6 +202,9 @@ def run() -> dict:
                 errors.append(symbol)
                 continue
             closes, highs, lows, volumes = data[symbol]
+            if closes[-1] < MIN_PRICE:
+                failed.append(symbol)
+                continue
             result = screen(symbol, closes, highs, lows, volumes)
             if result:
                 passed.append(result)
