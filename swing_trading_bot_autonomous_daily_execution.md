@@ -101,6 +101,8 @@ This step applies position management rules to every open stock position from St
 
    d. **Cleanup** — only if a new stop was placed or updated in step c: cancel any previous stop orders for this symbol using `cancel_order_by_id`, keeping only the new one. If no stop was placed or updated in step c, do not cancel anything — the existing stop remains active. After cleanup, verify that there is at least one active stop order for this symbol in open_orders. If there is none, place a stop immediately using the most recent stop price from `positions_memory.md`.
 
+2. After processing all positions, update `positions_memory.md` to reflect all changes made in this step: stop history updates, partial profits taken, and positions fully closed (remove them).
+
 ### STEP 4: ACTIVE WATCHLIST MANAGEMENT
 
 **Description:**
@@ -231,7 +233,7 @@ After all steps are complete, compile a full daily report covering everything th
 **Actions:**
 1. Compile the report using the template below.
 2. Save to `reports/daily_YYYY-MM-DD.md`.
-3. Update `positions_memory.md` — reflect all changes made this session (new entries added, partial profits recorded, stop history updated, closed positions removed).
+3. Verify `positions_memory.md` is correctly updated — confirm it reflects all entries added (Step 5), stop history and partial profits updated (Step 3), and closed positions removed (Step 3).
 4. Run: `git add reports/daily_YYYY-MM-DD.md positions_memory.md && git commit -m "Daily report YYYY-MM-DD" && git push origin HEAD:main`
 5. Call `send_report_document("reports/daily_YYYY-MM-DD.md")` from `telegram/notifier.py` to send the daily report.
 6. Call `send_report_document("positions_memory.md")` from `telegram/notifier.py` to send the updated positions memory.
