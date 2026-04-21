@@ -73,7 +73,7 @@ Before managing positions or looking for new trades, the bot needs a complete pi
 ### STEP 3: MANAGE OPEN POSITIONS
 
 **Description:**
-This step applies position management rules to every open stock position from Step 2. Before processing any position, read `positions_memory.md` to get the history of each position (stop history, partial profits taken, entry date). The rules follow three priorities in order: first check if the position should be exited entirely, then check if partial profits should be taken, then check if the trailing stop needs to be adjusted. Exit decisions happen first — if a position is exited, there is no need to update its stop or take profits. After all actions for a position are complete, any outdated stop orders for that symbol are cancelled.
+This step applies position management rules to every open stock position from Step 2. Before processing any position, read `positions_memory.md` to get the history of each position (stop history, partial profits taken, original quantity). For each position, four rules are applied strictly in order: first check if the position should be exited entirely; second check if partial profits should be taken; third update the trailing stop if applicable; fourth clean up any stale orders and verify a stop is always active. Exit decisions happen first — if a position is exited, the remaining rules are skipped.
 
 **Actions:**
 0. **Read `positions_memory.md`** from the root folder before processing any position. Use it to determine partial profit history and stop history for each symbol.
