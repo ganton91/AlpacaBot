@@ -153,21 +153,23 @@ entry_price    = CONSOLIDATION_HIGH
 stop_price     = CONSOLIDATION_LOW
 risk_per_share = entry_price - stop_price
 account_risk   = total_equity * 0.01  (GREEN) or * 0.005 (YELLOW)
-shares         = floor(account_risk / risk_per_share)
-position_value = shares * entry_price
+shares         = min(
+                   floor(account_risk / risk_per_share),
+                   floor(total_equity * 0.20 / entry_price)
+                 )
 ```
-Verify: `risk_per_share / entry_price` ≤ 10% AND `position_value` ≤ 20% of total equity. If either fails, skip this setup.
+Verify: `risk_per_share / entry_price` ≤ 10% AND `shares` ≥ 1. If either fails, skip this setup.
 ```
 place_stock_order(
   symbol="TICKER",
   side="buy",
   qty=shares,
   type="stop_limit",
-  stop_price=CONSOLIDATION_HIGH,
-  limit_price=CONSOLIDATION_HIGH * 1.01,
+  stop_price=entry_price,
+  limit_price=entry_price * 1.01,
   time_in_force="day",
   order_class="oto",
-  stop_loss_stop_price=CONSOLIDATION_LOW
+  stop_loss_stop_price=stop_price
 )
 ```
 
@@ -179,20 +181,22 @@ entry_price    = CURRENT_PRICE
 stop_price     = CONSOLIDATION_LOW
 risk_per_share = entry_price - stop_price
 account_risk   = total_equity * 0.01  (GREEN) or * 0.005 (YELLOW)
-shares         = floor(account_risk / risk_per_share)
-position_value = shares * entry_price
+shares         = min(
+                   floor(account_risk / risk_per_share),
+                   floor(total_equity * 0.20 / entry_price)
+                 )
 ```
-Verify: `risk_per_share / entry_price` ≤ 10% AND `position_value` ≤ 20% of total equity. If either fails, skip this setup.
+Verify: `risk_per_share / entry_price` ≤ 10% AND `shares` ≥ 1. If either fails, skip this setup.
 ```
 place_stock_order(
   symbol="TICKER",
   side="buy",
   qty=shares,
   type="limit",
-  limit_price=CURRENT_PRICE * 1.005,
+  limit_price=entry_price * 1.005,
   time_in_force="day",
   order_class="oto",
-  stop_loss_stop_price=CONSOLIDATION_LOW
+  stop_loss_stop_price=stop_price
 )
 ```
 
@@ -204,20 +208,22 @@ entry_price    = CURRENT_PRICE
 stop_price     = GAP_DAY_LOW
 risk_per_share = entry_price - stop_price
 account_risk   = total_equity * 0.01  (GREEN) or * 0.005 (YELLOW)
-shares         = floor(account_risk / risk_per_share)
-position_value = shares * entry_price
+shares         = min(
+                   floor(account_risk / risk_per_share),
+                   floor(total_equity * 0.20 / entry_price)
+                 )
 ```
-Verify: `risk_per_share / entry_price` ≤ 12% AND `position_value` ≤ 20% of total equity. If either fails, skip this setup.
+Verify: `risk_per_share / entry_price` ≤ 12% AND `shares` ≥ 1. If either fails, skip this setup.
 ```
 place_stock_order(
   symbol="TICKER",
   side="buy",
   qty=shares,
   type="limit",
-  limit_price=CURRENT_PRICE * 1.005,
+  limit_price=entry_price * 1.005,
   time_in_force="day",
   order_class="oto",
-  stop_loss_stop_price=GAP_DAY_LOW
+  stop_loss_stop_price=stop_price
 )
 ```
 
