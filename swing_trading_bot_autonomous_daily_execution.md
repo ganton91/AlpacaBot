@@ -241,7 +241,7 @@ After each confirmed entry, add the position to `positions_memory.md` using the 
 ### STEP 6: DAILY REPORT
 
 **Description:**
-After all steps are complete, compile a full daily report covering everything the bot did this session. Save it as a Markdown file in the `reports/` folder using the filename `daily_YYYY-MM-DD.md`. Then send the file to Telegram using `send_report_document` from `telegram/notifier.py`. If any errors occurred during the session (failed API calls, skipped stocks, order rejections), list them explicitly at the end of the report under an ISSUES section — this is the primary way to monitor that the bot is running correctly and to catch problems early.
+After all steps are complete, compile a full daily report covering everything the bot did this session. Save it as a Markdown file in the `reports/` folder using the filename `daily_YYYY-MM-DD.md`. Then send the file to Telegram using `send_report_document` from `telegram/notifier.py`. The report ends with an ISSUES section split into two parts: Errors & Warnings (API failures, rejected orders, unexpected skips) and Observations & Suggestions (ambiguities noticed, borderline setups, rules that felt unclear or conflicting). The bot does not modify the execution guide — it only records observations for the user to review.
 
 **Actions:**
 1. Compile the report using the template below.
@@ -287,8 +287,14 @@ After all steps are complete, compile a full daily report covering everything th
 - Removed: [TICKERS] — or: None
 
 ## ISSUES
-- [Any API errors, skipped stocks, rejected orders, or unexpected behavior encountered this session]
-- or: No issues.
+
+### Errors & Warnings
+- [API errors, rejected orders, script failures, unexpected skips — anything that deviated from the expected execution flow]
+- or: None.
+
+### Observations & Suggestions
+- [Contradictions or ambiguities noticed in the process, setups that were borderline, rules that felt unclear or conflicting, anything the user should review to improve the strategy or execution guide]
+- or: None.
 ```
 
 ---
