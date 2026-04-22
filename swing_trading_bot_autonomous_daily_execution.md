@@ -269,7 +269,7 @@ After all steps are complete, compile a full daily report covering everything th
 - or: No positions managed today.
 
 ## NEW ENTRIES
-- [TICKER]: [SHARES] shares @ $[entry] | Stop $[stop] | Target $[target] | Setup: [Breakout A/B or EP]
+- [TICKER]: [SHARES] shares @ $[entry] | Stop $[stop] | Setup: [Breakout A/B or EP]
 - or: No new entries today — [reason]
 
 ## PENDING ORDERS
