@@ -41,7 +41,7 @@ This is the very first step that runs every day before anything else. Its sole p
 ### STEP 1: MARKET HEALTH CHECK
 
 **Description:**
-Before looking at any individual stock, the bot needs to understand the overall market environment. This step runs `market_health.py` which fetches 250 days of daily bars for SPY and QQQ from Alpaca (using the IEX feed), calculates the 50-day and 200-day SMAs for each index, and checks whether each index is currently above those MAs and whether the 50-day MA is rising or falling. It also fetches the current VIX value from CBOE (with Yahoo Finance as fallback) and compares it to the previous day to determine if volatility is rising or falling. Finally, it checks market breadth via the Alpaca market movers API (number of gainers vs losers). All three signals — MAs, VIX, and breadth — are combined into a single overall signal: GREEN, YELLOW, or RED. This signal controls how aggressively the bot trades for the rest of the session: GREEN means full exposure, YELLOW means reduced size, and RED means no new entries at all.
+Before looking at any individual stock, the bot needs to understand the overall market environment. This step runs `market_health.py` which fetches 250 days of daily bars for SPY and QQQ from Alpaca (using the IEX feed), calculates the 50-day and 200-day SMAs for each index, and checks whether each index is currently above those MAs and whether the 50-day MA is rising or falling. It also fetches the current VIX value from CBOE (with Yahoo Finance as fallback) and compares it to the previous day to determine if volatility is rising or falling. Both signals — MAs and VIX — are combined into a single overall signal: GREEN, YELLOW, or RED. This signal controls how aggressively the bot trades for the rest of the session: GREEN means full exposure, YELLOW means reduced size, and RED means no new entries at all.
 
 **Actions:**
 1. Run: `python scripts/market_health.py --json`
@@ -147,6 +147,7 @@ Calculate available slots: `max_positions` (5 for GREEN, 3 for YELLOW) minus `po
    - **Breakout confirmed today** (Option B): `pct_from_resistance` between 0% and +3% AND `today_volume_ratio >= 1.5` AND `volume_declining: true` (base must have had quiet volume AND breakout on high volume)
    - **EP candidates**: `is_ep_candidate: true` → use `web_search` to confirm a major catalyst (earnings beat, FDA approval, major contract). If no catalyst found, skip.
 4. If no setups qualify, skip to Step 6.
+5. If more setups qualify than available slots (max 2 per session), prioritize in this order: **Option B first** (confirmed breakout — highest conviction), **then Option C** (EP with confirmed catalyst — event-driven), **then Option A** (pending breakout — not yet confirmed). Within the same option type, prefer the setup with the tightest stop width.
 
 **Action 2 — For each qualifying setup (max 2 per session), execute the corresponding option:**
 
