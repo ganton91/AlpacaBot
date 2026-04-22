@@ -22,6 +22,8 @@ Each step below contains two sections:
 - **Description:** informational context explaining what the step does and why. Read it to understand the purpose — do not treat it as instructions to execute.
 - **Actions:** the exact steps to execute, in order. These are the instructions.
 
+The Actions call Python scripts in `scripts/` rather than performing calculations inline — this keeps token usage low and execution fast. Do not read the script files. Simply run them and use their output. If you need to understand what a script does, what data it fetches, or what it outputs, refer to `SCRIPT_INDEX.md`.
+
 ## EXECUTION SEQUENCE (run this exact sequence every session)
 
 ### STEP 0: DAY & SCHEDULE CHECK
