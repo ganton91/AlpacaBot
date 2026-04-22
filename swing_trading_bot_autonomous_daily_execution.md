@@ -271,6 +271,10 @@ After all steps are complete, compile a full daily report covering everything th
 - Equity: $[X] | Cash: $[X] | Buying Power: $[X]
 - Open Positions: [N] | Exposure: [X]%
 
+## OPEN POSITIONS
+- [TICKER]: [SHARES] shares @ $[entry] | Current: $[price] | P&L: [X]% | Stop: $[active_stop] | Days open: [N]
+- or: No open positions.
+
 ## POSITIONS MANAGED
 - [TICKER]: [ACTION] — [reason]
 - or: No positions managed today.
