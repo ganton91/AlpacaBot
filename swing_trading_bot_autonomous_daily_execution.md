@@ -158,8 +158,8 @@ All orders use `order_class="oto"` which automatically triggers a stop loss when
 **Option A — Breakout not yet triggered (price below resistance):**
 ```
 entry_price    = CONSOLIDATION_HIGH
-stop_price     = CONSOLIDATION_LOW
-risk_per_share = entry_price - stop_price
+stop_loss      = CONSOLIDATION_LOW
+risk_per_share = entry_price - stop_loss
 account_risk   = total_equity * 0.01  (GREEN) or * 0.005 (YELLOW)
 shares         = min(
                    floor(account_risk / risk_per_share),
@@ -173,11 +173,11 @@ place_stock_order(
   side="buy",
   qty=shares,
   type="stop_limit",
-  stop_price=entry_price,
+  stop_price=entry_price * 1.005,  ← Alpaca entry trigger
   limit_price=entry_price * 1.01,
   time_in_force="day",
   order_class="oto",
-  stop_loss_stop_price=stop_price
+  stop_loss_stop_price=stop_loss   ← OTO stop loss
 )
 ```
 
@@ -186,8 +186,8 @@ place_stock_order(
 **Option B — Breakout already confirmed today:**
 ```
 entry_price    = CURRENT_PRICE
-stop_price     = CONSOLIDATION_LOW
-risk_per_share = entry_price - stop_price
+stop_loss      = CONSOLIDATION_LOW
+risk_per_share = entry_price - stop_loss
 account_risk   = total_equity * 0.01  (GREEN) or * 0.005 (YELLOW)
 shares         = min(
                    floor(account_risk / risk_per_share),
@@ -200,11 +200,12 @@ place_stock_order(
   symbol="TICKER",
   side="buy",
   qty=shares,
-  type="limit",
+  type="stop_limit",
+  stop_price=entry_price,       ← Alpaca entry trigger
   limit_price=entry_price * 1.005,
   time_in_force="day",
   order_class="oto",
-  stop_loss_stop_price=stop_price
+  stop_loss_stop_price=stop_loss  ← OTO stop loss
 )
 ```
 
@@ -213,8 +214,8 @@ place_stock_order(
 **Option C — Episodic Pivot entry:**
 ```
 entry_price    = CURRENT_PRICE
-stop_price     = GAP_DAY_LOW
-risk_per_share = entry_price - stop_price
+stop_loss      = GAP_DAY_LOW
+risk_per_share = entry_price - stop_loss
 account_risk   = total_equity * 0.01  (GREEN) or * 0.005 (YELLOW)
 shares         = min(
                    floor(account_risk / risk_per_share),
@@ -227,11 +228,12 @@ place_stock_order(
   symbol="TICKER",
   side="buy",
   qty=shares,
-  type="limit",
+  type="stop_limit",
+  stop_price=entry_price,       ← Alpaca entry trigger
   limit_price=entry_price * 1.005,
   time_in_force="day",
   order_class="oto",
-  stop_loss_stop_price=stop_price
+  stop_loss_stop_price=stop_loss  ← OTO stop loss
 )
 ```
 
