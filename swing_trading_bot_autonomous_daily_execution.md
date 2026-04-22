@@ -272,20 +272,16 @@ After all steps are complete, compile a full daily report covering everything th
 - Open Positions: [N] | Exposure: [X]%
 
 ## OPEN POSITIONS
-- [TICKER]: [SHARES] shares @ $[entry] | Current: $[price] | P&L: [X]% | Stop: $[active_stop] | Days open: [N]
+- [TICKER]: [SHARES] shares @ $[entry] | Current: $[price] | P&L: [X]% | Active Stop: $[active_stop] (GTC) | Days open: [N]
 - or: No open positions.
 
 ## POSITIONS MANAGED
 - [TICKER]: [ACTION] — [reason]
 - or: No positions managed today.
 
-## NEW ENTRIES
-- [TICKER]: [SHARES] shares @ $[entry] | Stop $[stop] | Setup: [Breakout A/B or EP]
-- or: No new entries today — [reason]
-
-## PENDING ORDERS
-- [TICKER]: [order type] [side] [qty] @ $[price]
-- or: No pending orders.
+## NEW ORDERS
+- [TICKER]: [SHARES] shares | Type: stop_limit | Stop trigger: $[stop_price] | Limit: $[limit_price] | Stop loss: $[stop_loss] | Setup: [Breakout A/B or EP] | Expires: [date]
+- or: No new orders today — [reason]
 
 ## WATCHLIST
 - Status: [existing / created new]
