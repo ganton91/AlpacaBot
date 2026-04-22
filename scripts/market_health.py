@@ -18,11 +18,11 @@ from datetime import datetime, timedelta, timezone
 
 import requests
 from alpaca.data.historical import StockHistoricalDataClient
-from alpaca.data.requests import StockBarsRequest, MarketMoversRequest
+from alpaca.data.requests import StockBarsRequest
 from alpaca.data.timeframe import TimeFrame
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from broker.client import get_data_client, get_screener_client
+from broker.client import get_data_client
 
 
 # ---------------------------------------------------------------------------
@@ -95,18 +95,6 @@ def fetch_vix() -> tuple[float | None, float | None, str]:
     return None, None, "unavailable"
 
 
-def fetch_market_movers() -> dict:
-    try:
-        screener = get_screener_client()
-        req = MarketMoversRequest(market_type="stocks")
-        movers = screener.get_market_movers(req)
-        gainers = len(movers.gainers) if movers.gainers else 0
-        losers = len(movers.losers) if movers.losers else 0
-        return {"gainers": gainers, "losers": losers}
-    except Exception:
-        return {"gainers": 0, "losers": 0, "error": "unavailable"}
-
-
 # ---------------------------------------------------------------------------
 # MA data
 # ---------------------------------------------------------------------------
@@ -146,8 +134,6 @@ def run() -> dict:
     if vix_now is not None and vix_prev is not None:
         vix_direction = "rising" if vix_now > vix_prev else "falling"
 
-    breadth = fetch_market_movers()
-
     return {
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "spy": spy,
@@ -158,7 +144,6 @@ def run() -> dict:
             "direction": vix_direction,
             "source": vix_source,
         },
-        "breadth": breadth,
     }
 
 
@@ -194,10 +179,6 @@ def main():
     v = result["vix"]
     vix_str = f"{v['value']}" if v["value"] else "N/A"
     print(f"\n  VIX   {vix_str} ({v['direction']})  [source: {v['source']}]")
-
-    b = result["breadth"]
-    if "error" not in b:
-        print(f"\n  Breadth  gainers={b['gainers']}  losers={b['losers']}")
 
     print(f"{'='*50}\n")
 

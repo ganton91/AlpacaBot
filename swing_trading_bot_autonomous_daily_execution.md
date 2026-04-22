@@ -45,7 +45,7 @@ Before looking at any individual stock, the bot needs to understand the overall 
 
 **Actions:**
 1. Run: `python scripts/market_health.py --json`
-2. Read the JSON output — it contains SPY and QQQ price/MA data, VIX value and direction, and market breadth (gainers/losers).
+2. Read the JSON output — it contains SPY and QQQ price/MA data, and VIX value and direction.
 3. Determine the overall signal by applying the following rules to the raw numbers:
    - **RED** — if ANY of the following is true:
      - Both SPY and QQQ have `above_50ma: false`
@@ -55,7 +55,7 @@ Before looking at any individual stock, the bot needs to understand the overall 
      - Both SPY and QQQ have `above_50ma: true`
      - Both SPY and QQQ have `ma50_rising: true`
      - VIX `value < 20` OR `direction: "falling"`
-   - **YELLOW** — everything else (mixed signals, VIX 20–30, weak breadth)
+   - **YELLOW** — everything else (mixed signals, VIX 20–30)
 4. Apply the signal for the rest of the session:
    - **GREEN** — Full exposure: up to 5 positions, 1% risk per trade.
    - **YELLOW** — Reduced exposure: max 3 positions, 0.5% risk per trade.
@@ -263,7 +263,6 @@ After all steps are complete, compile a full daily report covering everything th
 - SPY: $[price] | 50MA [above/below] ([rising/falling]) | 200MA [above/below]
 - QQQ: $[price] | 50MA [above/below] ([rising/falling]) | 200MA [above/below]
 - VIX: [value] ([rising/falling])
-- Breadth: [gainers] gainers / [losers] losers
 
 ## ACCOUNT
 - Equity: $[X] | Cash: $[X] | Buying Power: $[X]

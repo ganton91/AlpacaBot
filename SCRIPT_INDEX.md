@@ -31,7 +31,6 @@ Fetches raw market data so the bot can determine the GREEN/YELLOW/RED signal. Do
 **Data fetched:**
 - 250 days of daily bars for SPY and QQQ (IEX feed)
 - VIX closing price from CBOE (Yahoo Finance as fallback)
-- Market breadth (top gainers and losers count) from Alpaca screener
 
 **Calculations:**
 - SPY and QQQ: 50-day MA, 200-day MA, whether price is above each MA, whether 50MA is rising (vs 10 days ago)
@@ -40,7 +39,6 @@ Fetches raw market data so the bot can determine the GREEN/YELLOW/RED signal. Do
 **Output fields:**
 - `spy` / `qqq`: price, ma50, ma200, above_50ma, above_200ma, ma50_rising
 - `vix`: value, prev_value, direction, source
-- `breadth`: gainers count, losers count
 
 **Signal rules (applied by the bot, not this script):**
 - **RED** — both indices below 50MA, OR death cross (50MA < 200MA), OR VIX > 30 rising
