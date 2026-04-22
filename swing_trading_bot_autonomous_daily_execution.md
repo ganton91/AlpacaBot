@@ -134,6 +134,9 @@ Using the data from Step 2 (account snapshot), remove from the watchlist any sym
 **Description:**
 This step scans every stock in the SwingBot watchlist for actionable entry setups and places orders for those that qualify. It has three actions: first, run `setup_scanner.py` against the watchlist symbols and categorise each stock into Option A, B, or C; second, for each qualifying setup (max 2 per session), calculate position size, verify the trade meets all risk rules, and place the order; third, record each confirmed entry in `positions_memory.md`. Breakout setups (Options A and B) use the consolidation high as the entry trigger and the consolidation low as the stop — maximum stop width 10%. EP setups (Option C) require a confirmed catalyst via web search and use the low of the gap day as the stop — maximum stop width 12%. All entries use an OTO order (one-triggers-other) to automatically set a stop loss at entry. Take profit is not set at entry — exits are managed actively by Step 3 through partial profits and trailing stops. Each confirmed entry is also recorded in `positions_memory.md` using the template defined in that file.
 
+**Action 0 — Check available slots:**
+Calculate available slots: `max_positions` (5 for GREEN, 3 for YELLOW) minus `positions.count` from Step 2. If available slots = 0, skip the entire Step 5.
+
 **Action 1 — Scan watchlist for setups:**
 1. Take the symbols from the watchlist retrieved in Step 4.
 2. Run: `python scripts/setup_scanner.py --symbols SYM1,SYM2,SYM3 --json` (symbols must be comma-separated, no spaces)
