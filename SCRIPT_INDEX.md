@@ -163,9 +163,11 @@ For each symbol in the watchlist, calculates Breakout and EP metrics to identify
 
 **EP metrics:**
 - `gap_pct` — (today open - yesterday close) / yesterday close × 100
+- `gap_day_high` — today's high
 - `gap_day_low` — today's low (used as stop_price for Option C entries)
+- `close_location` — (close - gap_day_low) / (gap_day_high - gap_day_low) — where the close sits within the day's range (0=low, 1=high)
 - `volume_ratio` — today volume / 20-day avg volume
-- `is_ep_candidate` — true if gap_pct ≥ 8% AND volume_ratio ≥ 2.0
+- `is_ep_candidate` — true if gap_pct ≥ 8% AND volume_ratio ≥ 2.0 AND close_location ≥ 0.67
 
 **Setup identification (done by the bot, not this script):**
 - **Option A** (Breakout approaching): pct_from_resistance between -3% and 0% AND volume_declining: true

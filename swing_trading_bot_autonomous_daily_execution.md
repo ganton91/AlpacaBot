@@ -145,7 +145,7 @@ Calculate available slots: `max_positions` (5 for GREEN, 3 for YELLOW) minus `po
 3. Read the JSON output and identify:
    - **Breakout approaching** (Option A): `pct_from_resistance` between -3% and 0% AND `volume_declining: true`
    - **Breakout confirmed today** (Option B): `pct_from_resistance` between 0% and +3% AND `today_volume_ratio >= 1.5` AND `volume_declining: true` (base must have had quiet volume AND breakout on high volume)
-   - **EP candidates**: `is_ep_candidate: true` → use `web_search` to confirm a major catalyst (earnings beat, FDA approval, major contract). If no catalyst found, skip.
+   - **EP candidates**: `is_ep_candidate: true` (gap_pct ≥ 8%, volume_ratio ≥ 2.0, close_location ≥ 0.67) → use `web_search` to confirm a major catalyst (earnings beat, FDA approval, major contract). If no catalyst found, skip.
 4. If no setups qualify, skip to Step 6.
 5. If more setups qualify than available slots (max 2 per session), prioritize in this order: **Option B first** (confirmed breakout — highest conviction), **then Option C** (EP with confirmed catalyst — event-driven), **then Option A** (pending breakout — not yet confirmed). Within the same option type, prefer the setup with the lowest `consolidation_range_pct` (Options A and B) or the highest `volume_ratio` (Option C).
 

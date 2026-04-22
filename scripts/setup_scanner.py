@@ -101,21 +101,28 @@ def breakout_metrics(closes, highs, lows, volumes) -> dict:
     }
 
 
-def ep_metrics(opens, closes, lows, volumes) -> dict:
+def ep_metrics(opens, closes, highs, lows, volumes) -> dict:
     today_open    = opens[-1]
     today_volume  = volumes[-1]
     prev_close    = closes[-2]
+    gap_day_high  = highs[-1]
     gap_day_low   = lows[-1]
+    today_close   = closes[-1]
 
     gap_pct      = round((today_open - prev_close) / prev_close * 100, 2)
     avg_vol_20d  = sum(volumes[-21:-1]) / 20
     volume_ratio = round(today_volume / avg_vol_20d, 2) if avg_vol_20d > 0 else 0.0
 
-    is_ep = gap_pct >= 8.0 and volume_ratio >= 2.0
+    day_range = gap_day_high - gap_day_low
+    close_location = round((today_close - gap_day_low) / day_range, 2) if day_range > 0 else 0.0
+
+    is_ep = gap_pct >= 8.0 and volume_ratio >= 2.0 and close_location >= 0.67
 
     return {
         "gap_pct":          gap_pct,
+        "gap_day_high":     round(gap_day_high, 2),
         "gap_day_low":      round(gap_day_low, 2),
+        "close_location":   close_location,
         "today_volume":     int(today_volume),
         "avg_volume_20d":   int(avg_vol_20d),
         "volume_ratio":     volume_ratio,
@@ -140,7 +147,7 @@ def run(symbols: list[str]) -> dict:
             "symbol":   symbol,
             "price":    round(closes[-1], 2),
             "breakout": breakout_metrics(closes, highs, lows, volumes),
-            "ep":       ep_metrics(opens, closes, lows, volumes),
+            "ep":       ep_metrics(opens, closes, highs, lows, volumes),
         })
 
     return {
