@@ -5,7 +5,7 @@ A position is added when a new entry is made (Step 5) and removed only when full
 The bot reads this file at the start of Step 3 to make correct position management decisions.
 This file tracks HISTORY only — current state (price, qty, stop) is always read from Alpaca.
 
-Last updated: 2026-04-21
+Last updated: 2026-04-22
 
 ---
 
@@ -32,19 +32,4 @@ Last updated: 2026-04-21
 
 ---
 
-## NOK
-- **Entry date**: 2026-04-14 (estimated — 7 days open as of 2026-04-21)
-- **Entry price**: $10.30
-- **Original qty**: 337
-- **Setup**: Breakout A (reconstructed — original entry session record missing)
-- **Initial stop**: $9.48
-
-**Stop history:**
-- 2026-04-14: $9.48 — initial stop (entry day)
-
-**Partial profits:**
-- none
-
-**Total closed**: 0%
-
-**Last updated**: 2026-04-21
+*(No open positions as of 2026-04-22 — NOK closed before earnings on 2026-04-23)*
