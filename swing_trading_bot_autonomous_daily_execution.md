@@ -272,7 +272,7 @@ After all steps are complete, compile a full daily report covering everything th
 - Open Positions: [N] | Exposure: [X]%
 
 ## OPEN POSITIONS
-- [TICKER]: [SHARES] shares @ $[entry] | Current: $[price] | P&L: [X]% | Active Stop: $[active_stop] (GTC) | Days open: [N]
+- [TICKER]: [SHARES] shares @ $[entry] | Current: $[price] | P&L: [X]% | Active Stop: $[active_stop] ([time_in_force]) | Days open: [N]
 - or: No open positions.
 
 ## POSITIONS MANAGED
