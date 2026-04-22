@@ -284,7 +284,8 @@ After all steps are complete, compile a full daily report covering everything th
 - or: No pending orders.
 
 ## WATCHLIST
-- Current: [list of symbols]
+- Status: [existing / created new]
+- Current: [list of symbols or empty]
 - Added: [TICKERS] — or: None
 - Removed: [TICKERS] — or: None
 
