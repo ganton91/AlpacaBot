@@ -13,3 +13,7 @@ The ONLY files you are permitted to create or modify in this repository are:
 You must NEVER modify, overwrite, or delete any other file — including scripts, the execution guide, broker client, or any configuration file. The only git commands you may run are `git add reports/daily_YYYY-MM-DD.md positions_memory.md`, `git commit`, and `git push origin HEAD:main`.
 
 For all other instructions, read and follow `swing_trading_bot_autonomous_daily_execution.md`.
+
+## Script Index Sync
+
+Scripts in `scripts/` may only be modified when the user explicitly requests it and confirms the change. Never modify a script on your own initiative. When a script is modified, update `SCRIPT_INDEX.md` to reflect the change before committing.
