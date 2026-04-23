@@ -16,10 +16,20 @@ import sys
 def fetch_large_cap_symbols(count: int = 500) -> list[str]:
     import yfinance as yf
 
-    query = yf.EquityQuery("gt", ["marketcap", 10_000_000_000])
-    result = yf.screen(query, sortField="marketcap", sortAsc=False, limit=count)
-    quotes = result.get("quotes", [])
-    symbols = [q["symbol"] for q in quotes if "symbol" in q]
+    query = yf.EquityQuery("gt", ["intradaymarketcap", 10_000_000_000])
+    page_size = 250  # Yahoo Finance hard limit
+    symbols: list[str] = []
+    offset = 0
+    while len(symbols) < count:
+        batch = min(page_size, count - len(symbols))
+        result = yf.screen(query, sortField="intradaymarketcap", sortAsc=False, size=batch, offset=offset)
+        quotes = result.get("quotes", [])
+        if not quotes:
+            break
+        symbols.extend(q["symbol"] for q in quotes if "symbol" in q)
+        offset += len(quotes)
+        if len(quotes) < batch:
+            break
     return symbols
 
 
