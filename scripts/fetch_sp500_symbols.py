@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """
-Fetches large cap stock symbols from Yahoo Finance screener.
-Used to test whether yfinance Screener works in the cloud environment.
+Fetches large cap stock symbols from Yahoo Finance screener (yfinance 1.3.0+).
+Returns top N stocks by market cap (market cap > $10B), sorted descending.
 
 Usage:
     python scripts/fetch_sp500_symbols.py
     python scripts/fetch_sp500_symbols.py --json
+    python scripts/fetch_sp500_symbols.py --count 500
 """
 
 import argparse
@@ -16,11 +17,26 @@ import sys
 def fetch_large_cap_symbols(count: int = 500) -> list[str]:
     import yfinance as yf
 
-    query = yf.EquityQuery("gt", ["marketcap", 10_000_000_000])
-    result = yf.screen(query, sortField="marketcap", sortAsc=False, limit=count)
-    quotes = result.get("quotes", [])
-    symbols = [q["symbol"] for q in quotes if "symbol" in q]
-    return symbols
+    query = yf.EquityQuery("gt", ["intradaymarketcap", 10_000_000_000])
+    symbols = []
+    offset = 0
+    batch = 250  # Yahoo Finance caps at 250 per request
+
+    while len(symbols) < count:
+        result = yf.screen(
+            query,
+            sortField="intradaymarketcap",
+            sortAsc=False,
+            size=batch,
+            offset=offset,
+        )
+        quotes = result.get("quotes", [])
+        if not quotes:
+            break
+        symbols += [q["symbol"] for q in quotes if "symbol" in q]
+        offset += batch
+
+    return symbols[:count]
 
 
 def main():
