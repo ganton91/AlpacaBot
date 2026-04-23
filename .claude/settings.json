@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git push origin HEAD:main)",
+      "Bash(git add reports/* positions_memory.md)",
+      "Bash(git commit*)",
+      "WebSearch"
+    ]
+  }
+}
