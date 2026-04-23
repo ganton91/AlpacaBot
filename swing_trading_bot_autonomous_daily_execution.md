@@ -124,7 +124,7 @@ Using the data from Step 2 (account snapshot), remove from the watchlist any sym
 3. Symbols that fail → remove via `remove_from_watchlist(watchlist_id, symbol)` from `broker/client.py`.
 
 **Action 4 — Find new candidates:**
-1. Run: `python scripts/sp500_candidates.py --json` — screens all S&P 500 constituents against the full Trend Template. These results are pre-screened and do NOT need re-screening via trend_template.py.
+1. Run: `python scripts/trend_template_batch.py --json` — dynamically fetches the top 500 large cap US-listed stocks (NYSE + NASDAQ) via Yahoo Finance and screens them against the full Trend Template. These results are pre-screened and do NOT need re-screening via trend_template.py.
 2. Run: `python scripts/candidates.py --json` — today's top gainers and most actives (EP-focused). These DO need screening via trend_template.py.
 3. Use `web_search` for additional EP candidates: "stocks breaking out today high volume" or "stocks gapping up today catalyst". These also need screening via trend_template.py.
 4. Combine all lists, remove duplicates and any symbols already in the watchlist or with open positions.

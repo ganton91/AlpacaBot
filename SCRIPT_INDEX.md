@@ -106,24 +106,26 @@ Symbols must be comma-separated with no spaces.
 
 ---
 
-## sp500_candidates.py
+## trend_template_batch.py
 **Used in:** Step 4 (Action 4 — primary base-breakout universe)
 
 **What it does:**
-Screens all ~400 S&P 500 constituents against the full Minervini Trend Template using batch fetching for efficiency. Results are pre-screened — they do NOT need to be re-screened via `trend_template.py`.
+Dynamically fetches the top 500 large cap US-listed stocks (NYSE + NASDAQ, market cap > $10B) via Yahoo Finance screener (yfinance), then screens them against the full Minervini Trend Template using batch fetching for efficiency. Results are pre-screened — they do NOT need to be re-screened via `trend_template.py`.
 
 **Data fetched:**
+- Top 500 large cap symbols from Yahoo Finance (yfinance EquityQuery, sorted by market cap descending)
 - 250 trading days of daily bars in batches of 50 symbols (IEX feed)
 
 **Pre-filter (before Trend Template):**
-- Price ≥ $10 (removes stocks that have fallen below penny stock territory)
+- Price ≥ $10
+- Exchange: NYSE (NYQ) or NASDAQ (NMS) only
 
-**Criteria:** Identical to `trend_template.py` — all 9 criteria must pass.
+**Criteria:** Identical to `trend_template.py` — all 10 criteria must pass.
 
 **Output fields per passing stock:**
 - Same as trend_template.py output
 
-**Note:** The S&P 500 symbol list is hardcoded (~400 symbols). It is updated manually when needed (e.g. when companies are acquired or delisted).
+**Note:** Symbol list is fetched dynamically at runtime — always current, no manual maintenance needed.
 
 ---
 
