@@ -2,7 +2,16 @@ import os
 from alpaca.data.historical import StockHistoricalDataClient
 from alpaca.data.historical.screener import ScreenerClient
 from alpaca.trading.client import TradingClient
-from alpaca.trading.requests import CreateWatchlistRequest, UpdateWatchlistRequest
+from alpaca.trading.requests import (
+    CreateWatchlistRequest,
+    UpdateWatchlistRequest,
+    MarketOrderRequest,
+    StopOrderRequest,
+    StopLimitOrderRequest,
+    ReplaceOrderRequest,
+    StopLossRequest,
+)
+from alpaca.trading.enums import OrderSide, OrderType, TimeInForce, OrderClass
 
 
 def get_data_client() -> StockHistoricalDataClient:
@@ -76,3 +85,73 @@ def remove_from_watchlist(watchlist_id: str, symbol: str) -> object:
             watchlist_id,
             UpdateWatchlistRequest(name=full.name, symbols=new_symbols)
         )
+
+
+# ---------------------------------------------------------------------------
+# Order helpers
+# ---------------------------------------------------------------------------
+
+_SIDE_MAP = {"buy": OrderSide.BUY, "sell": OrderSide.SELL}
+_TIF_MAP = {"day": TimeInForce.DAY, "gtc": TimeInForce.GTC, "opg": TimeInForce.OPG}
+
+
+def place_stock_order(
+    symbol: str,
+    side: str,
+    qty: int,
+    type: str,
+    stop_price: float = None,
+    limit_price: float = None,
+    time_in_force: str = "day",
+    order_class: str = "simple",
+    stop_loss_stop_price: float = None,
+) -> object:
+    client = get_trading_client()
+    order_side = _SIDE_MAP[side.lower()]
+    tif = _TIF_MAP[time_in_force.lower()]
+    oc = OrderClass.OTO if order_class.lower() == "oto" else OrderClass.SIMPLE
+    stop_loss = StopLossRequest(stop_price=round(stop_loss_stop_price, 2)) if stop_loss_stop_price else None
+
+    if type == "stop_limit":
+        req = StopLimitOrderRequest(
+            symbol=symbol,
+            qty=qty,
+            side=order_side,
+            time_in_force=tif,
+            stop_price=round(stop_price, 2),
+            limit_price=round(limit_price, 2),
+            order_class=oc,
+            stop_loss=stop_loss,
+        )
+    elif type == "stop":
+        req = StopOrderRequest(
+            symbol=symbol,
+            qty=qty,
+            side=order_side,
+            time_in_force=tif,
+            stop_price=round(stop_price, 2),
+        )
+    else:
+        req = MarketOrderRequest(
+            symbol=symbol,
+            qty=qty,
+            side=order_side,
+            time_in_force=tif,
+        )
+    return client.submit_order(req)
+
+
+def cancel_order_by_id(order_id: str) -> None:
+    get_trading_client().cancel_order_by_id(order_id)
+
+
+def replace_order_by_id(order_id: str, stop_price: float = None, qty: int = None) -> object:
+    req = ReplaceOrderRequest(
+        stop_price=round(stop_price, 2) if stop_price else None,
+        qty=qty,
+    )
+    return get_trading_client().replace_order_by_id(order_id, req)
+
+
+def close_position(symbol: str) -> object:
+    return get_trading_client().close_position(symbol)
