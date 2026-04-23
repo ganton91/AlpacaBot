@@ -91,7 +91,7 @@ This step applies position management rules to every open stock position from St
       - `above_ma50: false` → closed below 50-day MA
       - `unrealized_pl_pct < -7` → hard stop violated
       - `days_open >= 10` AND `price_change_10d < 2%` → stagnant position (no recent momentum)
-      - Earnings on the next trading day: use `web_search` for `"SYMBOL earnings date"` to check. To determine the next trading day, run `python scripts/market_schedule.py --json` and read the `next_open` field. If earnings fall on that date (before or after market), close the position today to avoid gap risk.
+      - Earnings in the next two trading days: use `web_search` for `"SYMBOL earnings date"` to check. To determine the next two trading days, run `python scripts/market_schedule.py --json` and read the `next_open` field (tomorrow) and `next_open_2` field (the trading day after tomorrow). If earnings fall on either date (before or after market), close the position today to avoid gap risk. This ensures the sell order placed tonight executes tomorrow — before the earnings date.
 
    b. **Partial profit rules** — check `positions_memory.md` for `Total closed` and `Original qty` to determine which level applies. All percentages are based on the **original quantity**. Call `close_position` with the calculated shares only if that level has NOT been taken yet:
       - `Total closed: 0%` AND `unrealized_pl_pct >= 15%`: close `floor(Original qty * 0.33)` shares

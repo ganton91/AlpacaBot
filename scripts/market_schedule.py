@@ -34,6 +34,15 @@ def run() -> dict:
     next_open = clock.next_open
     hours_until_open = (next_open - now).total_seconds() / 3600 if next_open else None
 
+    # Fetch the next two trading days from the calendar
+    from datetime import timedelta
+    next_open_date = next_open.date() if next_open else today
+    upcoming = client.get_calendar(GetCalendarRequest(
+        start=next_open_date,
+        end=next_open_date + timedelta(days=7),
+    ))
+    next_open_2 = upcoming[1].date.isoformat() if len(upcoming) >= 2 else None
+
     if not is_trading_day:
         mode = "skip"
         reason = "weekend" if now.weekday() >= 5 else "market_holiday"
@@ -48,6 +57,7 @@ def run() -> dict:
         "weekday": weekday,
         "market_open": clock.is_open,
         "next_open": next_open.isoformat() if next_open else None,
+        "next_open_2": next_open_2,
         "next_close": clock.next_close.isoformat() if clock.next_close else None,
         "hours_until_open": round(hours_until_open, 1) if hours_until_open is not None else None,
     }

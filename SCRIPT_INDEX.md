@@ -16,6 +16,7 @@ Determines whether the bot should run today or skip. Calls the Alpaca calendar A
 - `mode` — `"run"` (trading day) or `"skip"` (weekend / holiday)
 - `reason` — `"weekday"`, `"weekend"`, or `"market_holiday"`
 - `next_open` — ISO timestamp of next market open (used by Step 3 earnings check)
+- `next_open_2` — date string of the trading day after `next_open` (used by Step 3 earnings check)
 - `hours_until_open` — hours until next open
 
 **No filtering criteria** — purely informational.
