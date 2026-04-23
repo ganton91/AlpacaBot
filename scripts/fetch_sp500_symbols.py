@@ -17,7 +17,13 @@ import sys
 def fetch_large_cap_symbols(count: int = 500) -> list[str]:
     import yfinance as yf
 
-    query = yf.EquityQuery("gt", ["intradaymarketcap", 10_000_000_000])
+    query = yf.EquityQuery("and", [
+        yf.EquityQuery("gt", ["intradaymarketcap", 10_000_000_000]),
+        yf.EquityQuery("or", [
+            yf.EquityQuery("eq", ["exchange", "NMS"]),  # NASDAQ
+            yf.EquityQuery("eq", ["exchange", "NYQ"]),  # NYSE
+        ]),
+    ])
     symbols = []
     offset = 0
     batch = 250  # Yahoo Finance caps at 250 per request
