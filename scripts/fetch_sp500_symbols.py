@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
-Fetches the current S&P 500 constituent symbols from Wikipedia.
+Fetches large cap stock symbols from Yahoo Finance screener.
+Used to test whether yfinance Screener works in the cloud environment.
 
 Usage:
     python scripts/fetch_sp500_symbols.py
@@ -11,45 +12,28 @@ import argparse
 import json
 import sys
 
-import requests
 
+def fetch_large_cap_symbols(count: int = 500) -> list[str]:
+    import yfinance as yf
 
-def fetch_sp500_symbols() -> list[str]:
-    url = "https://en.wikipedia.org/wiki/List_of_S%26P_500_companies"
-    headers = {"User-Agent": "Mozilla/5.0"}
-    resp = requests.get(url, timeout=15, headers=headers)
-    resp.raise_for_status()
+    screener = yf.Screener()
+    screener.set_predefined_body("large_cap_stocks")
+    screener.size = count
 
-    # Parse the first table on the page using basic string parsing
-    import re
-    # Find all ticker symbols in the first wikitable
-    # Symbols appear as: <td><a href="/wiki/..." ...>TICKER</a>
-    table_start = resp.text.find('id="constituents"')
-    if table_start == -1:
-        raise ValueError("Could not find constituents table on Wikipedia page")
-    table_end = resp.text.find("</table>", table_start)
-    table_html = resp.text[table_start:table_end]
-
-    symbols = re.findall(r'<td><a[^>]*>([A-Z]{1,5})</a></td>', table_html)
-
-    # Clean up — remove duplicates, keep order
-    seen = set()
-    result = []
-    for s in symbols:
-        if s not in seen:
-            seen.add(s)
-            result.append(s)
-
-    return result
+    response = screener.response
+    quotes = response.get("quotes", [])
+    symbols = [q["symbol"] for q in quotes if "symbol" in q]
+    return symbols
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Fetch S&P 500 symbols from Wikipedia")
+    parser = argparse.ArgumentParser(description="Fetch large cap symbols via yfinance Screener")
     parser.add_argument("--json", action="store_true", help="Print JSON only")
+    parser.add_argument("--count", type=int, default=500, help="Number of symbols to fetch")
     args = parser.parse_args()
 
     try:
-        symbols = fetch_sp500_symbols()
+        symbols = fetch_large_cap_symbols(args.count)
     except Exception as e:
         print(f"ERROR: {e}", file=sys.stderr)
         sys.exit(1)
@@ -58,8 +42,8 @@ def main():
         print(json.dumps({"symbols": symbols, "count": len(symbols)}))
         return
 
-    print(f"\nS&P 500 Symbols ({len(symbols)} total):")
-    print(", ".join(symbols))
+    print(f"\nLarge Cap Symbols ({len(symbols)} total):")
+    print(", ".join(symbols[:20]), "...")
 
 
 if __name__ == "__main__":
