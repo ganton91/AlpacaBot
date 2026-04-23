@@ -16,12 +16,9 @@ import sys
 def fetch_large_cap_symbols(count: int = 500) -> list[str]:
     import yfinance as yf
 
-    screener = yf.Screener()
-    screener.set_predefined_body("large_cap_stocks")
-    screener.size = count
-
-    response = screener.response
-    quotes = response.get("quotes", [])
+    query = yf.EquityQuery("gt", ["marketcap", 10_000_000_000])
+    result = yf.screen(query, sortField="marketcap", sortAsc=False, limit=count)
+    quotes = result.get("quotes", [])
     symbols = [q["symbol"] for q in quotes if "symbol" in q]
     return symbols
 
