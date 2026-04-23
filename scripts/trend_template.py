@@ -36,6 +36,7 @@ from alpaca.data.requests import StockBarsRequest
 from alpaca.data.timeframe import TimeFrame
 
 MIN_AVG_VOLUME = 500_000
+MIN_PRICE = 10.0
 DAYS_TO_FETCH = 250
 
 
@@ -108,6 +109,9 @@ def screen(symbol: str, closes: list[float], highs: list[float], lows: list[floa
         "near_52w_high":       price >= week52_high * 0.75,
         "above_52w_low":       price >= week52_low * 1.30,
     }
+
+    if price < MIN_PRICE:
+        return None
 
     # Volume filter
     sufficient_volume = avg_vol_20d >= MIN_AVG_VOLUME

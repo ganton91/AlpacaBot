@@ -84,15 +84,16 @@ Takes a list of symbols and screens each one against the Minervini Trend Templat
 - 250 trading days of daily bars per symbol (IEX feed, split-adjusted)
 
 **Criteria (ALL must be true):**
-1. Price > 50-day MA
-2. Price > 150-day MA
-3. Price > 200-day MA
-4. 50-day MA > 150-day MA
-5. 150-day MA > 200-day MA
-6. 200-day MA is rising (higher than 20 trading days ago)
-7. Price ≥ 52-week high × 0.75 (within 25% of 52-week high)
-8. Price ≥ 52-week low × 1.30 (at least 30% above 52-week low)
-9. Average daily volume (20-day, excluding today) ≥ 500,000
+1. Price ≥ $10.00
+2. Price > 50-day MA
+3. Price > 150-day MA
+4. Price > 200-day MA
+5. 50-day MA > 150-day MA
+6. 150-day MA > 200-day MA
+7. 200-day MA is rising (higher than 20 trading days ago)
+8. Price ≥ 52-week high × 0.75 (within 25% of 52-week high)
+9. Price ≥ 52-week low × 1.30 (at least 30% above 52-week low)
+10. Average daily volume (20-day, excluding today) ≥ 500,000
 
 **Usage:** `python scripts/trend_template.py --symbols SYM1,SYM2,SYM3 --json`
 Symbols must be comma-separated with no spaces.
