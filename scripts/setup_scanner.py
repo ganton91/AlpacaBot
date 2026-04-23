@@ -6,12 +6,12 @@ For each symbol in the watchlist, fetches recent bar data and calculates
 Breakout and Episodic Pivot (EP) metrics. Outputs raw numbers as JSON
 so the bot can decide which setups to act on.
 
-Breakout metrics (last 15 bars):
-  - consolidation_high    : max high of last 15 bars (resistance level)
-  - consolidation_low     : min low of last 15 bars
+Breakout metrics (last 10 bars):
+  - consolidation_high    : max high of last 10 bars (resistance level)
+  - consolidation_low     : min low of last 10 bars
   - consolidation_range_pct : (high - low) / low * 100
   - pct_from_resistance   : (price - resistance) / resistance * 100
-  - volume_declining      : avg vol of last 5 bars < avg vol of bars 6-15
+  - volume_declining      : avg vol of last 5 bars < avg vol of bars 6-10
 
 EP metrics:
   - gap_pct               : (today open - yesterday close) / yesterday close * 100
@@ -34,7 +34,7 @@ from broker.client import get_data_client
 from alpaca.data.requests import StockBarsRequest
 from alpaca.data.timeframe import TimeFrame
 
-CONSOLIDATION_BARS = 15
+CONSOLIDATION_BARS = 10
 DAYS_TO_FETCH = 60  # calendar days — ensures 20+ trading days
 
 
@@ -83,7 +83,7 @@ def breakout_metrics(closes, highs, lows, volumes) -> dict:
 
     base_vols      = volumes[-n:-1]  # exclude today so breakout volume doesn't contaminate base quality
     recent_vol_avg = sum(base_vols[-5:]) / 5
-    prior_vol_avg  = sum(base_vols[:9]) / 9
+    prior_vol_avg  = sum(base_vols[:4]) / 4
     volume_declining = recent_vol_avg < prior_vol_avg
 
     avg_vol_20d = sum(volumes[-21:-1]) / 20 if len(volumes) >= 21 else None

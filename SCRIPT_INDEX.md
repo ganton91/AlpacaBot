@@ -154,12 +154,12 @@ For each symbol in the watchlist, calculates Breakout and EP metrics to identify
 **Data fetched:**
 - 60 calendar days of daily bars per symbol (IEX feed) — ensures 20+ trading days
 
-**Breakout metrics (last 15 bars = ~3 weeks consolidation):**
-- `consolidation_high` — max high of last 15 bars (resistance level / entry trigger)
-- `consolidation_low` — min low of last 15 bars (stop level)
+**Breakout metrics (last 10 bars = ~2 weeks consolidation):**
+- `consolidation_high` — max high of last 10 bars (resistance level / entry trigger)
+- `consolidation_low` — min low of last 10 bars (stop level)
 - `consolidation_range_pct` — (high - low) / low × 100 — base width %
 - `pct_from_resistance` — (price - consolidation_high) / consolidation_high × 100
-- `volume_declining` — avg vol of last 5 base bars < avg vol of prior 9 base bars (today excluded)
+- `volume_declining` — avg vol of last 5 base bars < avg vol of prior 4 base bars (today excluded)
 - `today_volume_ratio` — today's volume / 20-day avg volume (today excluded from avg)
 
 **EP metrics:**
