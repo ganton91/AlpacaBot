@@ -15,6 +15,7 @@ Usage:
 import argparse
 import json
 import os
+import re
 import sys
 from datetime import datetime, timedelta, timezone
 
@@ -74,40 +75,49 @@ def sma_n_days_ago(prices: list[float], period: int, n: int) -> float | None:
 
 
 def fetch_batch(client, symbols: list[str]) -> dict:
-    try:
-        end = datetime.now(timezone.utc)
-        start = end - timedelta(days=int(DAYS_TO_FETCH * 1.6))
-        req = StockBarsRequest(
-            symbol_or_symbols=symbols,
-            timeframe=TimeFrame.Day,
-            start=start,
-            end=end,
-            feed="iex",
-            adjustment="split",
-        )
-        bars = client.get_stock_bars(req)
-        df = bars.df
-        if df.empty:
-            return {}
+    active = list(symbols)
+    while active:
+        try:
+            end = datetime.now(timezone.utc)
+            start = end - timedelta(days=int(DAYS_TO_FETCH * 1.6))
+            req = StockBarsRequest(
+                symbol_or_symbols=active,
+                timeframe=TimeFrame.Day,
+                start=start,
+                end=end,
+                feed="iex",
+                adjustment="split",
+            )
+            bars = client.get_stock_bars(req)
+            df = bars.df
+            if df.empty:
+                return {}
 
-        result = {}
-        for symbol in symbols:
-            try:
-                sym_df = df.xs(symbol, level="symbol")
-                if len(sym_df) < DAYS_TO_FETCH:
+            result = {}
+            for symbol in active:
+                try:
+                    sym_df = df.xs(symbol, level="symbol")
+                    if len(sym_df) < DAYS_TO_FETCH:
+                        continue
+                    result[symbol] = (
+                        sym_df["close"].tolist(),
+                        sym_df["high"].tolist(),
+                        sym_df["low"].tolist(),
+                        sym_df["volume"].tolist(),
+                    )
+                except KeyError:
                     continue
-                result[symbol] = (
-                    sym_df["close"].tolist(),
-                    sym_df["high"].tolist(),
-                    sym_df["low"].tolist(),
-                    sym_df["volume"].tolist(),
-                )
-            except KeyError:
-                continue
-        return result
-    except Exception as e:
-        print(f"[fetch_batch] ERROR for {symbols[:3]}...: {e}", file=sys.stderr)
-        return {}
+            return result
+        except Exception as e:
+            match = re.search(r"invalid symbol[:\s]+([A-Z0-9.]+)", str(e))
+            if match:
+                bad = match.group(1)
+                print(f"[fetch_batch] Skipping invalid symbol '{bad}'", file=sys.stderr)
+                active = [s for s in active if s != bad]
+            else:
+                print(f"[fetch_batch] ERROR for {active[:3]}...: {e}", file=sys.stderr)
+                return {}
+    return {}
 
 
 def screen(symbol: str, closes, highs, lows, volumes) -> dict | None:
