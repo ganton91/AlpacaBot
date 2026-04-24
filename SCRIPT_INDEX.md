@@ -110,10 +110,10 @@ Symbols must be comma-separated with no spaces.
 **Used in:** Step 4 (Action 4 — primary base-breakout universe)
 
 **What it does:**
-Dynamically fetches the top 500 large cap US-listed stocks (NYSE + NASDAQ, market cap > $10B) via Yahoo Finance screener (yfinance), then screens them against the full Minervini Trend Template using batch fetching for efficiency. Results are pre-screened — they do NOT need to be re-screened via `trend_template.py`.
+Dynamically fetches the top 1000 large cap US-listed stocks (NYSE + NASDAQ, market cap > $10B) via Yahoo Finance screener (yfinance), then screens them against the full Minervini Trend Template using batch fetching for efficiency. Results are pre-screened — they do NOT need to be re-screened via `trend_template.py`.
 
 **Data fetched:**
-- Top 500 large cap symbols from Yahoo Finance (yfinance EquityQuery, sorted by market cap descending)
+- Top 1000 large cap symbols from Yahoo Finance (yfinance EquityQuery, sorted by market cap descending)
 - 250 trading days of daily bars in batches of 50 symbols (IEX feed)
 
 **Pre-filter (before Trend Template):**
