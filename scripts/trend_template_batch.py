@@ -164,9 +164,9 @@ def run() -> dict:
     except Exception as e:
         return {"error": f"Failed to fetch symbols: {e}", "passed": [], "failed": [], "errors": [], "total": 0}
 
-    # Remove duplicates and symbols with "-" (preferred shares / class variants
-    # that Alpaca IEX rejects, causing the entire batch to fail)
-    symbols = [s for s in dict.fromkeys(symbols) if "-" not in s]
+    # Remove duplicates and normalize "-" to "." (Alpaca uses dot notation
+    # for preferred shares / class variants, e.g. BRK-A → BRK.A)
+    symbols = [s.replace("-", ".") for s in dict.fromkeys(symbols)]
 
     client = get_data_client()
     passed = []
