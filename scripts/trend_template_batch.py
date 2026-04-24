@@ -170,7 +170,7 @@ def screen(symbol: str, closes, highs, lows, volumes) -> dict | None:
 
 def run() -> dict:
     try:
-        symbols = fetch_large_cap_symbols(500)
+        symbols = fetch_large_cap_symbols(1000)
     except Exception as e:
         return {"error": f"Failed to fetch symbols: {e}", "passed": [], "failed": [], "errors": [], "total": 0}
 
