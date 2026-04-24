@@ -5,26 +5,7 @@ A position is added when a new entry is made (Step 5) and removed only when full
 The bot reads this file at the start of Step 3 to make correct position management decisions.
 This file tracks HISTORY only — current state (price, qty, stop) is always read from Alpaca.
 
-Last updated: 2026-04-23
-
----
-
-## USB
-- **Entry date**: 2026-04-23
-- **Entry price**: $58.04
-- **Original qty**: 136
-- **Setup**: Breakout A
-- **Initial stop**: $54.38 (consolidation low)
-
-**Stop history:**
-- 2026-04-23: $54.38 — initial stop (entry day)
-
-**Partial profits:**
-- none
-
-**Total closed**: 0%
-
-**Last updated**: 2026-04-23
+Last updated: 2026-04-24
 
 ---
 
@@ -37,13 +18,52 @@ Last updated: 2026-04-23
 
 **Stop history:**
 - 2026-04-23: $315.55 — initial stop (entry day)
+- 2026-04-24: $315.55 — stop reinstated (was missing from open orders; same price, no change)
 
 **Partial profits:**
 - none
 
 **Total closed**: 0%
 
-**Last updated**: 2026-04-23
+**Last updated**: 2026-04-24
+
+---
+
+## WMT
+- **Entry date**: 2026-04-24
+- **Entry price**: $132.45 (consolidation high / Option A trigger)
+- **Original qty**: 50
+- **Setup**: Breakout A
+- **Initial stop**: $122.57 (consolidation low)
+
+**Stop history:**
+- 2026-04-24: $122.57 — initial stop (OTO, order pending fill)
+
+**Partial profits:**
+- none
+
+**Total closed**: 0%
+
+**Last updated**: 2026-04-24
+
+---
+
+## HST
+- **Entry date**: 2026-04-24
+- **Entry price**: $21.54 (consolidation high / Option A trigger)
+- **Original qty**: 282
+- **Setup**: Breakout A
+- **Initial stop**: $19.77 (consolidation low)
+
+**Stop history:**
+- 2026-04-24: $19.77 — initial stop (OTO, order pending fill)
+
+**Partial profits:**
+- none
+
+**Total closed**: 0%
+
+**Last updated**: 2026-04-24
 
 ---
 
@@ -70,4 +90,4 @@ Last updated: 2026-04-23
 
 ---
 
-*(2 open positions as of 2026-04-23: USB, GOOGL — orders placed today, pending fill)*
+*(3 open/pending positions as of 2026-04-24: GOOGL (live), WMT (pending fill), HST (pending fill). USB removed — stop_limit day order from 2026-04-23 expired unfilled.)*
