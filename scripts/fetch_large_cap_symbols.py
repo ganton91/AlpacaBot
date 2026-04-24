@@ -14,7 +14,7 @@ import json
 import sys
 
 
-def fetch_large_cap_symbols(count: int = 500) -> list[str]:
+def fetch_large_cap_symbols(count: int = 1000) -> list[str]:
     import yfinance as yf
 
     query = yf.EquityQuery("and", [
@@ -48,7 +48,7 @@ def fetch_large_cap_symbols(count: int = 500) -> list[str]:
 def main():
     parser = argparse.ArgumentParser(description="Fetch large cap symbols via yfinance Screener")
     parser.add_argument("--json", action="store_true", help="Print JSON only")
-    parser.add_argument("--count", type=int, default=500, help="Number of symbols to fetch")
+    parser.add_argument("--count", type=int, default=1000, help="Number of symbols to fetch")
     args = parser.parse_args()
 
     try:
