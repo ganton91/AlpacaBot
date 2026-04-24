@@ -105,7 +105,8 @@ def fetch_batch(client, symbols: list[str]) -> dict:
             except KeyError:
                 continue
         return result
-    except Exception:
+    except Exception as e:
+        print(f"[fetch_batch] ERROR for {symbols[:3]}...: {e}", file=sys.stderr)
         return {}
 
 
@@ -163,8 +164,9 @@ def run() -> dict:
     except Exception as e:
         return {"error": f"Failed to fetch symbols: {e}", "passed": [], "failed": [], "errors": [], "total": 0}
 
-    # Remove duplicates while preserving order
-    symbols = list(dict.fromkeys(symbols))
+    # Remove duplicates and symbols with "-" (preferred shares / class variants
+    # that Alpaca IEX rejects, causing the entire batch to fail)
+    symbols = [s for s in dict.fromkeys(symbols) if "-" not in s]
 
     client = get_data_client()
     passed = []

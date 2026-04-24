@@ -119,6 +119,7 @@ Dynamically fetches the top 500 large cap US-listed stocks (NYSE + NASDAQ, marke
 **Pre-filter (before Trend Template):**
 - Price ≥ $10
 - Exchange: NYSE (NYQ) or NASDAQ (NMS) only
+- Symbols containing `-` are excluded (preferred shares / class variants that Alpaca IEX rejects as invalid, which would cause the entire batch to fail silently)
 
 **Criteria:** Identical to `trend_template.py` — all 10 criteria must pass.
 
