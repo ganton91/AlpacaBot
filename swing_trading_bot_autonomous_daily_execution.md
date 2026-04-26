@@ -36,7 +36,7 @@ This is the very first step that runs every day before anything else. Its sole p
 2. Read the JSON output and check the `mode` field.
 3. Route based on the result:
    - **`mode: "run"`** — Weekday, market opened normally today. Continue with the full sequence (Steps 1–7).
-   - **`mode: "skip"`** — Weekend or market holiday. Stop here. Do not run any further steps.
+   - **`mode: "skip"`** — Weekend or market holiday. **Stop immediately. Do not run any further steps. Do not generate a report. Do not read or write `positions_memory.md`. Do not commit, push, or send anything via Telegram. The session ends here with no output.**
 
 ### STEP 1: MARKET HEALTH CHECK
 
