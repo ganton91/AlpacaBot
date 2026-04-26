@@ -98,12 +98,15 @@ This step applies position management rules to every open stock position from St
       - `Total closed: 33%` AND `unrealized_pl_pct >= 25%`: close another `floor(Original qty * 0.33)` shares (66% total closed, remaining ~34% runs)
       - `Total closed: 66%` or higher: no further partial profits
 
-   c. **Trailing stop rules** — place or update a stop order for the **current remaining quantity** via `place_stock_order` (side="sell", type="stop"). If a stop order already exists for this symbol in the open orders, update it via `replace_order_by_id` instead. **The new stop price must NEVER be lower than the most recent stop in the stop history from `positions_memory.md`. If the calculated stop is lower, skip the update.**
+   c. **Trailing stop rules** — place or update a stop order for the **current remaining quantity** via `place_gtc_stop(symbol, qty, stop_price)` from `broker/client.py`. If a stop order already exists for this symbol in the open orders, update it via `replace_order_by_id` instead (replaced orders inherit the original GTC time-in-force). **The new stop price must NEVER be lower than the most recent stop in the stop history from `positions_memory.md`. If the calculated stop is lower, skip the update.**
       - `unrealized_pl_pct` between 5–10%: set stop at entry price (breakeven)
       - `unrealized_pl_pct` between 10–20%: set stop at `ma10` value
       - `unrealized_pl_pct > 20%`: set stop at `ma20` value
 
-   d. **Cleanup** — only if a new stop was placed or updated in step c: cancel any previous stop orders for this symbol using `cancel_order_by_id`, keeping only the new one. If no stop was placed or updated in step c, do not cancel anything — the existing stop remains active. After cleanup, verify that there is at least one active stop order for this symbol in open_orders. If there is none, place a stop immediately using the most recent stop price from `positions_memory.md`.
+   d. **Cleanup and stop verification** —
+      - If a new stop was placed or updated in step c: cancel all other stop orders for this symbol using `cancel_order_by_id`, keeping only the newest one.
+      - If no stop was placed or updated in step c: do not cancel anything — the existing stop remains active.
+      - **Always** (regardless of the above): verify that there is at least one active stop order for this symbol in `open_orders`. If none exists, immediately call `place_gtc_stop(symbol, qty, stop_price)` using the most recent stop price from `positions_memory.md`. This is the safety net for OTO stop legs that expired as DAY orders.
 
 2. After processing all positions, update `positions_memory.md` to reflect all changes made in this step: stop history updates, partial profits taken, and positions fully closed (remove them).
 
@@ -304,7 +307,7 @@ After all steps are complete, compile a full daily report covering everything th
 
 ## HARD RULES (NEVER VIOLATE)
 1. **MAX RISK PER TRADE** — GREEN: 1% of equity. YELLOW: 0.5% of equity. If position sizing exceeds this, reduce shares.
-2. **ALWAYS USE OTO STOP LOSS** — Every buy must use `order_class="oto"` with a `stop_loss_stop_price`. No buy order without automatic stop protection.
+2. **ALWAYS USE OTO STOP LOSS** — Every buy must use `order_class="oto"` with a `stop_loss_stop_price`. No buy order without automatic stop protection. Note: the OTO stop leg may expire as a DAY order (alpaca-py limitation) — Step 3d will reinstate it as GTC the same night.
 3. **MAX OPEN POSITIONS** — GREEN: max 5. YELLOW: max 3. RED: no new entries. Never open new trades if already at the signal limit.
 4. **MAX 2 NEW ENTRIES PER SESSION** — Regardless of signal or available slots.
 5. **NO AVERAGING DOWN** — Never buy more of a losing or flat position.

@@ -153,5 +153,18 @@ def replace_order_by_id(order_id: str, stop_price: float = None, qty: int = None
     return get_trading_client().replace_order_by_id(order_id, req)
 
 
+def place_gtc_stop(symbol: str, qty: int, stop_price: float) -> object:
+    """Place a GTC stop-sell order. Use this for all position stop losses — never DAY."""
+    return get_trading_client().submit_order(
+        StopOrderRequest(
+            symbol=symbol,
+            qty=qty,
+            side=OrderSide.SELL,
+            time_in_force=TimeInForce.GTC,
+            stop_price=round(stop_price, 2),
+        )
+    )
+
+
 def close_position(symbol: str) -> object:
     return get_trading_client().close_position(symbol)
