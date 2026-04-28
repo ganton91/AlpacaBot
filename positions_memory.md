@@ -10,9 +10,10 @@ Last updated: 2026-04-27
 ---
 
 ## RF
+- **Status**: pending
 - **Entry date**: 2026-04-27
-- **Entry price**: $28.70 (consolidation high / Option A trigger)
-- **Original qty**: 349
+- **Planned entry**: $28.70 (consolidation high / Option A trigger)
+- **Planned qty**: 349
 - **Setup**: Breakout A
 - **Initial stop**: $27.32 (consolidation low)
 
@@ -29,9 +30,10 @@ Last updated: 2026-04-27
 ---
 
 ## KEY
+- **Status**: pending
 - **Entry date**: 2026-04-27
-- **Entry price**: $22.54 (consolidation high / Option A trigger)
-- **Original qty**: 440
+- **Planned entry**: $22.54 (consolidation high / Option A trigger)
+- **Planned qty**: 440
 - **Setup**: Breakout A
 - **Initial stop**: $21.40 (consolidation low)
 
@@ -47,17 +49,43 @@ Last updated: 2026-04-27
 
 ---
 
-<!-- TEMPLATE — copy this block when adding a new position:
+<!-- TEMPLATE — two stages. Use PENDING when placing the order; transition to ACTIVE when fill is confirmed in Step 3.
+
+PENDING (copy this when placing a new order in Step 5):
 
 ## [SYMBOL]
+- **Status**: pending
+- **Order ID**: [alpaca_order_id]
 - **Entry date**: YYYY-MM-DD
-- **Entry price**: $X.XX
-- **Original qty**: N
+- **Planned entry**: $X.XX (consolidation high / Option A trigger / current price)
+- **Planned qty**: N
 - **Setup**: [Breakout A / Breakout B / EP]
 - **Initial stop**: $X.XX (consolidation low / gap day low)
 
 **Stop history:**
-- YYYY-MM-DD: $X.XX — initial stop (entry day)
+- YYYY-MM-DD: $X.XX — initial stop (order pending fill)
+
+**Partial profits:**
+- none
+
+**Total closed**: 0%
+
+**Last updated**: YYYY-MM-DD
+
+---
+
+ACTIVE (replace the pending block with this once fill is confirmed in Step 3):
+
+## [SYMBOL]
+- **Status**: active
+- **Entry date**: YYYY-MM-DD (fill confirmed YYYY-MM-DD)
+- **Entry price**: $X.XX (actual — Alpaca avg_entry_price)
+- **Original qty**: N (actual filled qty)
+- **Setup**: [Breakout A / Breakout B / EP]
+- **Initial stop**: $X.XX (consolidation low / gap day low)
+
+**Stop history:**
+- YYYY-MM-DD: $X.XX — initial stop
 
 **Partial profits:**
 - none

@@ -78,6 +78,14 @@ This step applies position management rules to every open stock position from St
 **Actions:**
 0. **Read `positions_memory.md`** from the root folder before processing any position. Use it to determine partial profit history and stop history for each symbol.
 
+0b. **Reconcile pending entries** — for every entry in `positions_memory.md` with `Status: pending`, do the following using the account snapshot from Step 2:
+
+   - **Position found in `positions.stocks`** (the buy filled): transition the entry to `active`. Replace `Planned entry` with the actual `avg_entry_price` from Alpaca, replace `Planned qty` with the actual `qty`, set `Status: active`, add `(fill confirmed YYYY-MM-DD)` to the entry date line, and remove the `Order ID` line. Keep all stop history and partial profit data unchanged.
+   - **No position, but order found in `open_orders`**: the order is still live (not yet triggered). Leave the entry as `pending` — no changes.
+   - **No position AND no order in `open_orders`**: the order expired unfilled. Remove the entry entirely from `positions_memory.md`. Log this in the report under Errors & Warnings.
+
+   Complete all reconciliation before moving to step 1. Do not apply exit/stop/profit rules to entries that are still `pending` — they have no open position yet.
+
    **IMPORTANT: The market signal (GREEN/YELLOW/RED) does not affect position management. Do not close or alter positions because the signal downgraded. All open positions are managed by the rules below regardless of the current signal.**
 
 1. For each position in the `positions.stocks` array from Step 2:
@@ -241,7 +249,7 @@ place_stock_order(
 ```
 
 **Action 3 — Record the new position:**
-After each confirmed entry, add the position to `positions_memory.md` using the template defined in that file.
+After each confirmed order placement, add the position to `positions_memory.md` using the **PENDING template** defined in that file. Record the `order_id` from the Alpaca order response. Use the planned entry price (consolidation high / current price) and planned qty from the position sizing calculation — NOT the actual fill price, which is not yet known. The entry will be transitioned to `active` by Step 3's reconciliation (step 0b) on the next session when the fill is confirmed.
 
 
 ### STEP 6: DAILY REPORT
