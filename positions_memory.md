@@ -5,47 +5,49 @@ A position is added when a new entry is made (Step 5) and removed only when full
 The bot reads this file at the start of Step 3 to make correct position management decisions.
 This file tracks HISTORY only — current state (price, qty, stop) is always read from Alpaca.
 
-Last updated: 2026-04-27
+Last updated: 2026-04-28
 
 ---
 
 ## RF
 - **Status**: pending
-- **Entry date**: 2026-04-27
-- **Planned entry**: $28.70 (consolidation high / Option A trigger)
+- **Order ID**: b743b975-8764-43d6-8ce4-790e66a1d4c3
+- **Entry date**: 2026-04-28
+- **Planned entry**: $28.72 (consolidation high / Option A trigger)
 - **Planned qty**: 349
 - **Setup**: Breakout A
-- **Initial stop**: $27.32 (consolidation low)
+- **Initial stop**: $27.58 (consolidation low)
 
 **Stop history:**
-- 2026-04-27: $27.32 — initial stop (OTO, order pending fill)
+- 2026-04-28: $27.58 — initial stop (OTO, order pending fill)
 
 **Partial profits:**
 - none
 
 **Total closed**: 0%
 
-**Last updated**: 2026-04-27
+**Last updated**: 2026-04-28
 
 ---
 
 ## KEY
 - **Status**: pending
-- **Entry date**: 2026-04-27
+- **Order ID**: c01d24ee-7324-404b-83e5-b3fe9a126069
+- **Entry date**: 2026-04-28
 - **Planned entry**: $22.54 (consolidation high / Option A trigger)
-- **Planned qty**: 440
+- **Planned qty**: 439
 - **Setup**: Breakout A
 - **Initial stop**: $21.40 (consolidation low)
 
 **Stop history:**
-- 2026-04-27: $21.40 — initial stop (OTO, order pending fill)
+- 2026-04-28: $21.40 — initial stop (OTO, order pending fill)
 
 **Partial profits:**
 - none
 
 **Total closed**: 0%
 
-**Last updated**: 2026-04-27
+**Last updated**: 2026-04-28
 
 ---
 
@@ -98,4 +100,4 @@ ACTIVE (replace the pending block with this once fill is confirmed in Step 3):
 
 ---
 
-*(2 open/pending positions as of 2026-04-27: RF (pending fill), KEY (pending fill). GOOGL closed — earnings 2026-04-29. WMT and HST removed — day orders from 2026-04-24 expired unfilled.)*
+*(2 open/pending positions as of 2026-04-28: RF (pending fill), KEY (pending fill). Previous RF and KEY entries from 2026-04-27 expired unfilled — day orders not triggered.)*
