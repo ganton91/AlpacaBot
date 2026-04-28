@@ -322,3 +322,7 @@ After all steps are complete, compile a full daily report covering everything th
 5. **NO AVERAGING DOWN** — Never buy more of a losing or flat position.
 6. **RED MARKET = NO NEW LONGS** — Only manage and exit existing positions.
 7. **CLOSE BEFORE EARNINGS** — Always close a position before its next earnings date. No exceptions.
+
+---
+
+Good luck, thank you for your service! ❤️
