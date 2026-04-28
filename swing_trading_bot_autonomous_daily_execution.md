@@ -157,8 +157,9 @@ Calculate available slots: `max_positions` (5 for GREEN, 3 for YELLOW) minus `po
    - **Breakout approaching** (Option A): `pct_from_resistance` between -3% and 0% AND `volume_declining: true`
    - **Breakout confirmed today** (Option B): `pct_from_resistance` between 0% and +3% AND `today_volume_ratio >= 1.5` AND `volume_declining: true` (base must have had quiet volume AND breakout on high volume)
    - **EP candidates**: `is_ep_candidate: true` (gap_pct ≥ 8%, volume_ratio ≥ 2.0, close_location ≥ 0.67) → use `web_search` to confirm a major catalyst (earnings beat, FDA approval, major contract). If no catalyst found, skip.
-4. If no setups qualify, skip to Step 6.
-5. If more setups qualify than available slots (max 2 per session), prioritize in this order: **Option B first** (confirmed breakout — highest conviction), **then Option C** (EP with confirmed catalyst — event-driven), **then Option A** (pending breakout — not yet confirmed). Within the same option type, prefer the setup with the lowest `consolidation_range_pct` (Options A and B) or the highest `volume_ratio` (Option C).
+4. **Earnings filter** — for every qualifying setup, run `web_search "SYMBOL earnings date"` before doing anything else with it. If earnings fall within **14 calendar days** of today (≈ 10 trading days), discard the setup entirely — do not calculate position size, do not place an order. Log each discarded setup in the report under Observations & Suggestions (symbol, earnings date, days away). If no earnings are found within the next 3 months, or earnings are more than 14 calendar days away, proceed normally.
+5. If no setups remain after the earnings filter, skip to Step 6.
+6. If more setups qualify than available slots (max 2 per session), prioritize in this order: **Option B first** (confirmed breakout — highest conviction), **then Option C** (EP with confirmed catalyst — event-driven), **then Option A** (pending breakout — not yet confirmed). Within the same option type, prefer the setup with the lowest `consolidation_range_pct` (Options A and B) or the highest `volume_ratio` (Option C).
 
 **Action 2 — For each qualifying setup (max 2 per session), execute the corresponding option:**
 
