@@ -5,49 +5,49 @@ A position is added when a new entry is made (Step 5) and removed only when full
 The bot reads this file at the start of Step 3 to make correct position management decisions.
 This file tracks HISTORY only — current state (price, qty, stop) is always read from Alpaca.
 
-Last updated: 2026-04-29
+Last updated: 2026-04-30
 
 ---
 
-## RF
+## KEY
 - **Status**: pending
-- **Order ID**: eb0d3668-2b45-4b34-b858-b13836cfd6c0
-- **Entry date**: 2026-04-29
-- **Planned entry**: $28.72 (consolidation high / Option A trigger)
-- **Planned qty**: 349
+- **Order ID**: ff00b770-006d-44d5-a248-82a87c53a2c3
+- **Entry date**: 2026-04-30
+- **Planned entry**: $22.54 (consolidation high / Option A trigger)
+- **Planned qty**: 444
 - **Setup**: Breakout A
-- **Initial stop**: $27.70 (consolidation low)
+- **Initial stop**: $21.50 (consolidation low)
 
 **Stop history:**
-- 2026-04-29: $27.70 — initial stop (OTO, order pending fill)
+- 2026-04-30: $21.50 — initial stop (OTO, order pending fill)
 
 **Partial profits:**
 - none
 
 **Total closed**: 0%
 
-**Last updated**: 2026-04-29
+**Last updated**: 2026-04-30
 
 ---
 
 ## TFC
 - **Status**: pending
-- **Order ID**: d7890c63-2417-433d-85ae-c56a634def39
-- **Entry date**: 2026-04-29
+- **Order ID**: c34aedb1-c192-4a7f-add3-7b91b9b64af1
+- **Entry date**: 2026-04-30
 - **Planned entry**: $52.11 (consolidation high / Option A trigger)
 - **Planned qty**: 148
 - **Setup**: Breakout A
 - **Initial stop**: $48.73 (consolidation low)
 
 **Stop history:**
-- 2026-04-29: $48.73 — initial stop (OTO, order pending fill)
+- 2026-04-30: $48.73 — initial stop (OTO, order pending fill)
 
 **Partial profits:**
 - none
 
 **Total closed**: 0%
 
-**Last updated**: 2026-04-29
+**Last updated**: 2026-04-30
 
 ---
 
@@ -100,4 +100,4 @@ ACTIVE (replace the pending block with this once fill is confirmed in Step 3):
 
 ---
 
-*(2 pending positions as of 2026-04-29: RF (pending fill), TFC (pending fill). Previous RF and KEY entries from 2026-04-28 expired unfilled — day orders not triggered.)*
+*(2 pending positions as of 2026-04-30: KEY (pending fill), TFC (pending fill). Previous RF and TFC entries from 2026-04-29 expired unfilled — day orders not triggered.)*
