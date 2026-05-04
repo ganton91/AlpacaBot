@@ -5,49 +5,49 @@ A position is added when a new entry is made (Step 5) and removed only when full
 The bot reads this file at the start of Step 3 to make correct position management decisions.
 This file tracks HISTORY only — current state (price, qty, stop) is always read from Alpaca.
 
-Last updated: 2026-05-01
+Last updated: 2026-05-04
 
 ---
 
-## TFC
+## ERIC
 - **Status**: pending
-- **Order ID**: 589f4bd1-1089-41c1-be23-dbc8a3f191fb
-- **Entry date**: 2026-05-01
-- **Planned entry**: $52.11 (consolidation high / Option A trigger)
-- **Planned qty**: 192
+- **Order ID**: 1f216e59-31ad-4d0c-aeaf-3e96a0114fb0
+- **Entry date**: 2026-05-04
+- **Planned entry**: $11.91 (consolidation high / Option A trigger)
+- **Planned qty**: 576
 - **Setup**: Breakout A
-- **Initial stop**: $50.18 (consolidation low)
+- **Initial stop**: $11.04 (consolidation low)
 
 **Stop history:**
-- 2026-05-01: $50.18 — initial stop (OTO, order pending fill)
+- 2026-05-04: $11.04 — initial stop (OTO, order pending fill)
 
 **Partial profits:**
 - none
 
 **Total closed**: 0%
 
-**Last updated**: 2026-05-01
+**Last updated**: 2026-05-04
 
 ---
 
-## KEY
+## HPE
 - **Status**: pending
-- **Order ID**: 8a23a177-ed08-44e5-a42e-41257ce2aa74
-- **Entry date**: 2026-05-01
-- **Planned entry**: $22.54 (consolidation high / Option A trigger)
-- **Planned qty**: 444
+- **Order ID**: 2940a646-7b17-4ba1-b8dc-e936e5d49362
+- **Entry date**: 2026-05-04
+- **Planned entry**: $29.62 (consolidation high / Option A trigger)
+- **Planned qty**: 219
 - **Setup**: Breakout A
-- **Initial stop**: $21.50 (consolidation low)
+- **Initial stop**: $27.34 (consolidation low)
 
 **Stop history:**
-- 2026-05-01: $21.50 — initial stop (OTO, order pending fill)
+- 2026-05-04: $27.34 — initial stop (OTO, order pending fill)
 
 **Partial profits:**
 - none
 
 **Total closed**: 0%
 
-**Last updated**: 2026-05-01
+**Last updated**: 2026-05-04
 
 ---
 
@@ -100,4 +100,4 @@ ACTIVE (replace the pending block with this once fill is confirmed in Step 3):
 
 ---
 
-*(2 pending positions as of 2026-05-01: TFC (pending fill), KEY (pending fill). Previous TFC and KEY entries from 2026-04-30 expired unfilled — day orders not triggered.)*
+*(2 pending positions as of 2026-05-04: ERIC (pending fill), HPE (pending fill). Previous TFC and KEY entries from 2026-05-01 expired unfilled — day orders not triggered.)*
