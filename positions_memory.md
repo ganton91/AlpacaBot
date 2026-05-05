@@ -5,49 +5,91 @@ A position is added when a new entry is made (Step 5) and removed only when full
 The bot reads this file at the start of Step 3 to make correct position management decisions.
 This file tracks HISTORY only — current state (price, qty, stop) is always read from Alpaca.
 
-Last updated: 2026-05-04
+Last updated: 2026-05-05
 
 ---
 
 ## ERIC
-- **Status**: pending
-- **Order ID**: 1f216e59-31ad-4d0c-aeaf-3e96a0114fb0
-- **Entry date**: 2026-05-04
-- **Planned entry**: $11.91 (consolidation high / Option A trigger)
-- **Planned qty**: 576
+- **Status**: active
+- **Entry date**: 2026-05-04 (fill confirmed 2026-05-05)
+- **Entry price**: $12.02 (actual — Alpaca avg_entry_price)
+- **Original qty**: 576 (actual filled qty)
 - **Setup**: Breakout A
 - **Initial stop**: $11.04 (consolidation low)
 
 **Stop history:**
 - 2026-05-04: $11.04 — initial stop (OTO, order pending fill)
+- 2026-05-05: $11.04 — GTC stop reinstated (OTO leg expired as DAY order, order 483923c0)
 
 **Partial profits:**
 - none
 
 **Total closed**: 0%
 
-**Last updated**: 2026-05-04
+**Last updated**: 2026-05-05
 
 ---
 
 ## HPE
-- **Status**: pending
-- **Order ID**: 2940a646-7b17-4ba1-b8dc-e936e5d49362
-- **Entry date**: 2026-05-04
-- **Planned entry**: $29.62 (consolidation high / Option A trigger)
-- **Planned qty**: 219
+- **Status**: active
+- **Entry date**: 2026-05-04 (fill confirmed 2026-05-05)
+- **Entry price**: $29.78 (actual — Alpaca avg_entry_price)
+- **Original qty**: 219 (actual filled qty)
 - **Setup**: Breakout A
 - **Initial stop**: $27.34 (consolidation low)
 
 **Stop history:**
 - 2026-05-04: $27.34 — initial stop (OTO, order pending fill)
+- 2026-05-05: $27.34 — GTC stop reinstated (OTO leg expired as DAY order, order aaa3c7c2)
 
 **Partial profits:**
 - none
 
 **Total closed**: 0%
 
-**Last updated**: 2026-05-04
+**Last updated**: 2026-05-05
+
+---
+
+## KEY
+- **Status**: pending
+- **Order ID**: aa0df191-e3fe-44ad-817e-8e2085412cd2
+- **Entry date**: 2026-05-05
+- **Planned entry**: $22.30 (consolidation high / Option A trigger)
+- **Planned qty**: 449
+- **Setup**: Breakout A
+- **Initial stop**: $21.50 (consolidation low)
+
+**Stop history:**
+- 2026-05-05: $21.50 — initial stop (OTO, order pending fill)
+
+**Partial profits:**
+- none
+
+**Total closed**: 0%
+
+**Last updated**: 2026-05-05
+
+---
+
+## SLB
+- **Status**: pending
+- **Order ID**: 18b749e2-6443-4614-ab4d-e96e9ceb3cc5
+- **Entry date**: 2026-05-05
+- **Planned entry**: $57.20 (consolidation high / Option A trigger)
+- **Planned qty**: 131
+- **Setup**: Breakout A
+- **Initial stop**: $53.38 (consolidation low)
+
+**Stop history:**
+- 2026-05-05: $53.38 — initial stop (OTO, order pending fill)
+
+**Partial profits:**
+- none
+
+**Total closed**: 0%
+
+**Last updated**: 2026-05-05
 
 ---
 
@@ -100,4 +142,4 @@ ACTIVE (replace the pending block with this once fill is confirmed in Step 3):
 
 ---
 
-*(2 pending positions as of 2026-05-04: ERIC (pending fill), HPE (pending fill). Previous TFC and KEY entries from 2026-05-01 expired unfilled — day orders not triggered.)*
+*(4 positions as of 2026-05-05: ERIC (active, filled 2026-05-05), HPE (active, filled 2026-05-05), KEY (pending fill), SLB (pending fill).)*
