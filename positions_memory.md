@@ -5,7 +5,7 @@ A position is added when a new entry is made (Step 5) and removed only when full
 The bot reads this file at the start of Step 3 to make correct position management decisions.
 This file tracks HISTORY only — current state (price, qty, stop) is always read from Alpaca.
 
-Last updated: 2026-05-05
+Last updated: 2026-05-06
 
 ---
 
@@ -52,44 +52,63 @@ Last updated: 2026-05-05
 ---
 
 ## KEY
-- **Status**: pending
-- **Order ID**: aa0df191-e3fe-44ad-817e-8e2085412cd2
-- **Entry date**: 2026-05-05
-- **Planned entry**: $22.30 (consolidation high / Option A trigger)
-- **Planned qty**: 449
+- **Status**: active
+- **Entry date**: 2026-05-05 (fill confirmed 2026-05-06)
+- **Entry price**: $22.41 (actual — Alpaca avg_entry_price)
+- **Original qty**: 449 (actual filled qty)
 - **Setup**: Breakout A
 - **Initial stop**: $21.50 (consolidation low)
 
 **Stop history:**
 - 2026-05-05: $21.50 — initial stop (OTO, order pending fill)
+- 2026-05-06: $21.50 — GTC stop reinstated (OTO leg expired as DAY order, order 46ace413)
 
 **Partial profits:**
 - none
 
 **Total closed**: 0%
 
-**Last updated**: 2026-05-05
+**Last updated**: 2026-05-06
+
+## AMD
+- **Status**: pending
+- **Order ID**: bf49dd90-65fe-4a4e-8388-5c63249b29fb
+- **Entry date**: 2026-05-06
+- **Planned entry**: $421.55 (current price / EP trigger)
+- **Planned qty**: 23
+- **Setup**: EP
+- **Initial stop**: $402.25 (gap day low)
+
+**Stop history:**
+- 2026-05-06: $402.25 — initial stop (OTO, order pending fill)
+
+**Partial profits:**
+- none
+
+**Total closed**: 0%
+
+**Last updated**: 2026-05-06
 
 ---
 
-## SLB
+## UMC
 - **Status**: pending
-- **Order ID**: 18b749e2-6443-4614-ab4d-e96e9ceb3cc5
-- **Entry date**: 2026-05-05
-- **Planned entry**: $57.20 (consolidation high / Option A trigger)
-- **Planned qty**: 131
-- **Setup**: Breakout A
-- **Initial stop**: $53.38 (consolidation low)
+- **Order ID**: 25e67645-37d9-4352-869d-fa4373e38d4c
+- **Entry date**: 2026-05-06
+- **Planned entry**: $15.22 (current price / EP trigger)
+- **Planned qty**: 659
+- **Setup**: EP
+- **Initial stop**: $14.70 (gap day low)
 
 **Stop history:**
-- 2026-05-05: $53.38 — initial stop (OTO, order pending fill)
+- 2026-05-06: $14.70 — initial stop (OTO, order pending fill)
 
 **Partial profits:**
 - none
 
 **Total closed**: 0%
 
-**Last updated**: 2026-05-05
+**Last updated**: 2026-05-06
 
 ---
 
@@ -142,4 +161,4 @@ ACTIVE (replace the pending block with this once fill is confirmed in Step 3):
 
 ---
 
-*(4 positions as of 2026-05-05: ERIC (active, filled 2026-05-05), HPE (active, filled 2026-05-05), KEY (pending fill), SLB (pending fill).)*
+*(5 positions as of 2026-05-06: ERIC (active, filled 2026-05-05), HPE (active, filled 2026-05-05), KEY (active, filled 2026-05-06), AMD (pending fill), UMC (pending fill).)*
