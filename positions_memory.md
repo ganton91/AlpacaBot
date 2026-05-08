@@ -5,7 +5,7 @@ A position is added when a new entry is made (Step 5) and removed only when full
 The bot reads this file at the start of Step 3 to make correct position management decisions.
 This file tracks HISTORY only — current state (price, qty, stop) is always read from Alpaca.
 
-Last updated: 2026-05-07
+Last updated: 2026-05-08
 
 ---
 
@@ -26,7 +26,7 @@ Last updated: 2026-05-07
 
 **Total closed**: 0%
 
-**Last updated**: 2026-05-05
+**Last updated**: 2026-05-08
 
 ---
 
@@ -47,47 +47,49 @@ Last updated: 2026-05-07
 
 **Total closed**: 0%
 
-**Last updated**: 2026-05-05
+**Last updated**: 2026-05-08
 
 ---
 
-## UMC
-- **Status**: active
-- **Entry date**: 2026-05-06 (fill confirmed 2026-05-07)
-- **Entry price**: $15.2417 (actual — Alpaca avg_entry_price)
-- **Original qty**: 659 (actual filled qty)
-- **Setup**: EP
-- **Initial stop**: $14.70 (gap day low)
+## USB
+- **Status**: pending
+- **Order ID**: f37b6c3f-f756-48d6-b795-d1e0fa150412
+- **Entry date**: 2026-05-08
+- **Planned entry**: $57.04 (consolidation high / Option A trigger)
+- **Planned qty**: 172
+- **Setup**: Breakout A
+- **Initial stop**: $54.91 (consolidation low)
 
 **Stop history:**
-- 2026-05-06: $14.70 — initial stop (OTO, order pending fill)
-- 2026-05-07: $14.70 — GTC stop reinstated (OTO leg expired as DAY order, order 23bee2ff)
+- 2026-05-08: $54.91 — initial stop (OTO, order pending fill)
 
 **Partial profits:**
 - none
 
 **Total closed**: 0%
 
-**Last updated**: 2026-05-07
+**Last updated**: 2026-05-08
+
+---
 
 ## AMZN
 - **Status**: pending
-- **Order ID**: cef1963a-888b-4f36-8150-abb3f9e9290c
-- **Entry date**: 2026-05-07
+- **Order ID**: 1769a9c8-cf35-4c39-83f1-3b3b149d11af
+- **Entry date**: 2026-05-08
 - **Planned entry**: $278.53 (consolidation high / Option A trigger)
-- **Planned qty**: 21
+- **Planned qty**: 22
 - **Setup**: Breakout A
 - **Initial stop**: $256.18 (consolidation low)
 
 **Stop history:**
-- 2026-05-07: $256.18 — initial stop (OTO, order pending fill)
+- 2026-05-08: $256.18 — initial stop (OTO, order pending fill)
 
 **Partial profits:**
 - none
 
 **Total closed**: 0%
 
-**Last updated**: 2026-05-07
+**Last updated**: 2026-05-08
 
 ---
 
@@ -140,4 +142,4 @@ ACTIVE (replace the pending block with this once fill is confirmed in Step 3):
 
 ---
 
-*(4 positions as of 2026-05-07: ERIC (active, filled 2026-05-05), HPE (active, filled 2026-05-05), UMC (active, fill confirmed 2026-05-07), AMZN (pending fill). KEY closed today (exit: below 20MA, day 1). AMD expired unfilled.)*
+*(4 entries as of 2026-05-08: ERIC (active, filled 2026-05-05), HPE (active, filled 2026-05-05), USB (pending fill, order f37b6c3f), AMZN (pending fill, order 1769a9c8). UMC closed — GTC stop at $14.70 triggered between sessions. Previous AMZN order cef1963a expired unfilled.)*
