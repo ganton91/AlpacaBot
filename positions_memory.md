@@ -5,7 +5,7 @@ A position is added when a new entry is made (Step 5) and removed only when full
 The bot reads this file at the start of Step 3 to make correct position management decisions.
 This file tracks HISTORY only — current state (price, qty, stop) is always read from Alpaca.
 
-Last updated: 2026-05-07
+Last updated: 2026-05-11
 
 ---
 
@@ -26,7 +26,7 @@ Last updated: 2026-05-07
 
 **Total closed**: 0%
 
-**Last updated**: 2026-05-05
+**Last updated**: 2026-05-11
 
 ---
 
@@ -47,47 +47,28 @@ Last updated: 2026-05-07
 
 **Total closed**: 0%
 
-**Last updated**: 2026-05-05
+**Last updated**: 2026-05-11
 
 ---
 
-## UMC
-- **Status**: active
-- **Entry date**: 2026-05-06 (fill confirmed 2026-05-07)
-- **Entry price**: $15.2417 (actual — Alpaca avg_entry_price)
-- **Original qty**: 659 (actual filled qty)
-- **Setup**: EP
-- **Initial stop**: $14.70 (gap day low)
-
-**Stop history:**
-- 2026-05-06: $14.70 — initial stop (OTO, order pending fill)
-- 2026-05-07: $14.70 — GTC stop reinstated (OTO leg expired as DAY order, order 23bee2ff)
-
-**Partial profits:**
-- none
-
-**Total closed**: 0%
-
-**Last updated**: 2026-05-07
-
-## AMZN
+## VALE
 - **Status**: pending
-- **Order ID**: cef1963a-888b-4f36-8150-abb3f9e9290c
-- **Entry date**: 2026-05-07
-- **Planned entry**: $278.53 (consolidation high / Option A trigger)
-- **Planned qty**: 21
+- **Order ID**: 3e2b26fc-8df0-40b8-bdef-3ed17f4e6347
+- **Entry date**: 2026-05-11
+- **Planned entry**: $17.11 (consolidation high / Option A trigger)
+- **Planned qty**: 374
 - **Setup**: Breakout A
-- **Initial stop**: $256.18 (consolidation low)
+- **Initial stop**: $15.79 (consolidation low)
 
 **Stop history:**
-- 2026-05-07: $256.18 — initial stop (OTO, order pending fill)
+- 2026-05-11: $15.79 — initial stop (OTO, order pending fill)
 
 **Partial profits:**
 - none
 
 **Total closed**: 0%
 
-**Last updated**: 2026-05-07
+**Last updated**: 2026-05-11
 
 ---
 
@@ -140,4 +121,4 @@ ACTIVE (replace the pending block with this once fill is confirmed in Step 3):
 
 ---
 
-*(4 positions as of 2026-05-07: ERIC (active, filled 2026-05-05), HPE (active, filled 2026-05-05), UMC (active, fill confirmed 2026-05-07), AMZN (pending fill). KEY closed today (exit: below 20MA, day 1). AMD expired unfilled.)*
+*(3 entries as of 2026-05-11: ERIC (active, filled 2026-05-05), HPE (active, filled 2026-05-05), VALE (pending fill, order placed 2026-05-11). UMC closed — stop triggered between 2026-05-07 and 2026-05-11 (no position found in account snapshot). AMZN expired unfilled — order cef1963a not found in open_orders or positions.)*
