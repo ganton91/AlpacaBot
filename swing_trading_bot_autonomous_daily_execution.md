@@ -262,7 +262,7 @@ After all steps are complete, compile a full daily report covering everything th
 1. Compile the report using the template below.
 2. Save to `reports/daily_YYYY-MM-DD.md`.
 3. Verify `positions_memory.md` is correctly updated — confirm it reflects all entries added (Step 5), stop history and partial profits updated (Step 3), and closed positions removed (Step 3).
-4. Run: `git add reports/daily_YYYY-MM-DD.md positions_memory.md && git commit -m "Daily report YYYY-MM-DD" && git push origin HEAD:main`
+4. Run: `git add reports/daily_YYYY-MM-DD.md positions_memory.md && git commit -m "Daily report YYYY-MM-DD"` to commit locally on the session branch. Then use `mcp__github__push_files` with `owner="ganton91"`, `repo="AlpacaBot"`, `branch="main"`, `message="Daily report YYYY-MM-DD"` to push `reports/daily_YYYY-MM-DD.md` and `positions_memory.md` directly to main via the GitHub API.
 5. Call `send_report_document("reports/daily_YYYY-MM-DD.md")` from `telegram/notifier.py` to send the daily report.
 6. Call `send_report_document("positions_memory.md")` from `telegram/notifier.py` to send the updated positions memory.
 
