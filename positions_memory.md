@@ -5,7 +5,7 @@ A position is added when a new entry is made (Step 5) and removed only when full
 The bot reads this file at the start of Step 3 to make correct position management decisions.
 This file tracks HISTORY only — current state (price, qty, stop) is always read from Alpaca.
 
-Last updated: 2026-05-14
+Last updated: 2026-05-15
 
 ---
 
@@ -27,7 +27,7 @@ Last updated: 2026-05-14
 
 **Total closed**: 0%
 
-**Last updated**: 2026-05-14
+**Last updated**: 2026-05-15
 
 ---
 
@@ -44,55 +44,77 @@ Last updated: 2026-05-14
 - 2026-05-05: $27.34 — GTC stop reinstated (OTO leg expired as DAY order, order aaa3c7c2)
 - 2026-05-13: $30.07 — MA10 trailing stop (unrealized +12.79%, order 6dc0fbf3)
 - 2026-05-14: $30.60 — MA10 trailing stop updated (unrealized +14.62%, order af6fed79)
+- 2026-05-15: $31.06 — MA10 trailing stop updated (unrealized +10.95%, order 2dd239e6)
 
 **Partial profits:**
 - none
 
 **Total closed**: 0%
 
-**Last updated**: 2026-05-14
-
----
-
-## GOOGL
-- **Status**: pending
-- **Order ID**: 816e90ef-0f15-40a1-9d8d-d6f1769c820b
-- **Entry date**: 2026-05-14
-- **Planned entry**: $403.69 (consolidation high / Option A trigger)
-- **Planned qty**: 20
-- **Setup**: Breakout A
-- **Initial stop**: $379.15 (consolidation low)
-
-**Stop history:**
-- 2026-05-14: $379.15 — initial stop (OTO, order pending fill)
-
-**Partial profits:**
-- none
-
-**Total closed**: 0%
-
-**Last updated**: 2026-05-14
+**Last updated**: 2026-05-15
 
 ---
 
 ## KMI
-- **Status**: pending
-- **Order ID**: d14ac1c8-858b-4a26-adb7-887921005326
-- **Entry date**: 2026-05-14
-- **Planned entry**: $33.47 (consolidation high / Option A trigger)
-- **Planned qty**: 194
+- **Status**: active
+- **Entry date**: 2026-05-14 (fill confirmed 2026-05-15)
+- **Entry price**: $33.63 (actual — Alpaca avg_entry_price)
+- **Original qty**: 194 (actual filled qty)
 - **Setup**: Breakout A
 - **Initial stop**: $30.88 (consolidation low)
 
 **Stop history:**
 - 2026-05-14: $30.88 — initial stop (OTO, order pending fill)
+- 2026-05-15: $30.88 — GTC stop reinstated (OTO leg expired as DAY order, order b19d946c)
 
 **Partial profits:**
 - none
 
 **Total closed**: 0%
 
-**Last updated**: 2026-05-14
+**Last updated**: 2026-05-15
+
+---
+
+## GOOGL
+- **Status**: pending
+- **Order ID**: 83de3e7c-5b0b-46ef-b31e-0a52899062a9
+- **Entry date**: 2026-05-15
+- **Planned entry**: $403.69 (consolidation high / Option A trigger)
+- **Planned qty**: 20
+- **Setup**: Breakout A
+- **Initial stop**: $379.81 (consolidation low)
+
+**Stop history:**
+- 2026-05-15: $379.81 — initial stop (OTO, order pending fill)
+
+**Partial profits:**
+- none
+
+**Total closed**: 0%
+
+**Last updated**: 2026-05-15
+
+---
+
+## SLB
+- **Status**: pending
+- **Order ID**: 3d5328ba-a048-4485-9fd1-aaef845386d2
+- **Entry date**: 2026-05-15
+- **Planned entry**: $56.94 (consolidation high / Option A trigger)
+- **Planned qty**: 119
+- **Setup**: Breakout A
+- **Initial stop**: $52.76 (consolidation low)
+
+**Stop history:**
+- 2026-05-15: $52.76 — initial stop (OTO, order pending fill)
+
+**Partial profits:**
+- none
+
+**Total closed**: 0%
+
+**Last updated**: 2026-05-15
 
 ---
 
@@ -145,4 +167,4 @@ ACTIVE (replace the pending block with this once fill is confirmed in Step 3):
 
 ---
 
-*(4 positions as of 2026-05-14: ERIC (active, filled 2026-05-05), HPE (active, filled 2026-05-05), GOOGL (pending, order placed 2026-05-14), KMI (pending, order placed 2026-05-14). TEVA expired unfilled — order 60d79019 not found in open_orders on 2026-05-14 reconciliation. GOOGL prior pending order 9b7265c4 expired unfilled — new order placed same session.)*
+*(5 positions as of 2026-05-15: ERIC (active, filled 2026-05-05), HPE (active, filled 2026-05-05), KMI (active, filled 2026-05-15), GOOGL (pending, order placed 2026-05-15), SLB (pending, order placed 2026-05-15). GOOGL prior pending order 816e90ef expired unfilled — removed on 2026-05-15 reconciliation.)*
