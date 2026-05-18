@@ -5,7 +5,7 @@ A position is added when a new entry is made (Step 5) and removed only when full
 The bot reads this file at the start of Step 3 to make correct position management decisions.
 This file tracks HISTORY only — current state (price, qty, stop) is always read from Alpaca.
 
-Last updated: 2026-05-15
+Last updated: 2026-05-18
 
 ---
 
@@ -45,13 +45,14 @@ Last updated: 2026-05-15
 - 2026-05-13: $30.07 — MA10 trailing stop (unrealized +12.79%, order 6dc0fbf3)
 - 2026-05-14: $30.60 — MA10 trailing stop updated (unrealized +14.62%, order af6fed79)
 - 2026-05-15: $31.06 — MA10 trailing stop updated (unrealized +10.95%, order 2dd239e6)
+- 2026-05-18: $31.48 — MA10 trailing stop updated (unrealized +11.15%, order 8330196b)
 
 **Partial profits:**
 - none
 
 **Total closed**: 0%
 
-**Last updated**: 2026-05-15
+**Last updated**: 2026-05-18
 
 ---
 
@@ -77,44 +78,44 @@ Last updated: 2026-05-15
 ---
 
 ## GOOGL
-- **Status**: pending
-- **Order ID**: 83de3e7c-5b0b-46ef-b31e-0a52899062a9
-- **Entry date**: 2026-05-15
-- **Planned entry**: $403.69 (consolidation high / Option A trigger)
-- **Planned qty**: 20
+- **Status**: active
+- **Entry date**: 2026-05-15 (fill confirmed 2026-05-18)
+- **Entry price**: $405.8105 (actual — Alpaca avg_entry_price)
+- **Original qty**: 20 (actual filled qty)
 - **Setup**: Breakout A
 - **Initial stop**: $379.81 (consolidation low)
 
 **Stop history:**
 - 2026-05-15: $379.81 — initial stop (OTO, order pending fill)
+- 2026-05-18: $379.81 — GTC stop reinstated (OTO leg expired as DAY order, order 419da6b5)
 
 **Partial profits:**
 - none
 
 **Total closed**: 0%
 
-**Last updated**: 2026-05-15
+**Last updated**: 2026-05-18
 
 ---
 
 ## SLB
-- **Status**: pending
-- **Order ID**: 3d5328ba-a048-4485-9fd1-aaef845386d2
-- **Entry date**: 2026-05-15
-- **Planned entry**: $56.94 (consolidation high / Option A trigger)
-- **Planned qty**: 119
+- **Status**: active
+- **Entry date**: 2026-05-15 (fill confirmed 2026-05-18)
+- **Entry price**: $57.23 (actual — Alpaca avg_entry_price)
+- **Original qty**: 119 (actual filled qty)
 - **Setup**: Breakout A
 - **Initial stop**: $52.76 (consolidation low)
 
 **Stop history:**
 - 2026-05-15: $52.76 — initial stop (OTO, order pending fill)
+- 2026-05-18: $52.76 — GTC stop reinstated (OTO leg expired as DAY order, order 937f3d3c)
 
 **Partial profits:**
 - none
 
 **Total closed**: 0%
 
-**Last updated**: 2026-05-15
+**Last updated**: 2026-05-18
 
 ---
 
@@ -167,4 +168,4 @@ ACTIVE (replace the pending block with this once fill is confirmed in Step 3):
 
 ---
 
-*(5 positions as of 2026-05-15: ERIC (active, filled 2026-05-05), HPE (active, filled 2026-05-05), KMI (active, filled 2026-05-15), GOOGL (pending, order placed 2026-05-15), SLB (pending, order placed 2026-05-15). GOOGL prior pending order 816e90ef expired unfilled — removed on 2026-05-15 reconciliation.)*
+*(5 positions as of 2026-05-18: ERIC (active, filled 2026-05-05), HPE (active, filled 2026-05-05), KMI (active, filled 2026-05-15), GOOGL (active, filled confirmed 2026-05-18), SLB (active, filled confirmed 2026-05-18). GOOGL prior pending order 816e90ef expired unfilled — removed on 2026-05-15 reconciliation.)*
