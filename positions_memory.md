@@ -5,7 +5,7 @@ A position is added when a new entry is made (Step 5) and removed only when full
 The bot reads this file at the start of Step 3 to make correct position management decisions.
 This file tracks HISTORY only — current state (price, qty, stop) is always read from Alpaca.
 
-Last updated: 2026-05-18
+Last updated: 2026-05-19
 
 ---
 
@@ -74,27 +74,6 @@ Last updated: 2026-05-18
 **Total closed**: 0%
 
 **Last updated**: 2026-05-15
-
----
-
-## GOOGL
-- **Status**: active
-- **Entry date**: 2026-05-15 (fill confirmed 2026-05-18)
-- **Entry price**: $405.8105 (actual — Alpaca avg_entry_price)
-- **Original qty**: 20 (actual filled qty)
-- **Setup**: Breakout A
-- **Initial stop**: $379.81 (consolidation low)
-
-**Stop history:**
-- 2026-05-15: $379.81 — initial stop (OTO, order pending fill)
-- 2026-05-18: $379.81 — GTC stop reinstated (OTO leg expired as DAY order, order 419da6b5)
-
-**Partial profits:**
-- none
-
-**Total closed**: 0%
-
-**Last updated**: 2026-05-18
 
 ---
 
@@ -168,4 +147,4 @@ ACTIVE (replace the pending block with this once fill is confirmed in Step 3):
 
 ---
 
-*(5 positions as of 2026-05-18: ERIC (active, filled 2026-05-05), HPE (active, filled 2026-05-05), KMI (active, filled 2026-05-15), GOOGL (active, filled confirmed 2026-05-18), SLB (active, filled confirmed 2026-05-18). GOOGL prior pending order 816e90ef expired unfilled — removed on 2026-05-15 reconciliation.)*
+*(4 positions as of 2026-05-19: ERIC (active, filled 2026-05-05), HPE (active, filled 2026-05-05), KMI (active, filled 2026-05-15), SLB (active, filled 2026-05-18). GOOGL closed 2026-05-19 — stagnant position exit (25 days open, -0.17% 10-day price change). Sell order d57b8436 placed.)*
