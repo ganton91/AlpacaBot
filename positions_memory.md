@@ -5,7 +5,7 @@ A position is added when a new entry is made (Step 5) and removed only when full
 The bot reads this file at the start of Step 3 to make correct position management decisions.
 This file tracks HISTORY only — current state (price, qty, stop) is always read from Alpaca.
 
-Last updated: 2026-05-20
+Last updated: 2026-05-21
 
 ---
 
@@ -21,13 +21,14 @@ Last updated: 2026-05-20
 - 2026-05-04: $11.04 — initial stop (OTO, order pending fill)
 - 2026-05-05: $11.04 — GTC stop reinstated (OTO leg expired as DAY order, order 483923c0)
 - 2026-05-13: $12.02 — breakeven stop (unrealized +6.11%, order e01e9a00)
+- 2026-05-21: $12.62 — MA10 trailing stop (unrealized +10.86%, order a061c424)
 
 **Partial profits:**
 - none
 
 **Total closed**: 0%
 
-**Last updated**: 2026-05-15
+**Last updated**: 2026-05-21
 
 ---
 
@@ -47,13 +48,14 @@ Last updated: 2026-05-20
 - 2026-05-15: $31.06 — MA10 trailing stop updated (unrealized +10.95%, order 2dd239e6)
 - 2026-05-18: $31.48 — MA10 trailing stop updated (unrealized +11.15%, order 8330196b)
 - 2026-05-20: $32.08 — MA10 trailing stop updated (unrealized +13.7%, order e49bb48a)
+- 2026-05-21: $32.51 — MA10 trailing stop updated (unrealized +14.17%, order 83894864)
 
 **Partial profits:**
 - none
 
 **Total closed**: 0%
 
-**Last updated**: 2026-05-20
+**Last updated**: 2026-05-21
 
 ---
 
@@ -99,24 +101,24 @@ Last updated: 2026-05-20
 
 ---
 
-## CSX
+## AAPL
 - **Status**: pending
-- **Order ID**: ec5ba953-6125-407d-b693-ffd11c9066e6
-- **Entry date**: 2026-05-20
-- **Planned entry**: $46.73 (consolidation high / Option A trigger)
-- **Planned qty**: 200
+- **Order ID**: f7c23d39-f321-4ece-af5f-b5f866e423f8
+- **Entry date**: 2026-05-21
+- **Planned entry**: $305.53 (consolidation high / Option A trigger)
+- **Planned qty**: 32
 - **Setup**: Breakout A
-- **Initial stop**: $44.23 (consolidation low)
+- **Initial stop**: $290.06 (consolidation low)
 
 **Stop history:**
-- 2026-05-20: $44.23 — initial stop (order pending fill)
+- 2026-05-21: $290.06 — initial stop (order pending fill)
 
 **Partial profits:**
 - none
 
 **Total closed**: 0%
 
-**Last updated**: 2026-05-20
+**Last updated**: 2026-05-21
 
 ---
 
@@ -169,4 +171,4 @@ ACTIVE (replace the pending block with this once fill is confirmed in Step 3):
 
 ---
 
-*(4 active positions as of 2026-05-20: ERIC (active, filled 2026-05-05), HPE (active, filled 2026-05-05), KMI (active, filled 2026-05-15), SLB (active, filled 2026-05-18). CSX added as pending 2026-05-20 — Breakout A setup, order ec5ba953. HPE stop updated to $32.08 (MA10 trailing stop, order e49bb48a).)*
+*(4 active positions as of 2026-05-21: ERIC (active, filled 2026-05-05), HPE (active, filled 2026-05-05), KMI (active, filled 2026-05-15), SLB (active, filled 2026-05-18). CSX pending order ec5ba953 expired unfilled on 2026-05-21 — removed. ERIC stop updated to $12.62 (MA10, order a061c424). HPE stop updated to $32.51 (MA10, order 83894864). AAPL added as pending 2026-05-21 — Breakout A setup, order f7c23d39.)*
