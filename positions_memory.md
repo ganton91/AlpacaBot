@@ -5,7 +5,7 @@ A position is added when a new entry is made (Step 5) and removed only when full
 The bot reads this file at the start of Step 3 to make correct position management decisions.
 This file tracks HISTORY only — current state (price, qty, stop) is always read from Alpaca.
 
-Last updated: 2026-05-22
+Last updated: 2026-05-26
 
 ---
 
@@ -23,13 +23,14 @@ Last updated: 2026-05-22
 - 2026-05-13: $12.02 — breakeven stop (unrealized +6.11%, order e01e9a00)
 - 2026-05-21: $12.62 — MA10 trailing stop (unrealized +10.86%, order a061c424)
 - 2026-05-22: $12.79 — MA10 trailing stop (unrealized +12.35%, order 9c2b75d3)
+- 2026-05-26: $12.91 — MA10 trailing stop (unrealized +14.75%, order 68f657df; replaced 9c2b75d3 which was stuck in PENDING_REPLACE — auto-resolved)
 
 **Partial profits:**
 - none
 
 **Total closed**: 0%
 
-**Last updated**: 2026-05-22
+**Last updated**: 2026-05-26
 
 ---
 
@@ -50,35 +51,15 @@ Last updated: 2026-05-22
 - 2026-05-18: $31.48 — MA10 trailing stop updated (unrealized +11.15%, order 8330196b)
 - 2026-05-20: $32.08 — MA10 trailing stop updated (unrealized +13.7%, order e49bb48a)
 - 2026-05-21: $32.51 — MA10 trailing stop updated (unrealized +14.17%, order 83894864)
-- 2026-05-22: $32.51 — stop replaced to 147 shares (order bfe2eb7c; original order 83894864 stuck in PENDING_REPLACE). Partial profit of 72 shares attempted but failed — shares held by stop orders. Retry next session.
+- 2026-05-22: $32.51 — stop replaced to 147 shares (order bfe2eb7c; original order 83894864 stuck in PENDING_REPLACE)
+- 2026-05-26: No stop update — MA20 ($31.66) is lower than last stop ($32.51); stop unchanged at bfe2eb7c
 
 **Partial profits:**
-- none (attempted 2026-05-22, failed — shares held by stop orders)
+- 2026-05-26: 72 shares sold at market (~$38.16), 33% of original qty 219 (order 21cc9d9b, DAY — fills tomorrow)
 
-**Total closed**: 0%
+**Total closed**: 33%
 
-**Last updated**: 2026-05-22
-
----
-
-## KMI
-- **Status**: active
-- **Entry date**: 2026-05-14 (fill confirmed 2026-05-15)
-- **Entry price**: $33.63 (actual — Alpaca avg_entry_price)
-- **Original qty**: 194 (actual filled qty)
-- **Setup**: Breakout A
-- **Initial stop**: $30.88 (consolidation low)
-
-**Stop history:**
-- 2026-05-14: $30.88 — initial stop (OTO, order pending fill)
-- 2026-05-15: $30.88 — GTC stop reinstated (OTO leg expired as DAY order, order b19d946c)
-
-**Partial profits:**
-- none
-
-**Total closed**: 0%
-
-**Last updated**: 2026-05-15
+**Last updated**: 2026-05-26
 
 ---
 
@@ -173,4 +154,4 @@ ACTIVE (replace the pending block with this once fill is confirmed in Step 3):
 
 ---
 
-*(5 active positions as of 2026-05-22: AAPL (active, fill confirmed 2026-05-22, entry $308.18, stop $290.06 order d81785b0), ERIC (active, stop updated to $12.79 MA10, order 9c2b75d3), HPE (active, 27.23% unrealized; partial profit of 72 shares attempted but FAILED due to PENDING_REPLACE state on stop order 83894864; stop replaced to bfe2eb7c for 147 shares @ $32.51; original order 83894864 stuck in PENDING_REPLACE; retry partial profit next session), KMI (active, no changes), SLB (active, no changes). No new entries today — 0 slots available.)*
+*(4 active positions as of 2026-05-26: ERIC (active, stop updated to $12.91 MA10, order 68f657df), HPE (active, 28.14% unrealized; partial profit of 72 shares placed as DAY market sell order 21cc9d9b fills tomorrow; stop bfe2eb7c @ $32.51 for 147 shares — MA20 $31.66 would be lower so stop unchanged), SLB (active, no changes), AAPL (active, no changes). KMI CLOSED — stagnant rule: 11 days open, +1.92% 10d change; stop cancelled b19d946c, close order d45fad17 placed DAY fills tomorrow.)*
