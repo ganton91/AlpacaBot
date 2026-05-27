@@ -5,7 +5,7 @@ A position is added when a new entry is made (Step 5) and removed only when full
 The bot reads this file at the start of Step 3 to make correct position management decisions.
 This file tracks HISTORY only — current state (price, qty, stop) is always read from Alpaca.
 
-Last updated: 2026-05-26
+Last updated: 2026-05-27
 
 ---
 
@@ -53,13 +53,15 @@ Last updated: 2026-05-26
 - 2026-05-21: $32.51 — MA10 trailing stop updated (unrealized +14.17%, order 83894864)
 - 2026-05-22: $32.51 — stop replaced to 147 shares (order bfe2eb7c; original order 83894864 stuck in PENDING_REPLACE)
 - 2026-05-26: No stop update — MA20 ($31.66) is lower than last stop ($32.51); stop unchanged at bfe2eb7c
+- 2026-05-27: $32.51 — stop replaced to 75 shares after 2nd partial profit (order d53b3208; cancelled bfe2eb7c — qty mismatch: old stop was 147 shares, position reduced to 75)
 
 **Partial profits:**
 - 2026-05-26: 72 shares sold at market (~$38.16), 33% of original qty 219 (order 21cc9d9b, DAY — fills tomorrow)
+- 2026-05-27: 72 shares sold at market (~$37.67), 2nd tier 33% of original qty 219 (order 383cb7c9, DAY — fills tomorrow); total closed now 66%, 75 shares running
 
-**Total closed**: 33%
+**Total closed**: 66%
 
-**Last updated**: 2026-05-26
+**Last updated**: 2026-05-27
 
 ---
 
@@ -102,6 +104,27 @@ Last updated: 2026-05-26
 **Total closed**: 0%
 
 **Last updated**: 2026-05-22
+
+---
+
+## CSX
+- **Status**: pending
+- **Order ID**: 5a2b157e-da53-41a2-a8d3-4070b4cccff2
+- **Entry date**: 2026-05-27
+- **Planned entry**: $47.17 (consolidation high — Option A trigger)
+- **Planned qty**: 173
+- **Setup**: Breakout A
+- **Initial stop**: $44.24 (consolidation low)
+
+**Stop history:**
+- 2026-05-27: $44.24 — initial stop (OTO, order pending fill)
+
+**Partial profits:**
+- none
+
+**Total closed**: 0%
+
+**Last updated**: 2026-05-27
 
 ---
 
@@ -154,4 +177,4 @@ ACTIVE (replace the pending block with this once fill is confirmed in Step 3):
 
 ---
 
-*(4 active positions as of 2026-05-26: ERIC (active, stop updated to $12.91 MA10, order 68f657df), HPE (active, 28.14% unrealized; partial profit of 72 shares placed as DAY market sell order 21cc9d9b fills tomorrow; stop bfe2eb7c @ $32.51 for 147 shares — MA20 $31.66 would be lower so stop unchanged), SLB (active, no changes), AAPL (active, no changes). KMI CLOSED — stagnant rule: 11 days open, +1.92% 10d change; stop cancelled b19d946c, close order d45fad17 placed DAY fills tomorrow.)*
+*(4 active positions + 1 pending as of 2026-05-27: ERIC (active, no changes — stop stays at $12.91 68f657df; trailing stop rule would lower price below current stop, skipped), HPE (active, 26.49% unrealized; 2nd partial profit 72 shares market DAY order 383cb7c9 fills tomorrow — total closed 66%, 75 shares running; old 147-share stop bfe2eb7c cancelled, new GTC stop d53b3208 @ $32.51 for 75 shares), SLB (active, no changes — stop 937f3d3c @ $52.76), AAPL (active, no changes — stop d81785b0 @ $290.06). CSX pending Breakout A order 5a2b157e — stop_limit trigger $47.41/$47.64, OTO stop $44.24.)*
