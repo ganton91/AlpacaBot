@@ -5,84 +5,49 @@ A position is added when a new entry is made (Step 5) and removed only when full
 The bot reads this file at the start of Step 3 to make correct position management decisions.
 This file tracks HISTORY only — current state (price, qty, stop) is always read from Alpaca.
 
-Last updated: 2026-05-27
+Last updated: 2026-05-28
 
 ---
 
-## ERIC
-- **Status**: active
-- **Entry date**: 2026-05-04 (fill confirmed 2026-05-05)
-- **Entry price**: $12.02 (actual — Alpaca avg_entry_price)
-- **Original qty**: 576 (actual filled qty)
+## CSCO
+- **Status**: pending
+- **Order ID**: 65ea2b16-3cd0-4a8d-a991-3c860ec615a1
+- **Entry date**: 2026-05-28
+- **Planned entry**: $120.79 (consolidation high — Option A trigger)
+- **Planned qty**: 70
 - **Setup**: Breakout A
-- **Initial stop**: $11.04 (consolidation low)
+- **Initial stop**: $113.60 (consolidation low)
 
 **Stop history:**
-- 2026-05-04: $11.04 — initial stop (OTO, order pending fill)
-- 2026-05-05: $11.04 — GTC stop reinstated (OTO leg expired as DAY order, order 483923c0)
-- 2026-05-13: $12.02 — breakeven stop (unrealized +6.11%, order e01e9a00)
-- 2026-05-21: $12.62 — MA10 trailing stop (unrealized +10.86%, order a061c424)
-- 2026-05-22: $12.79 — MA10 trailing stop (unrealized +12.35%, order 9c2b75d3)
-- 2026-05-26: $12.91 — MA10 trailing stop (unrealized +14.75%, order 68f657df; replaced 9c2b75d3 which was stuck in PENDING_REPLACE — auto-resolved)
+- 2026-05-28: $113.60 — initial stop (OTO, order pending fill)
 
 **Partial profits:**
 - none
 
 **Total closed**: 0%
 
-**Last updated**: 2026-05-26
+**Last updated**: 2026-05-28
 
 ---
 
-## HPE
-- **Status**: active
-- **Entry date**: 2026-05-04 (fill confirmed 2026-05-05)
-- **Entry price**: $29.78 (actual — Alpaca avg_entry_price)
-- **Original qty**: 219 (actual filled qty)
+## VALE
+- **Status**: pending
+- **Order ID**: 34e7a742-fbd8-45a3-99d4-7185b90b50b4
+- **Entry date**: 2026-05-28
+- **Planned entry**: $17.02 (consolidation high — Option A trigger)
+- **Planned qty**: 434
 - **Setup**: Breakout A
-- **Initial stop**: $27.34 (consolidation low)
+- **Initial stop**: $15.85 (consolidation low)
 
 **Stop history:**
-- 2026-05-04: $27.34 — initial stop (OTO, order pending fill)
-- 2026-05-05: $27.34 — GTC stop reinstated (OTO leg expired as DAY order, order aaa3c7c2)
-- 2026-05-13: $30.07 — MA10 trailing stop (unrealized +12.79%, order 6dc0fbf3)
-- 2026-05-14: $30.60 — MA10 trailing stop updated (unrealized +14.62%, order af6fed79)
-- 2026-05-15: $31.06 — MA10 trailing stop updated (unrealized +10.95%, order 2dd239e6)
-- 2026-05-18: $31.48 — MA10 trailing stop updated (unrealized +11.15%, order 8330196b)
-- 2026-05-20: $32.08 — MA10 trailing stop updated (unrealized +13.7%, order e49bb48a)
-- 2026-05-21: $32.51 — MA10 trailing stop updated (unrealized +14.17%, order 83894864)
-- 2026-05-22: $32.51 — stop replaced to 147 shares (order bfe2eb7c; original order 83894864 stuck in PENDING_REPLACE)
-- 2026-05-26: No stop update — MA20 ($31.66) is lower than last stop ($32.51); stop unchanged at bfe2eb7c
-- 2026-05-27: $32.51 — stop replaced to 75 shares after 2nd partial profit (order d53b3208; cancelled bfe2eb7c — qty mismatch: old stop was 147 shares, position reduced to 75)
-
-**Partial profits:**
-- 2026-05-26: 72 shares sold at market (~$38.16), 33% of original qty 219 (order 21cc9d9b, DAY — fills tomorrow)
-- 2026-05-27: 72 shares sold at market (~$37.67), 2nd tier 33% of original qty 219 (order 383cb7c9, DAY — fills tomorrow); total closed now 66%, 75 shares running
-
-**Total closed**: 66%
-
-**Last updated**: 2026-05-27
-
----
-
-## SLB
-- **Status**: active
-- **Entry date**: 2026-05-15 (fill confirmed 2026-05-18)
-- **Entry price**: $57.23 (actual — Alpaca avg_entry_price)
-- **Original qty**: 119 (actual filled qty)
-- **Setup**: Breakout A
-- **Initial stop**: $52.76 (consolidation low)
-
-**Stop history:**
-- 2026-05-15: $52.76 — initial stop (OTO, order pending fill)
-- 2026-05-18: $52.76 — GTC stop reinstated (OTO leg expired as DAY order, order 937f3d3c)
+- 2026-05-28: $15.85 — initial stop (OTO, order pending fill)
 
 **Partial profits:**
 - none
 
 **Total closed**: 0%
 
-**Last updated**: 2026-05-18
+**Last updated**: 2026-05-28
 
 ---
 
@@ -103,28 +68,7 @@ Last updated: 2026-05-27
 
 **Total closed**: 0%
 
-**Last updated**: 2026-05-22
-
----
-
-## CSX
-- **Status**: pending
-- **Order ID**: 5a2b157e-da53-41a2-a8d3-4070b4cccff2
-- **Entry date**: 2026-05-27
-- **Planned entry**: $47.17 (consolidation high — Option A trigger)
-- **Planned qty**: 173
-- **Setup**: Breakout A
-- **Initial stop**: $44.24 (consolidation low)
-
-**Stop history:**
-- 2026-05-27: $44.24 — initial stop (OTO, order pending fill)
-
-**Partial profits:**
-- none
-
-**Total closed**: 0%
-
-**Last updated**: 2026-05-27
+**Last updated**: 2026-05-28
 
 ---
 
@@ -177,4 +121,4 @@ ACTIVE (replace the pending block with this once fill is confirmed in Step 3):
 
 ---
 
-*(4 active positions + 1 pending as of 2026-05-27: ERIC (active, no changes — stop stays at $12.91 68f657df; trailing stop rule would lower price below current stop, skipped), HPE (active, 26.49% unrealized; 2nd partial profit 72 shares market DAY order 383cb7c9 fills tomorrow — total closed 66%, 75 shares running; old 147-share stop bfe2eb7c cancelled, new GTC stop d53b3208 @ $32.51 for 75 shares), SLB (active, no changes — stop 937f3d3c @ $52.76), AAPL (active, no changes — stop d81785b0 @ $290.06). CSX pending Breakout A order 5a2b157e — stop_limit trigger $47.41/$47.64, OTO stop $44.24.)*
+*(1 active + 2 pending as of 2026-05-28: AAPL (active, no changes — stop d81785b0 @ $290.06, unrealized +1.3%), CSCO (pending Breakout A order 65ea2b16 — stop_limit trigger $121.39/$122.00, OTO stop $113.60), VALE (pending Breakout A order 34e7a742 — stop_limit trigger $17.11/$17.19, OTO stop $15.85). Closed/removed this session: ERIC (anomaly — active in memory but not in Alpaca; assumed stopped out at $12.91; removed), CSX (pending order 5a2b157e expired unfilled; removed), SLB (closed — stagnant rule: 10 days, -0.5% 10d change, sell order 8c823ba2), HPE (closed — earnings June 1 = next_open_2, sell order 3dea187e; total closed 100% incl. prior partials).)*
