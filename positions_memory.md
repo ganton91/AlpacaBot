@@ -5,49 +5,49 @@ A position is added when a new entry is made (Step 5) and removed only when full
 The bot reads this file at the start of Step 3 to make correct position management decisions.
 This file tracks HISTORY only — current state (price, qty, stop) is always read from Alpaca.
 
-Last updated: 2026-05-29
+Last updated: 2026-06-01
 
 ---
 
-## AMZN
+## SAN
 - **Status**: pending
-- **Order ID**: 135816cd-5cd6-4ffe-b958-5f965e30c2ee
-- **Entry date**: 2026-05-29
-- **Planned entry**: $274.68 (consolidation high — Option A trigger)
-- **Planned qty**: 26
+- **Order ID**: 63b16b3a-e1b1-4e9e-b472-55f4556520be
+- **Entry date**: 2026-06-01
+- **Planned entry**: $12.71 (consolidation high — Option A trigger)
+- **Planned qty**: 506
 - **Setup**: Breakout A
-- **Initial stop**: $255.21 (consolidation low)
+- **Initial stop**: $11.71 (consolidation low)
 
 **Stop history:**
-- 2026-05-29: $255.21 — initial stop (order pending fill)
+- 2026-06-01: $11.71 — initial stop (order pending fill)
 
 **Partial profits:**
 - none
 
 **Total closed**: 0%
 
-**Last updated**: 2026-05-29
+**Last updated**: 2026-06-01
 
 ---
 
-## RF
+## CX
 - **Status**: pending
-- **Order ID**: 16fa1a10-4f7e-4068-a631-7302d2300605
-- **Entry date**: 2026-05-29
-- **Planned entry**: $28.50 (consolidation high — Option A trigger)
-- **Planned qty**: 216
+- **Order ID**: 59309391-cc11-4d99-888c-d536f7ec49d1
+- **Entry date**: 2026-06-01
+- **Planned entry**: $13.33 (consolidation high — Option A trigger)
+- **Planned qty**: 444
 - **Setup**: Breakout A
-- **Initial stop**: $26.16 (consolidation low)
+- **Initial stop**: $12.19 (consolidation low)
 
 **Stop history:**
-- 2026-05-29: $26.16 — initial stop (order pending fill)
+- 2026-06-01: $12.19 — initial stop (order pending fill)
 
 **Partial profits:**
 - none
 
 **Total closed**: 0%
 
-**Last updated**: 2026-05-29
+**Last updated**: 2026-06-01
 
 ---
 
@@ -68,7 +68,7 @@ Last updated: 2026-05-29
 
 **Total closed**: 0%
 
-**Last updated**: 2026-05-29
+**Last updated**: 2026-06-01
 
 ---
 
@@ -89,7 +89,7 @@ Last updated: 2026-05-29
 
 **Total closed**: 0%
 
-**Last updated**: 2026-05-29
+**Last updated**: 2026-06-01
 
 ---
 
@@ -142,4 +142,4 @@ ACTIVE (replace the pending block with this once fill is confirmed in Step 3):
 
 ---
 
-*(2 active + 2 pending as of 2026-05-29: AAPL (active, no changes — stop d81785b0 @ $290.06, unrealized +1.1%), CSCO (fill confirmed 2026-05-29 @ $121.40 — transitioned to active, GTC stop d5b01648 @ $113.60 reinstated, unrealized -0.6%), AMZN (pending Breakout A order 135816cd — stop_limit trigger $276.05/$277.43, OTO stop $255.21), RF (pending Breakout A order 16fa1a10 — stop_limit trigger $28.64/$28.79, OTO stop $26.16). Removed this session: VALE (pending order 34e7a742 expired unfilled — no position, no open order found).)*
+*(2 active + 2 pending as of 2026-06-01: AAPL (active, no changes — stop d81785b0 @ $290.06, unrealized -0.69%), CSCO (active, no changes — stop d5b01648 @ $113.60, unrealized +0.08%), SAN (pending Breakout A order 63b16b3a — stop_limit trigger $12.77/$12.84, OTO stop $11.71, 506 shares), CX (pending Breakout A order 59309391 — stop_limit trigger $13.40/$13.46, OTO stop $12.19, 444 shares). Removed this session: AMZN (pending order 135816cd expired unfilled — no position, no open order found), RF (pending order 16fa1a10 expired unfilled — no position, no open order found).)*
