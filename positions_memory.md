@@ -5,49 +5,70 @@ A position is added when a new entry is made (Step 5) and removed only when full
 The bot reads this file at the start of Step 3 to make correct position management decisions.
 This file tracks HISTORY only — current state (price, qty, stop) is always read from Alpaca.
 
-Last updated: 2026-06-02
+Last updated: 2026-06-03
+
+---
+
+## OXY
+- **Status**: pending
+- **Order ID**: c7679f4e-3461-414c-ae18-408da2e93b83
+- **Entry date**: 2026-06-03
+- **Planned entry**: $61.20 (consolidation high — Option A trigger)
+- **Planned qty**: 93
+- **Setup**: Breakout A
+- **Initial stop**: $55.76 (consolidation low)
+
+**Stop history:**
+- 2026-06-03: $55.76 — initial stop (order pending fill)
+
+**Partial profits:**
+- none
+
+**Total closed**: 0%
+
+**Last updated**: 2026-06-03
+
+---
+
+## HST
+- **Status**: pending
+- **Order ID**: c52a7e10-e830-45a6-a904-119649a2f041
+- **Entry date**: 2026-06-03
+- **Planned entry**: $24.06 (consolidation high — Option A trigger)
+- **Planned qty**: 214
+- **Setup**: Breakout A
+- **Initial stop**: $21.68 (consolidation low)
+
+**Stop history:**
+- 2026-06-03: $21.68 — initial stop (order pending fill)
+
+**Partial profits:**
+- none
+
+**Total closed**: 0%
+
+**Last updated**: 2026-06-03
 
 ---
 
 ## STM
-- **Status**: pending
-- **Order ID**: 8f37b25e-f943-42ab-8d94-52873ee1d9b8
-- **Entry date**: 2026-06-02
-- **Planned entry**: $79.52 (current price — EP Option C trigger)
-- **Planned qty**: 129
+- **Status**: active
+- **Entry date**: 2026-06-02 (fill confirmed 2026-06-03)
+- **Entry price**: $79.90 (actual — Alpaca avg_entry_price)
+- **Original qty**: 129 (actual filled qty)
 - **Setup**: EP
 - **Initial stop**: $75.61 (gap day low)
 
 **Stop history:**
 - 2026-06-02: $75.61 — initial stop (order pending fill)
+- 2026-06-03: $75.61 — GTC stop reinstated (OTO leg expired as DAY order, order 565f1a4b)
 
 **Partial profits:**
 - none
 
 **Total closed**: 0%
 
-**Last updated**: 2026-06-02
-
----
-
-## RF
-- **Status**: pending
-- **Order ID**: 91f8e1f3-a216-4e41-8e67-0ebebef556b9
-- **Entry date**: 2026-06-02
-- **Planned entry**: $28.50 (consolidation high — Option A trigger)
-- **Planned qty**: 285
-- **Setup**: Breakout A
-- **Initial stop**: $26.70 (consolidation low)
-
-**Stop history:**
-- 2026-06-02: $26.70 — initial stop (order pending fill)
-
-**Partial profits:**
-- none
-
-**Total closed**: 0%
-
-**Last updated**: 2026-06-02
+**Last updated**: 2026-06-03
 
 ---
 
@@ -143,4 +164,4 @@ ACTIVE (replace the pending block with this once fill is confirmed in Step 3):
 
 ---
 
-*(2 active + 2 pending as of 2026-06-02: CSCO (active, stop raised to breakeven $121.40 order 921b38fd, unrealized +5.35%), AAPL (active, no changes — stop d81785b0 @ $290.06, unrealized +2.28%), STM (pending EP order 8f37b25e — stop_limit trigger $79.52/$79.92, OTO stop $75.61, 129 shares, catalyst: STM raised data center revenue target to $1B), RF (pending Breakout A order 91f8e1f3 — stop_limit trigger $28.64/$28.79, OTO stop $26.70, 285 shares). Reconciled this session: SAN (pending order 63b16b3a expired unfilled — removed), CX (pending order 59309391 expired unfilled — removed).)*
+*(3 active + 2 pending as of 2026-06-03: CSCO (active, stop at breakeven $121.40 order 921b38fd, unrealized +4.28%), AAPL (active, stop d81785b0 @ $290.06, unrealized +0.85%), STM (active — fill confirmed 2026-06-03 @ $79.90, GTC stop reinstated 565f1a4b @ $75.61, unrealized -0.50%), OXY (pending Breakout A order c7679f4e — stop_limit trigger $61.51/$61.81, OTO stop $55.76, 93 shares. Earnings: Aug 5 2026), HST (pending Breakout A order c52a7e10 — stop_limit trigger $24.18/$24.30, OTO stop $21.68, 214 shares. Earnings: ~Aug 2026). Reconciled this session: STM (pending → active, fill confirmed), RF (pending order 91f8e1f3 expired unfilled — removed).)*
