@@ -5,70 +5,70 @@ A position is added when a new entry is made (Step 5) and removed only when full
 The bot reads this file at the start of Step 3 to make correct position management decisions.
 This file tracks HISTORY only — current state (price, qty, stop) is always read from Alpaca.
 
-Last updated: 2026-06-03
+Last updated: 2026-06-04
 
 ---
 
-## OXY
+## RF
 - **Status**: pending
-- **Order ID**: c7679f4e-3461-414c-ae18-408da2e93b83
-- **Entry date**: 2026-06-03
-- **Planned entry**: $61.20 (consolidation high — Option A trigger)
-- **Planned qty**: 93
+- **Order ID**: 6237d5a5-c2b5-437e-a75e-b83cc140cb9d
+- **Entry date**: 2026-06-04
+- **Planned entry**: $28.50 (consolidation high — Option A trigger)
+- **Planned qty**: 356
 - **Setup**: Breakout A
-- **Initial stop**: $55.76 (consolidation low)
+- **Initial stop**: $27.18 (consolidation low)
 
 **Stop history:**
-- 2026-06-03: $55.76 — initial stop (order pending fill)
+- 2026-06-04: $27.18 — initial stop (order pending fill)
 
 **Partial profits:**
 - none
 
 **Total closed**: 0%
 
-**Last updated**: 2026-06-03
+**Last updated**: 2026-06-04
+
+---
+
+## SAN
+- **Status**: pending
+- **Order ID**: 40a4c8d0-5d6d-4c16-86e4-f2b735e8cafe
+- **Entry date**: 2026-06-04
+- **Planned entry**: $12.71 (consolidation high — Option A trigger)
+- **Planned qty**: 736
+- **Setup**: Breakout A
+- **Initial stop**: $12.02 (consolidation low)
+
+**Stop history:**
+- 2026-06-04: $12.02 — initial stop (order pending fill)
+
+**Partial profits:**
+- none
+
+**Total closed**: 0%
+
+**Last updated**: 2026-06-04
 
 ---
 
 ## HST
-- **Status**: pending
-- **Order ID**: c52a7e10-e830-45a6-a904-119649a2f041
-- **Entry date**: 2026-06-03
-- **Planned entry**: $24.06 (consolidation high — Option A trigger)
-- **Planned qty**: 214
+- **Status**: active
+- **Entry date**: 2026-06-03 (fill confirmed 2026-06-04)
+- **Entry price**: $24.19 (actual — Alpaca avg_entry_price)
+- **Original qty**: 214 (actual filled qty)
 - **Setup**: Breakout A
 - **Initial stop**: $21.68 (consolidation low)
 
 **Stop history:**
 - 2026-06-03: $21.68 — initial stop (order pending fill)
+- 2026-06-04: $21.68 — GTC stop reinstated (OTO leg expired as DAY order, order f85a7144)
 
 **Partial profits:**
 - none
 
 **Total closed**: 0%
 
-**Last updated**: 2026-06-03
-
----
-
-## STM
-- **Status**: active
-- **Entry date**: 2026-06-02 (fill confirmed 2026-06-03)
-- **Entry price**: $79.90 (actual — Alpaca avg_entry_price)
-- **Original qty**: 129 (actual filled qty)
-- **Setup**: EP
-- **Initial stop**: $75.61 (gap day low)
-
-**Stop history:**
-- 2026-06-02: $75.61 — initial stop (order pending fill)
-- 2026-06-03: $75.61 — GTC stop reinstated (OTO leg expired as DAY order, order 565f1a4b)
-
-**Partial profits:**
-- none
-
-**Total closed**: 0%
-
-**Last updated**: 2026-06-03
+**Last updated**: 2026-06-04
 
 ---
 
@@ -164,4 +164,4 @@ ACTIVE (replace the pending block with this once fill is confirmed in Step 3):
 
 ---
 
-*(3 active + 2 pending as of 2026-06-03: CSCO (active, stop at breakeven $121.40 order 921b38fd, unrealized +4.28%), AAPL (active, stop d81785b0 @ $290.06, unrealized +0.85%), STM (active — fill confirmed 2026-06-03 @ $79.90, GTC stop reinstated 565f1a4b @ $75.61, unrealized -0.50%), OXY (pending Breakout A order c7679f4e — stop_limit trigger $61.51/$61.81, OTO stop $55.76, 93 shares. Earnings: Aug 5 2026), HST (pending Breakout A order c52a7e10 — stop_limit trigger $24.18/$24.30, OTO stop $21.68, 214 shares. Earnings: ~Aug 2026). Reconciled this session: STM (pending → active, fill confirmed), RF (pending order 91f8e1f3 expired unfilled — removed).)*
+*(3 active + 2 pending as of 2026-06-04: HST (active — fill confirmed 2026-06-04 @ $24.19, GTC stop reinstated f85a7144 @ $21.68, unrealized +1.03%), CSCO (active, stop at breakeven $121.40 order 921b38fd, unrealized +6.96%), AAPL (active, stop d81785b0 @ $290.06, unrealized +0.99%), RF (pending Breakout A order 6237d5a5 — stop_limit trigger $28.64/$28.79, OTO stop $27.18, 356 shares. Earnings: Jul 17 2026), SAN (pending Breakout A order 40a4c8d0 — stop_limit trigger $12.77/$12.84, OTO stop $12.02, 736 shares. Earnings: Jul 22 2026). Reconciled this session: HST (pending → active, fill confirmed), OXY (pending order c7679f4e expired unfilled — removed), STM (fully closed — GTC stop hit at $75.08 on 2026-06-04, entry was $79.90, loss -6.03%).)*
