@@ -5,49 +5,28 @@ A position is added when a new entry is made (Step 5) and removed only when full
 The bot reads this file at the start of Step 3 to make correct position management decisions.
 This file tracks HISTORY only — current state (price, qty, stop) is always read from Alpaca.
 
-Last updated: 2026-06-04
+Last updated: 2026-06-05
 
 ---
 
 ## RF
-- **Status**: pending
-- **Order ID**: 6237d5a5-c2b5-437e-a75e-b83cc140cb9d
-- **Entry date**: 2026-06-04
-- **Planned entry**: $28.50 (consolidation high — Option A trigger)
-- **Planned qty**: 356
+- **Status**: active
+- **Entry date**: 2026-06-04 (fill confirmed 2026-06-05)
+- **Entry price**: $28.65 (actual — Alpaca avg_entry_price)
+- **Original qty**: 356 (actual filled qty)
 - **Setup**: Breakout A
 - **Initial stop**: $27.18 (consolidation low)
 
 **Stop history:**
 - 2026-06-04: $27.18 — initial stop (order pending fill)
+- 2026-06-05: $27.18 — GTC stop reinstated (OTO leg expired as DAY order, order 1d320db9)
 
 **Partial profits:**
 - none
 
 **Total closed**: 0%
 
-**Last updated**: 2026-06-04
-
----
-
-## SAN
-- **Status**: pending
-- **Order ID**: 40a4c8d0-5d6d-4c16-86e4-f2b735e8cafe
-- **Entry date**: 2026-06-04
-- **Planned entry**: $12.71 (consolidation high — Option A trigger)
-- **Planned qty**: 736
-- **Setup**: Breakout A
-- **Initial stop**: $12.02 (consolidation low)
-
-**Stop history:**
-- 2026-06-04: $12.02 — initial stop (order pending fill)
-
-**Partial profits:**
-- none
-
-**Total closed**: 0%
-
-**Last updated**: 2026-06-04
+**Last updated**: 2026-06-05
 
 ---
 
@@ -84,27 +63,6 @@ Last updated: 2026-06-04
 - 2026-05-28: $113.60 — initial stop (OTO, order pending fill)
 - 2026-05-29: $113.60 — GTC stop reinstated (OTO leg expired as DAY order, order d5b01648)
 - 2026-06-02: $121.40 — raised to breakeven (unrealized +5.35%, 5–10% band, order 921b38fd)
-
-**Partial profits:**
-- none
-
-**Total closed**: 0%
-
-**Last updated**: 2026-06-02
-
----
-
-## AAPL
-- **Status**: active
-- **Entry date**: 2026-05-21 (fill confirmed 2026-05-22)
-- **Entry price**: $308.18 (actual — Alpaca avg_entry_price)
-- **Original qty**: 32 (actual filled qty)
-- **Setup**: Breakout A
-- **Initial stop**: $290.06 (consolidation low)
-
-**Stop history:**
-- 2026-05-21: $290.06 — initial stop (order pending fill)
-- 2026-05-22: $290.06 — GTC stop reinstated (OTO leg expired as DAY order, order d81785b0)
 
 **Partial profits:**
 - none
@@ -164,4 +122,4 @@ ACTIVE (replace the pending block with this once fill is confirmed in Step 3):
 
 ---
 
-*(3 active + 2 pending as of 2026-06-04: HST (active — fill confirmed 2026-06-04 @ $24.19, GTC stop reinstated f85a7144 @ $21.68, unrealized +1.03%), CSCO (active, stop at breakeven $121.40 order 921b38fd, unrealized +6.96%), AAPL (active, stop d81785b0 @ $290.06, unrealized +0.99%), RF (pending Breakout A order 6237d5a5 — stop_limit trigger $28.64/$28.79, OTO stop $27.18, 356 shares. Earnings: Jul 17 2026), SAN (pending Breakout A order 40a4c8d0 — stop_limit trigger $12.77/$12.84, OTO stop $12.02, 736 shares. Earnings: Jul 22 2026). Reconciled this session: HST (pending → active, fill confirmed), OXY (pending order c7679f4e expired unfilled — removed), STM (fully closed — GTC stop hit at $75.08 on 2026-06-04, entry was $79.90, loss -6.03%).)*
+*(3 active as of 2026-06-05: RF (active — fill confirmed 2026-06-05 @ $28.65, GTC stop reinstated 1d320db9 @ $27.18, unrealized -0.38%), HST (active, GTC stop f85a7144 @ $21.68, unrealized +0.25%), CSCO (active, stop at breakeven $121.40 order 921b38fd, unrealized -0.13%). AAPL closed 2026-06-05 — exit rule: stagnant position (days_open=14, price_change_10d=0.83% < 2%), market sell order 1ce3ee03 accepted, executes Mon 2026-06-08. SAN pending order 40a4c8d0 expired unfilled — removed.)*
