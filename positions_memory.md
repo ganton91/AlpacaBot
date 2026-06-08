@@ -5,7 +5,7 @@ A position is added when a new entry is made (Step 5) and removed only when full
 The bot reads this file at the start of Step 3 to make correct position management decisions.
 This file tracks HISTORY only — current state (price, qty, stop) is always read from Alpaca.
 
-Last updated: 2026-06-05
+Last updated: 2026-06-08
 
 ---
 
@@ -73,6 +73,27 @@ Last updated: 2026-06-05
 
 ---
 
+## CSX
+- **Status**: pending
+- **Order ID**: 397c3870-4578-4297-a104-52492363beb7
+- **Entry date**: 2026-06-08
+- **Planned entry**: $47.39 (consolidation high)
+- **Planned qty**: 196
+- **Setup**: Breakout A
+- **Initial stop**: $44.82 (consolidation low)
+
+**Stop history:**
+- 2026-06-08: $44.82 — initial stop (order pending fill)
+
+**Partial profits:**
+- none
+
+**Total closed**: 0%
+
+**Last updated**: 2026-06-08
+
+---
+
 <!-- TEMPLATE — two stages. Use PENDING when placing the order; transition to ACTIVE when fill is confirmed in Step 3.
 
 PENDING (copy this when placing a new order in Step 5):
@@ -122,4 +143,4 @@ ACTIVE (replace the pending block with this once fill is confirmed in Step 3):
 
 ---
 
-*(3 active as of 2026-06-05: RF (active — fill confirmed 2026-06-05 @ $28.65, GTC stop reinstated 1d320db9 @ $27.18, unrealized -0.38%), HST (active, GTC stop f85a7144 @ $21.68, unrealized +0.25%), CSCO (active, stop at breakeven $121.40 order 921b38fd, unrealized -0.13%). AAPL closed 2026-06-05 — exit rule: stagnant position (days_open=14, price_change_10d=0.83% < 2%), market sell order 1ce3ee03 accepted, executes Mon 2026-06-08. SAN pending order 40a4c8d0 expired unfilled — removed.)*
+*(3 active + 1 pending as of 2026-06-08: RF (active @ $28.65, GTC stop $27.18 order 1d320db9, unrealized -0.31%), HST (active @ $24.19, GTC stop $21.68 order f85a7144, unrealized +1.03%), CSCO (active @ $121.40, stop at breakeven $121.40 order 921b38fd, unrealized +2.43%). CSX added 2026-06-08 — pending breakout A stop-limit order 397c3870, entry trigger $47.63, limit $47.86, stop loss $44.82.)*
