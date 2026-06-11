@@ -5,7 +5,7 @@ A position is added when a new entry is made (Step 5) and removed only when full
 The bot reads this file at the start of Step 3 to make correct position management decisions.
 This file tracks HISTORY only — current state (price, qty, stop) is always read from Alpaca.
 
-Last updated: 2026-06-10
+Last updated: 2026-06-11
 
 ---
 
@@ -30,27 +30,6 @@ Last updated: 2026-06-10
 
 ---
 
-## CSX
-- **Status**: pending
-- **Order ID**: 49df1db4-5f82-4b62-b175-a977624a5f9c
-- **Entry date**: 2026-06-10
-- **Planned entry**: $47.55 (consolidation high)
-- **Planned qty**: 91
-- **Setup**: Breakout A
-- **Initial stop**: $44.82 (consolidation low)
-
-**Stop history:**
-- 2026-06-10: $44.82 — initial stop (order pending fill)
-
-**Partial profits:**
-- none
-
-**Total closed**: 0%
-
-**Last updated**: 2026-06-10
-
----
-
 ## HST
 - **Status**: active
 - **Entry date**: 2026-06-03 (fill confirmed 2026-06-04)
@@ -69,6 +48,48 @@ Last updated: 2026-06-10
 **Total closed**: 0%
 
 **Last updated**: 2026-06-04
+
+---
+
+## SAN
+- **Status**: pending
+- **Order ID**: 9ef5b1ba-cd9f-48a8-b05d-e4555a22214b
+- **Entry date**: 2026-06-11
+- **Planned entry**: $12.60 (consolidation high)
+- **Planned qty**: 729
+- **Setup**: Breakout A
+- **Initial stop**: $11.91 (consolidation low)
+
+**Stop history:**
+- 2026-06-11: $11.91 — initial stop (order pending fill)
+
+**Partial profits:**
+- none
+
+**Total closed**: 0%
+
+**Last updated**: 2026-06-11
+
+---
+
+## CSX
+- **Status**: pending
+- **Order ID**: 2237f31b-9823-45ad-872a-9da11cd461b4
+- **Entry date**: 2026-06-11
+- **Planned entry**: $47.65 (consolidation high)
+- **Planned qty**: 177
+- **Setup**: Breakout A
+- **Initial stop**: $44.82 (consolidation low)
+
+**Stop history:**
+- 2026-06-11: $44.82 — initial stop (order pending fill)
+
+**Partial profits:**
+- none
+
+**Total closed**: 0%
+
+**Last updated**: 2026-06-11
 
 ---
 
@@ -121,4 +142,4 @@ ACTIVE (replace the pending block with this once fill is confirmed in Step 3):
 
 ---
 
-*(2 active + 1 pending as of 2026-06-10: RF (active @ $28.65, GTC stop $27.18 order 1d320db9, unrealized -0.24%), HST (active @ $24.19, GTC stop $21.68 order f85a7144, unrealized -0.99%). CSX order b9bd849d expired unfilled 2026-06-10 — removed. VTRS order be8847f9 expired unfilled 2026-06-10 — removed. New CSX added 2026-06-10 — pending Breakout A stop-limit order 49df1db4, trigger $47.79, limit $48.03, stop loss $44.82, 91 shares. No exits, partial profits, or stop updates triggered today.)*
+*(2 active + 2 pending as of 2026-06-11: RF (active @ $28.65, GTC stop $27.18 order 1d320db9, unrealized +0.84%), HST (active @ $24.19, GTC stop $21.68 order f85a7144, unrealized +0.62%). CSX order 49df1db4 expired unfilled 2026-06-11 — removed. New SAN added 2026-06-11 — pending Breakout A stop-limit order 9ef5b1ba, trigger $12.66, limit $12.73, stop loss $11.91, 729 shares. New CSX added 2026-06-11 — pending Breakout A stop-limit order 2237f31b, trigger $47.89, limit $48.13, stop loss $44.82, 177 shares. No exits, partial profits, or stop updates triggered today. MCHP removed from watchlist (failed Trend Template). Added SAN, APH, FCX, TFC, CX to watchlist (passed batch screen).)*
