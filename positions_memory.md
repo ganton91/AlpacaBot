@@ -5,7 +5,7 @@ A position is added when a new entry is made (Step 5) and removed only when full
 The bot reads this file at the start of Step 3 to make correct position management decisions.
 This file tracks HISTORY only — current state (price, qty, stop) is always read from Alpaca.
 
-Last updated: 2026-06-15
+Last updated: 2026-06-16
 
 ---
 
@@ -62,13 +62,14 @@ Last updated: 2026-06-15
 **Stop history:**
 - 2026-06-11: $11.91 — initial stop (order pending fill)
 - 2026-06-12: $11.91 — GTC stop reinstated (OTO leg expired as DAY order, order e651530b)
+- 2026-06-16: $12.66 — breakeven stop (unrealized_pl_pct 6.4%, replaced order e651530b → 29c06248)
 
 **Partial profits:**
 - none
 
 **Total closed**: 0%
 
-**Last updated**: 2026-06-12
+**Last updated**: 2026-06-16
 
 ---
 
@@ -94,23 +95,23 @@ Last updated: 2026-06-15
 ---
 
 ## GOOGL
-- **Status**: pending
-- **Order ID**: fc6823b3-6634-4428-a0a3-6847e51f0178
-- **Entry date**: 2026-06-15
-- **Planned entry**: $373.50 (consolidation high)
-- **Planned qty**: 18
+- **Status**: active
+- **Entry date**: 2026-06-15 (fill confirmed 2026-06-16)
+- **Entry price**: $375.43 (actual — Alpaca avg_entry_price)
+- **Original qty**: 18 (actual filled qty)
 - **Setup**: Breakout A
 - **Initial stop**: $346.37 (consolidation low)
 
 **Stop history:**
 - 2026-06-15: $346.37 — initial stop (order pending fill)
+- 2026-06-16: $346.37 — GTC stop reinstated (OTO leg expired as DAY order, order 38ade2a0)
 
 **Partial profits:**
 - none
 
 **Total closed**: 0%
 
-**Last updated**: 2026-06-15
+**Last updated**: 2026-06-16
 
 ---
 
@@ -163,4 +164,4 @@ ACTIVE (replace the pending block with this once fill is confirmed in Step 3):
 
 ---
 
-*(4 active + 1 pending as of 2026-06-15: RF (active @ $28.65, GTC stop $27.18 order 1d320db9, unrealized -0.18%), HST (active @ $24.19, GTC stop $21.68 order f85a7144, unrealized +2.11%), SAN (active @ $12.66, GTC stop $11.91 order e651530b, unrealized +3.79%), CSX (active @ $47.81, GTC stop $44.82 order 761185cc, unrealized -1.36%). GOOGL pending Breakout A stop-limit order fc6823b3, trigger $375.37, limit $377.24, stop loss $346.37, 18 shares. PCG order e47c78aa expired unfilled — removed. No exits or partial profits triggered today. Watchlist: removed NBIS/SLB/CVE/TFC/TSM/ERIC/PCG (failed Trend Template); added NVDA/GOOGL/GOOG/HPE/HBM (batch pre-screened). Market signal: GREEN.)*
+*(5 active as of 2026-06-16: RF (active @ $28.65, GTC stop $27.18 order 1d320db9, unrealized +1.22%), HST (active @ $24.19, GTC stop $21.68 order f85a7144, unrealized +2.94%), SAN (active @ $12.66, GTC stop $12.66 breakeven order 29c06248, unrealized +6.40%), CSX (active @ $47.81, GTC stop $44.82 order 761185cc, unrealized -2.26%), GOOGL (active @ $375.43, fill confirmed 2026-06-16, GTC stop $346.37 order 38ade2a0, unrealized -0.85%). No exits or new entries today (0 slots available, GREEN signal max 5). Watchlist: removed GOOGL (now held), NVDA (failed Trend Template); added TSM/CIFR (batch pre-screened). Market signal: GREEN.)*
