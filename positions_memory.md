@@ -5,7 +5,7 @@ A position is added when a new entry is made (Step 5) and removed only when full
 The bot reads this file at the start of Step 3 to make correct position management decisions.
 This file tracks HISTORY only — current state (price, qty, stop) is always read from Alpaca.
 
-Last updated: 2026-06-16
+Last updated: 2026-06-17
 
 ---
 
@@ -73,48 +73,6 @@ Last updated: 2026-06-16
 
 ---
 
-## CSX
-- **Status**: active
-- **Entry date**: 2026-06-11 (fill confirmed 2026-06-12)
-- **Entry price**: $47.81 (actual — Alpaca avg_entry_price)
-- **Original qty**: 177 (actual filled qty)
-- **Setup**: Breakout A
-- **Initial stop**: $44.82 (consolidation low)
-
-**Stop history:**
-- 2026-06-11: $44.82 — initial stop (order pending fill)
-- 2026-06-12: $44.82 — GTC stop reinstated (OTO leg expired as DAY order, order 761185cc)
-
-**Partial profits:**
-- none
-
-**Total closed**: 0%
-
-**Last updated**: 2026-06-12
-
----
-
-## GOOGL
-- **Status**: active
-- **Entry date**: 2026-06-15 (fill confirmed 2026-06-16)
-- **Entry price**: $375.43 (actual — Alpaca avg_entry_price)
-- **Original qty**: 18 (actual filled qty)
-- **Setup**: Breakout A
-- **Initial stop**: $346.37 (consolidation low)
-
-**Stop history:**
-- 2026-06-15: $346.37 — initial stop (order pending fill)
-- 2026-06-16: $346.37 — GTC stop reinstated (OTO leg expired as DAY order, order 38ade2a0)
-
-**Partial profits:**
-- none
-
-**Total closed**: 0%
-
-**Last updated**: 2026-06-16
-
----
-
 <!-- TEMPLATE — two stages. Use PENDING when placing the order; transition to ACTIVE when fill is confirmed in Step 3.
 
 PENDING (copy this when placing a new order in Step 5):
@@ -164,4 +122,4 @@ ACTIVE (replace the pending block with this once fill is confirmed in Step 3):
 
 ---
 
-*(5 active as of 2026-06-16: RF (active @ $28.65, GTC stop $27.18 order 1d320db9, unrealized +1.22%), HST (active @ $24.19, GTC stop $21.68 order f85a7144, unrealized +2.94%), SAN (active @ $12.66, GTC stop $12.66 breakeven order 29c06248, unrealized +6.40%), CSX (active @ $47.81, GTC stop $44.82 order 761185cc, unrealized -2.26%), GOOGL (active @ $375.43, fill confirmed 2026-06-16, GTC stop $346.37 order 38ade2a0, unrealized -0.85%). No exits or new entries today (0 slots available, GREEN signal max 5). Watchlist: removed GOOGL (now held), NVDA (failed Trend Template); added TSM/CIFR (batch pre-screened). Market signal: GREEN.)*
+*(3 active as of 2026-06-17: RF (active @ $28.65, GTC stop $27.18 order 1d320db9, unrealized -0.03%), HST (active @ $24.19, GTC stop $21.68 order f85a7144, unrealized +1.78%), SAN (active @ $12.66, GTC stop $12.66 breakeven order 29c06248, unrealized +5.26%). Exited today: CSX (below 20-day MA in first week), GOOGL (below 50-day MA) — both closed and stop orders canceled; closes queued for next market open since session runs after hours. No new entries (0 slots available per Step 2 snapshot). Watchlist: removed GOOG (failed Trend Template); no additions (no candidates passed screening). Market signal: GREEN.)*
