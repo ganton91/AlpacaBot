@@ -5,7 +5,7 @@ A position is added when a new entry is made (Step 5) and removed only when full
 The bot reads this file at the start of Step 3 to make correct position management decisions.
 This file tracks HISTORY only — current state (price, qty, stop) is always read from Alpaca.
 
-Last updated: 2026-06-18
+Last updated: 2026-06-22
 
 ---
 
@@ -54,43 +54,43 @@ Last updated: 2026-06-18
 
 ## KEY
 - **Status**: pending
-- **Order ID**: 2a5272e8-d9b7-455b-9b28-026ab01ab3a2
-- **Entry date**: 2026-06-18
+- **Order ID**: b4bb5b5e-90ae-4c24-93d9-8adb07ca3b5a
+- **Entry date**: 2026-06-22
 - **Planned entry**: $23.11 (consolidation high)
-- **Planned qty**: 323
+- **Planned qty**: 355
 - **Setup**: Breakout A
-- **Initial stop**: $21.55 (consolidation low)
+- **Initial stop**: $21.68 (consolidation low)
 
 **Stop history:**
-- 2026-06-18: $21.55 — initial stop (order pending fill)
+- 2026-06-22: $21.68 — initial stop (order pending fill)
 
 **Partial profits:**
 - none
 
 **Total closed**: 0%
 
-**Last updated**: 2026-06-18
+**Last updated**: 2026-06-22
 
 ---
 
-## NVDA
+## USB
 - **Status**: pending
-- **Order ID**: 2973f843-c232-497c-a76d-396faaa594e0
-- **Entry date**: 2026-06-18
-- **Planned entry**: $214.81 (consolidation high)
-- **Planned qty**: 32
+- **Order ID**: cca4477e-c837-4558-a13e-1da7b3ed56cf
+- **Entry date**: 2026-06-22
+- **Planned entry**: $59.49 (consolidation high)
+- **Planned qty**: 118
 - **Setup**: Breakout A
-- **Initial stop**: $199.34 (consolidation low)
+- **Initial stop**: $55.19 (consolidation low)
 
 **Stop history:**
-- 2026-06-18: $199.34 — initial stop (order pending fill)
+- 2026-06-22: $55.19 — initial stop (order pending fill)
 
 **Partial profits:**
 - none
 
 **Total closed**: 0%
 
-**Last updated**: 2026-06-18
+**Last updated**: 2026-06-22
 
 ---
 
@@ -143,4 +143,4 @@ ACTIVE (replace the pending block with this once fill is confirmed in Step 3):
 
 ---
 
-*(2 active + 2 pending as of 2026-06-18: HST (active @ $24.19, GTC stop $21.68 order f85a7144, unrealized +3.38%), SAN (active @ $12.66, GTC stop $12.66 breakeven order 29c06248, unrealized +6.64%), KEY (pending, OTO stop-limit order 2a5272e8, entry trigger $23.23/limit $23.34, stop loss $21.55), NVDA (pending, OTO stop-limit order 2973f843, entry trigger $215.88/limit $216.96, stop loss $199.34). Exited today: RF (stagnant — days_open 13, price_change_10d 0.63% < 2%); RF stop order canceled and close order queued for next market open since session runs after hours. New entries: KEY and NVDA (both Breakout A, max 2/session). Market signal: GREEN.)*
+*(2 active + 2 pending as of 2026-06-22: HST (active @ $24.19, GTC stop $21.68 order f85a7144, unrealized +3.89%, no rule triggered), SAN (active @ $12.66, GTC stop $12.66 breakeven order 29c06248, unrealized +8.69%, no rule triggered). Removed: KEY and NVDA pending entries from 2026-06-18 expired unfilled (DAY order, never triggered) — both order legs expired/canceled, no position opened. New entries: KEY and USB (both Breakout A, max 2/session); MU setup discarded due to earnings 2026-06-24 (2 days away, within 14-day filter). Market signal: GREEN.)*
