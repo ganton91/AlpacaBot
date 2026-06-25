@@ -5,7 +5,7 @@ A position is added when a new entry is made (Step 5) and removed only when full
 The bot reads this file at the start of Step 3 to make correct position management decisions.
 This file tracks HISTORY only — current state (price, qty, stop) is always read from Alpaca.
 
-Last updated: 2026-06-24
+Last updated: 2026-06-25
 
 ---
 
@@ -52,45 +52,24 @@ Last updated: 2026-06-24
 
 ---
 
-## CSCO
-- **Status**: pending
-- **Order ID**: dc98aa70-914f-4ad3-bc07-c0ab0f1a854a
-- **Entry date**: 2026-06-24
-- **Planned entry**: $122.89 (consolidation high)
-- **Planned qty**: 80
-- **Setup**: Breakout A
-- **Initial stop**: $116.62 (consolidation low)
-
-**Stop history:**
-- 2026-06-24: $116.62 — initial stop (order pending fill)
-
-**Partial profits:**
-- none
-
-**Total closed**: 0%
-
-**Last updated**: 2026-06-24
-
----
-
 ## FITB
-- **Status**: pending
-- **Order ID**: 874a87f5-72d4-40d4-88fc-6aa0012ad2ee
-- **Entry date**: 2026-06-24
-- **Planned entry**: $55.34 (consolidation high)
-- **Planned qty**: 166
+- **Status**: active
+- **Entry date**: 2026-06-24 (fill confirmed 2026-06-25)
+- **Entry price**: $55.67 (actual — Alpaca avg_entry_price)
+- **Original qty**: 166 (actual filled qty)
 - **Setup**: Breakout A
 - **Initial stop**: $52.30 (consolidation low)
 
 **Stop history:**
 - 2026-06-24: $52.30 — initial stop (order pending fill)
+- 2026-06-25: $52.30 — GTC stop reinstated (OTO leg expired as DAY order, order 85c1a602)
 
 **Partial profits:**
 - none
 
 **Total closed**: 0%
 
-**Last updated**: 2026-06-24
+**Last updated**: 2026-06-25
 
 ---
 
@@ -143,4 +122,4 @@ ACTIVE (replace the pending block with this once fill is confirmed in Step 3):
 
 ---
 
-*(2 active + 2 pending as of 2026-06-24: SAN (active @ $12.66, unrealized +5.61%, GTC breakeven stop $12.66 order 29c06248 unchanged — already correctly set), USB (active @ $59.80, unrealized +0.52%, GTC safety-net stop $55.19 order bf4e765d unchanged, below 5% band so no trailing-stop update). Removed: AAPL and FITB pending entries from 2026-06-23 both expired unfilled (DAY stop_limit orders, never triggered — confirmed OrderStatus.EXPIRED via Alpaca). New entries: CSCO and FITB (both Breakout A, max 2/session, prioritized by lowest consolidation_range_pct among 3 qualifying Option A setups — KEY (7.61% range) deferred to next session, all 3 passed earnings filter). Watchlist: removed RF (failed Trend Template). trend_template_batch.py failed (Yahoo Finance TLS error) — large-cap candidate scan skipped today. Market signal: GREEN.)*
+*(3 active as of 2026-06-25: SAN (active @ $12.66, unrealized +5.69%, GTC breakeven stop $12.66 order 29c06248 unchanged — already correctly set), USB (active @ $59.80, unrealized +2.36%, GTC safety-net stop $55.19 order bf4e765d unchanged, below 5% band so no trailing-stop update), FITB (reconciled pending → active, fill confirmed @ $55.67 actual avg_entry_price, no stop existed so placed GTC safety-net stop $52.30 order 85c1a602). Removed: CSCO pending entry from 2026-06-24 expired unfilled (DAY stop_limit order, never triggered — confirmed no position and no open order via Alpaca). No new entries today — YELLOW signal caps positions at 3, account already at 3/3, Step 5 skipped. Watchlist: removed FITB (now held), AAPL/APH/HPE (failed Trend Template). trend_template_batch.py failed again (Yahoo Finance TLS error) — large-cap candidate scan skipped two sessions running. Market signal: YELLOW.)*
