@@ -5,7 +5,7 @@ A position is added when a new entry is made (Step 5) and removed only when full
 The bot reads this file at the start of Step 3 to make correct position management decisions.
 This file tracks HISTORY only — current state (price, qty, stop) is always read from Alpaca.
 
-Last updated: 2026-06-26
+Last updated: 2026-06-29
 
 ---
 
@@ -122,4 +122,4 @@ ACTIVE (replace the pending block with this once fill is confirmed in Step 3):
 
 ---
 
-*(3 active as of 2026-06-26: SAN (active @ $12.66, unrealized +5.77%, GTC breakeven stop $12.66 order 29c06248 unchanged — already correctly set), USB (active @ $59.80, unrealized +1.86%, GTC safety-net stop $55.19 order bf4e765d unchanged, below 5% band so no trailing-stop update), FITB (active @ $55.67, unrealized +1.15%, GTC safety-net stop $52.30 order 85c1a602 unchanged, below 5% band so no trailing-stop update). No pending entries to reconcile. No new entries today — YELLOW signal caps positions at 3, account already at 3/3, Step 5 skipped. Watchlist: removed NOK/ON/APLD (failed Trend Template re-screen); no new candidates passed (MIC/SDOT/GOGL from gainers and SLS/FCEL from web search all failed or errored on Trend Template). trend_template_batch.py failed again (Yahoo Finance TLS error) — large-cap candidate scan skipped three sessions running. Market signal: YELLOW.)*
+*(3 active as of 2026-06-29: FITB (active @ $55.67, unrealized +1.99%, GTC stop $52.30 order 85c1a602 unchanged, below 5% band so no trailing-stop update), SAN (active @ $12.66, unrealized +7.71%, GTC breakeven stop $12.66 order 29c06248 unchanged — already correctly set at calculated breakeven level), USB (active @ $59.80, unrealized +2.52%, GTC safety-net stop $55.19 order bf4e765d unchanged, below 5% band so no trailing-stop update). No pending entries to reconcile. Earnings checked for all three (FITB 7/17, SAN ~7/22-29, USB 7/16) — all >14 days away, no exit triggered. GREEN signal — 2 slots available, but no qualifying setups found on watchlist scan (no Option A in range had volume_declining, no symbol above resistance for Option B, no EP candidates), so Step 5 placed no new orders. Watchlist: no removals (all 15 symbols still pass Trend Template re-screen); no new candidates passed (UPC/SDOT/OC/ALAB from gainers+web search failed Trend Template, ASTG/ASTT/ASTY/ASUP/ASTX errored — likely invalid/illiquid tickers). trend_template_batch.py failed again (Yahoo Finance TLS/curl error) — large-cap candidate scan skipped, now 4 consecutive sessions. Market signal: GREEN.)*
