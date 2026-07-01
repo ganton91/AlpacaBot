@@ -5,7 +5,7 @@ A position is added when a new entry is made (Step 5) and removed only when full
 The bot reads this file at the start of Step 3 to make correct position management decisions.
 This file tracks HISTORY only — current state (price, qty, stop) is always read from Alpaca.
 
-Last updated: 2026-06-30
+Last updated: 2026-07-01
 
 ---
 
@@ -122,4 +122,4 @@ ACTIVE (replace the pending block with this once fill is confirmed in Step 3):
 
 ---
 
-*(3 active as of 2026-06-30: FITB (active @ $55.67, unrealized +1.26%, GTC stop $52.30 order 85c1a602 unchanged, below 5% band so no trailing-stop update), SAN (active @ $12.66, unrealized +9.01%, GTC breakeven stop $12.66 order 29c06248 unchanged — already at breakeven, calculated stop matches current), USB (active @ $59.80, unrealized +0.92%, GTC safety-net stop $55.19 order bf4e765d unchanged, below 5% band so no trailing-stop update). No pending entries to reconcile. Earnings confirmed via web search: FITB 7/17, SAN 7/22, USB 7/16 — all >14 days away, no exit triggered. GREEN signal — 2 slots available. Setup scanner found two Option A candidates (ASX: pct_from_resistance -0.39%, INTC: -1.95%, both volume_declining=true), but both failed ≤10% stop-width verification (ASX consolidation range 23.74% → risk/entry 19.2%; INTC range 21.72% → risk/entry 17.9%) — no orders placed. Watchlist: no changes (all 15 symbols still pass Trend Template re-screen, no new candidates from gainers or web search passed). trend_template_batch.py failed again (Yahoo Finance TLS/curl error) — 5th consecutive session. Market signal: GREEN.)*
+*(3 active as of 2026-07-01: FITB (active @ $55.67, unrealized +3.27%, GTC stop $52.30 order 85c1a602 unchanged — below 5% band, no trailing-stop update), SAN (active @ $12.66, unrealized +9.08%, GTC breakeven stop $12.66 order 29c06248 unchanged — in 5-10% band, stop already at entry price so no update), USB (active @ $59.80, unrealized +3.61%, GTC safety-net stop $55.19 order bf4e765d unchanged — below 5% band, no trailing-stop update). No pending entries to reconcile. Earnings confirmed via web search: FITB 7/17 (16 days), SAN 7/22 (21 days), USB 7/16 (15 days) — all outside 2-day exit window and outside 14-day new-entry filter. GREEN signal — 2 slots available. Setup scanner: no qualifying setups — KEY at -1.9% and CSX at -0.5% were closest to Option A threshold but both had volume_declining=false. Watchlist: F removed (failed Trend Template re-screen); META and SNDK from web search failed Trend Template; SDOT failed Trend Template. 14 symbols remain. trend_template_batch.py failed again (TLS/curl error) — 6th consecutive session. No orders placed. Market signal: GREEN.)*
