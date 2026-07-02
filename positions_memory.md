@@ -5,7 +5,7 @@ A position is added when a new entry is made (Step 5) and removed only when full
 The bot reads this file at the start of Step 3 to make correct position management decisions.
 This file tracks HISTORY only — current state (price, qty, stop) is always read from Alpaca.
 
-Last updated: 2026-07-01
+Last updated: 2026-07-02
 
 ---
 
@@ -21,13 +21,14 @@ Last updated: 2026-07-01
 - 2026-06-11: $11.91 — initial stop (order pending fill)
 - 2026-06-12: $11.91 — GTC stop reinstated (OTO leg expired as DAY order, order e651530b)
 - 2026-06-16: $12.66 — breakeven stop (unrealized_pl_pct 6.4%, replaced order e651530b → 29c06248)
+- 2026-07-02: $13.63 — trailing stop at MA10 (unrealized_pl_pct 10.11%, replaced order 29c06248 → 9d128e71)
 
 **Partial profits:**
 - none
 
 **Total closed**: 0%
 
-**Last updated**: 2026-06-16
+**Last updated**: 2026-07-02
 
 ---
 
@@ -70,6 +71,27 @@ Last updated: 2026-07-01
 **Total closed**: 0%
 
 **Last updated**: 2026-06-25
+
+---
+
+## CSX
+- **Status**: pending
+- **Order ID**: ec422789-ecb2-4545-a9f5-b23c319820d2
+- **Entry date**: 2026-07-02
+- **Planned entry**: $49.21 (consolidation high / Option A trigger)
+- **Planned qty**: 135
+- **Setup**: Breakout A
+- **Initial stop**: $45.43 (consolidation low)
+
+**Stop history:**
+- 2026-07-02: $45.43 — initial stop (order pending fill)
+
+**Partial profits:**
+- none
+
+**Total closed**: 0%
+
+**Last updated**: 2026-07-02
 
 ---
 
@@ -122,4 +144,4 @@ ACTIVE (replace the pending block with this once fill is confirmed in Step 3):
 
 ---
 
-*(3 active as of 2026-07-01: FITB (active @ $55.67, unrealized +3.27%, GTC stop $52.30 order 85c1a602 unchanged — below 5% band, no trailing-stop update), SAN (active @ $12.66, unrealized +9.08%, GTC breakeven stop $12.66 order 29c06248 unchanged — in 5-10% band, stop already at entry price so no update), USB (active @ $59.80, unrealized +3.61%, GTC safety-net stop $55.19 order bf4e765d unchanged — below 5% band, no trailing-stop update). No pending entries to reconcile. Earnings confirmed via web search: FITB 7/17 (16 days), SAN 7/22 (21 days), USB 7/16 (15 days) — all outside 2-day exit window and outside 14-day new-entry filter. GREEN signal — 2 slots available. Setup scanner: no qualifying setups — KEY at -1.9% and CSX at -0.5% were closest to Option A threshold but both had volume_declining=false. Watchlist: F removed (failed Trend Template re-screen); META and SNDK from web search failed Trend Template; SDOT failed Trend Template. 14 symbols remain. trend_template_batch.py failed again (TLS/curl error) — 6th consecutive session. No orders placed. Market signal: GREEN.)*
+*(3 active + 1 pending as of 2026-07-02: FITB (active @ $55.67, unrealized +2.68%, GTC stop $52.30 order 85c1a602 unchanged — below 5% band), SAN (active @ $12.66, unrealized +10.11%, GTC trailing stop updated to $13.63 MA10 order 9d128e71 — in 10-20% band, replaced order 29c06248), USB (active @ $59.80, unrealized +3.23%, GTC stop $55.19 order bf4e765d unchanged — below 5% band), CSX (pending — OTO stop_limit buy 135 shares trigger $49.46 limit $49.70 stop $45.43, order ec422789, expires 2026-07-06). No pending entries to reconcile. Earnings: FITB 7/17 (15d), SAN 7/22 (20d), USB 7/16 (14d) — all outside 2-day exit window. CSX earnings 7/22 (20d) — outside 14-day filter. Watchlist: MRVL and CIFR removed (failed Trend Template); no new adds (RIVN failed TT, MIDDV errored, MRNA gap <8%). 12 symbols remain. trend_template_batch.py failed (TLS/curl error — 7th consecutive session). GREEN signal. Market: Dow all-time high, chip sector selling off, July 3 holiday (markets closed). Next session: 2026-07-07.)*
