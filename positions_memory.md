@@ -5,116 +5,28 @@ A position is added when a new entry is made (Step 5) and removed only when full
 The bot reads this file at the start of Step 3 to make correct position management decisions.
 This file tracks HISTORY only — current state (price, qty, stop) is always read from Alpaca.
 
-Last updated: 2026-07-06
-
----
-
-## SAN
-- **Status**: active
-- **Entry date**: 2026-06-11 (fill confirmed 2026-06-12)
-- **Entry price**: $12.66 (actual — Alpaca avg_entry_price)
-- **Original qty**: 729 (actual filled qty)
-- **Setup**: Breakout A
-- **Initial stop**: $11.91 (consolidation low)
-
-**Stop history:**
-- 2026-06-11: $11.91 — initial stop (order pending fill)
-- 2026-06-12: $11.91 — GTC stop reinstated (OTO leg expired as DAY order, order e651530b)
-- 2026-06-16: $12.66 — breakeven stop (unrealized_pl_pct 6.4%, replaced order e651530b → 29c06248)
-- 2026-07-02: $13.63 — trailing stop at MA10 (unrealized_pl_pct 10.11%, replaced order 29c06248 → 9d128e71)
-- 2026-07-06: $13.71 — trailing stop at MA10 (unrealized_pl_pct 13.51%, replaced order 9d128e71 → 1c73fed1)
-
-**Partial profits:**
-- none
-
-**Total closed**: 0%
-
-**Last updated**: 2026-07-06
-
----
-
-## USB
-- **Status**: active
-- **Entry date**: 2026-06-22 (fill confirmed 2026-06-23)
-- **Entry price**: $59.80 (actual — Alpaca avg_entry_price)
-- **Original qty**: 118 (actual filled qty)
-- **Setup**: Breakout A
-- **Initial stop**: $55.19 (consolidation low)
-
-**Stop history:**
-- 2026-06-22: $55.19 — initial stop (order pending fill)
-- 2026-06-23: $55.19 — GTC stop reinstated (OTO leg expired as DAY order, order bf4e765d)
-- 2026-07-06: $59.80 — breakeven stop (unrealized_pl_pct 5.07%, replaced order bf4e765d → 25cf72eb)
-
-**Partial profits:**
-- none
-
-**Total closed**: 0%
-
-**Last updated**: 2026-07-06
-
----
-
-## FITB
-- **Status**: active
-- **Entry date**: 2026-06-24 (fill confirmed 2026-06-25)
-- **Entry price**: $55.67 (actual — Alpaca avg_entry_price)
-- **Original qty**: 166 (actual filled qty)
-- **Setup**: Breakout A
-- **Initial stop**: $52.30 (consolidation low)
-
-**Stop history:**
-- 2026-06-24: $52.30 — initial stop (order pending fill)
-- 2026-06-25: $52.30 — GTC stop reinstated (OTO leg expired as DAY order, order 85c1a602)
-
-**Partial profits:**
-- none
-
-**Total closed**: 0%
-
-**Last updated**: 2026-06-25
-
----
-
-## KEY
-- **Status**: pending
-- **Order ID**: d318fee3-891c-4d26-a7d9-499378359bb7
-- **Entry date**: 2026-07-06
-- **Planned entry**: $23.71 (consolidation high / Option A trigger)
-- **Planned qty**: 438
-- **Setup**: Breakout A
-- **Initial stop**: $22.70 (consolidation low)
-
-**Stop history:**
-- 2026-07-06: $22.70 — initial stop (order pending fill)
-
-**Partial profits:**
-- none
-
-**Total closed**: 0%
-
-**Last updated**: 2026-07-06
+Last updated: 2026-07-07
 
 ---
 
 ## CSX
 - **Status**: pending
-- **Order ID**: 7515d6b3-520d-4fbc-b10c-52183902a848
-- **Entry date**: 2026-07-06
+- **Order ID**: 176b48c4-f338-40e2-8152-1afedcf3ad5e
+- **Entry date**: 2026-07-07
 - **Planned entry**: $49.27 (consolidation high / Option A trigger)
-- **Planned qty**: 140
+- **Planned qty**: 36
 - **Setup**: Breakout A
-- **Initial stop**: $45.58 (consolidation low)
+- **Initial stop**: $45.94 (consolidation low)
 
 **Stop history:**
-- 2026-07-06: $45.58 — initial stop (order pending fill)
+- 2026-07-07: $45.94 — initial stop (order pending fill)
 
 **Partial profits:**
 - none
 
 **Total closed**: 0%
 
-**Last updated**: 2026-07-06
+**Last updated**: 2026-07-07
 
 ---
 
@@ -167,4 +79,4 @@ ACTIVE (replace the pending block with this once fill is confirmed in Step 3):
 
 ---
 
-*(3 active + 2 pending as of 2026-07-06: FITB (active @ $55.67, unrealized +3.99%, GTC stop $52.30 order 85c1a602 unchanged — below 5% band), SAN (active @ $12.66, unrealized +13.51%, GTC trailing stop updated to $13.71 MA10 order 1c73fed1 — in 10-20% band, replaced order 9d128e71), USB (active @ $59.80, unrealized +5.07%, GTC breakeven stop updated to $59.80 order 25cf72eb — in 5-10% band, replaced order bf4e765d), KEY (pending — OTO stop_limit buy 438 shares trigger $23.83 limit $23.95 stop $22.70, order d318fee3, expires 2026-07-07), CSX (pending — OTO stop_limit buy 140 shares trigger $49.52 limit $49.76 stop $45.58, order 7515d6b3, expires 2026-07-07). Previous CSX order ec422789 expired unfilled 2026-07-06 (was trigger $49.46, expires noted as 2026-07-06). Earnings: FITB 7/17 (11d), SAN 7/22 (16d), USB 7/16 (10d) — all outside 2-day exit window. KEY 7/21 (15d), CSX 7/22 (16d) — outside 14-day entry filter. C (Citigroup) discarded: earnings 7/14 (8d, within 14-day filter). trend_template_batch.py failed (TLS/curl error — 8th consecutive session). GREEN signal. Nasdaq climbing, tech rebound. Next session: 2026-07-07.)*
+*(1 pending as of 2026-07-07: CSX (pending — OTO stop_limit buy 36 shares trigger $49.52 limit $49.76 stop $45.94, order 176b48c4, expires 2026-07-07). CRITICAL ANOMALY: Account showed 0 positions despite SAN, USB, FITB being active in positions_memory.md as of 2026-07-06. Their GTC stop orders were still in open_orders (SAN 1c73fed1 stop $13.71, USB 25cf72eb stop $59.80, FITB 85c1a602 stop $52.30) but the positions themselves were absent from the account. Orphaned stop orders were cancelled. SAN, USB, FITB removed from positions_memory.md. KEY pending order d318fee3 expired unfilled. Old CSX pending order 7515d6b3 expired unfilled. Earnings filters: BAC 7/14 (7d), USB 7/16 (9d), KEY 7/21 (14d) — all disqualified. CSX 7/22 (15d) — within margin, qualified. YELLOW signal. Financial sector (BAC, USB) at 52-wk highs. trend_template_batch.py failed (TLS error — 9th consecutive session). Next session: 2026-07-08.)*
