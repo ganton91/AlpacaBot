@@ -5,28 +5,28 @@ A position is added when a new entry is made (Step 5) and removed only when full
 The bot reads this file at the start of Step 3 to make correct position management decisions.
 This file tracks HISTORY only — current state (price, qty, stop) is always read from Alpaca.
 
-Last updated: 2026-07-07
+Last updated: 2026-07-08
 
 ---
 
-## CSX
-- **Status**: pending
-- **Order ID**: 176b48c4-f338-40e2-8152-1afedcf3ad5e
-- **Entry date**: 2026-07-07
-- **Planned entry**: $49.27 (consolidation high / Option A trigger)
-- **Planned qty**: 36
-- **Setup**: Breakout A
-- **Initial stop**: $45.94 (consolidation low)
+## FITB
+- **Status**: active
+- **Entry date**: 2026-06-25 (fill confirmed 2026-07-08 — reconstructed from Alpaca data after 2026-07-07 anomaly removed this entry)
+- **Entry price**: $55.67 (actual — Alpaca avg_entry_price)
+- **Original qty**: 166 (actual filled qty)
+- **Setup**: Unknown (entry details lost during 2026-07-07 anomaly; reconstructed)
+- **Initial stop**: $52.30 (reconstructed from 2026-07-07 session note)
 
 **Stop history:**
-- 2026-07-07: $45.94 — initial stop (order pending fill)
+- 2026-07-07: $52.30 — initial stop (reconstructed from anomaly note; original stop order 85c1a602 was cancelled that session due to zero-position anomaly)
+- 2026-07-08: $52.30 — GTC stop reinstated (order de89aa55-9836-4119-a81c-0d42bec692a9, 166 shares; stop was absent — safety net triggered by Step 3d)
 
 **Partial profits:**
 - none
 
 **Total closed**: 0%
 
-**Last updated**: 2026-07-07
+**Last updated**: 2026-07-08
 
 ---
 
@@ -79,4 +79,4 @@ ACTIVE (replace the pending block with this once fill is confirmed in Step 3):
 
 ---
 
-*(1 pending as of 2026-07-07: CSX (pending — OTO stop_limit buy 36 shares trigger $49.52 limit $49.76 stop $45.94, order 176b48c4, expires 2026-07-07). CRITICAL ANOMALY: Account showed 0 positions despite SAN, USB, FITB being active in positions_memory.md as of 2026-07-06. Their GTC stop orders were still in open_orders (SAN 1c73fed1 stop $13.71, USB 25cf72eb stop $59.80, FITB 85c1a602 stop $52.30) but the positions themselves were absent from the account. Orphaned stop orders were cancelled. SAN, USB, FITB removed from positions_memory.md. KEY pending order d318fee3 expired unfilled. Old CSX pending order 7515d6b3 expired unfilled. Earnings filters: BAC 7/14 (7d), USB 7/16 (9d), KEY 7/21 (14d) — all disqualified. CSX 7/22 (15d) — within margin, qualified. YELLOW signal. Financial sector (BAC, USB) at 52-wk highs. trend_template_batch.py failed (TLS error — 9th consecutive session). Next session: 2026-07-08.)*
+*(1 active as of 2026-07-08: FITB (active — 166 shares, entry $55.67, GTC stop $52.30 order de89aa55, earnings 2026-07-17). SAN closed today: market sell 729 shares, stagnant 26d/-0.07% 10d, order c7fa14ae. USB closed today: market sell 118 shares, stagnant 15d/1.57% 10d, order ff2c22a0. CSX pending order 176b48c4 expired unfilled — removed. trend_template_batch.py failed TLS again (10th consecutive session). Next session: 2026-07-09. CRITICAL: FITB earnings 2026-07-17, must close by 2026-07-15 (2 trading days before).)*
