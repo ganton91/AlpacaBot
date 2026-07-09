@@ -5,7 +5,7 @@ A position is added when a new entry is made (Step 5) and removed only when full
 The bot reads this file at the start of Step 3 to make correct position management decisions.
 This file tracks HISTORY only — current state (price, qty, stop) is always read from Alpaca.
 
-Last updated: 2026-07-08
+Last updated: 2026-07-09
 
 ---
 
@@ -26,7 +26,7 @@ Last updated: 2026-07-08
 
 **Total closed**: 0%
 
-**Last updated**: 2026-07-08
+**Last updated**: 2026-07-09
 
 ---
 
@@ -79,4 +79,4 @@ ACTIVE (replace the pending block with this once fill is confirmed in Step 3):
 
 ---
 
-*(1 active as of 2026-07-08: FITB (active — 166 shares, entry $55.67, GTC stop $52.30 order de89aa55, earnings 2026-07-17). SAN closed today: market sell 729 shares, stagnant 26d/-0.07% 10d, order c7fa14ae. USB closed today: market sell 118 shares, stagnant 15d/1.57% 10d, order ff2c22a0. CSX pending order 176b48c4 expired unfilled — removed. trend_template_batch.py failed TLS again (10th consecutive session). Next session: 2026-07-09. CRITICAL: FITB earnings 2026-07-17, must close by 2026-07-15 (2 trading days before).)*
+*(1 active as of 2026-07-09: FITB (active — 166 shares, entry $55.67, GTC stop $52.30 order de89aa55, earnings 2026-07-17). No position changes today. All Option A setups (KEY, BAC, CSX) discarded — earnings within 14 days (BAC Jul 14, KEY Jul 21, CSX Jul 22). trend_template_batch.py failed TLS again (11th consecutive session). MU added to watchlist. Next session: 2026-07-10. CRITICAL: FITB earnings 2026-07-17, must close by 2026-07-15 (session on 2026-07-15 has next_open_2=2026-07-17).)*
