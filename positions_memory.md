@@ -5,7 +5,7 @@ A position is added when a new entry is made (Step 5) and removed only when full
 The bot reads this file at the start of Step 3 to make correct position management decisions.
 This file tracks HISTORY only — current state (price, qty, stop) is always read from Alpaca.
 
-Last updated: 2026-07-10
+Last updated: 2026-07-13
 
 ---
 
@@ -58,4 +58,4 @@ ACTIVE (replace the pending block with this once fill is confirmed in Step 3):
 
 ---
 
-*(0 active as of 2026-07-10: FITB closed today — stagnant rule triggered (15 days open, price_change_10d=1.13% < 2%). GTC stop de89aa55 cancelled; market sell order 8bcc07b5 placed (166 shares, executes Mon Jul 13 at open, ~$57.07). No new entries — all Option A setups (KEY, C, BAC, CSX) discarded: earnings within 14 days (C Jul 14, BAC Jul 14, KEY Jul 21, CSX Jul 22). NVDA added to watchlist. trend_template_batch.py failed TLS again (12th consecutive session). Next session: 2026-07-13.)*
+*(0 active as of 2026-07-13: FITB market sell (166 shares, placed 2026-07-10) confirmed executed at Monday open. Account fully in cash at $51,226.30. No new entries — all Option A setups (KEY, CSX, BAC) disqualified by earnings within 14 days (BAC Jul 14, KEY Jul 21, CSX Jul 22). Watchlist: removed STM, TSM, MU, NVDA (failed Trend Template); 7 symbols remaining: AMD, UMC, ASX, KEY, C, CSX, BAC. trend_template_batch.py failed TLS again (13th consecutive session). Signal: YELLOW. Next entry window likely after Jul 22 earnings season. Next session: 2026-07-14.)*
