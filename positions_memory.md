@@ -5,7 +5,28 @@ A position is added when a new entry is made (Step 5) and removed only when full
 The bot reads this file at the start of Step 3 to make correct position management decisions.
 This file tracks HISTORY only — current state (price, qty, stop) is always read from Alpaca.
 
-Last updated: 2026-07-13
+Last updated: 2026-07-14
+
+---
+
+## BAC
+- **Status**: pending
+- **Order ID**: abd940c4-457d-4b64-a63d-00992aa0f343
+- **Entry date**: 2026-07-14
+- **Planned entry**: $61.20 (consolidation high / Option A trigger)
+- **Planned qty**: 117
+- **Setup**: Breakout A
+- **Initial stop**: $56.84 (consolidation low)
+
+**Stop history:**
+- 2026-07-14: $56.84 — initial stop (order pending fill)
+
+**Partial profits:**
+- none
+
+**Total closed**: 0%
+
+**Last updated**: 2026-07-14
 
 ---
 
@@ -58,4 +79,4 @@ ACTIVE (replace the pending block with this once fill is confirmed in Step 3):
 
 ---
 
-*(0 active as of 2026-07-13: FITB market sell (166 shares, placed 2026-07-10) confirmed executed at Monday open. Account fully in cash at $51,226.30. No new entries — all Option A setups (KEY, CSX, BAC) disqualified by earnings within 14 days (BAC Jul 14, KEY Jul 21, CSX Jul 22). Watchlist: removed STM, TSM, MU, NVDA (failed Trend Template); 7 symbols remaining: AMD, UMC, ASX, KEY, C, CSX, BAC. trend_template_batch.py failed TLS again (13th consecutive session). Signal: YELLOW. Next entry window likely after Jul 22 earnings season. Next session: 2026-07-14.)*
+*(1 pending as of 2026-07-14: BAC Option A order placed — 117 shares, stop trigger $61.51, limit $61.81, stop loss $56.84, order ID abd940c4-457d-4b64-a63d-00992aa0f343. BAC earnings reported today Jul 14 (beat: $1.21 vs $1.13 est), next earnings Oct 14. CSX disqualified — earnings Jul 22 (8 days). Watchlist: removed C (failed Trend Template); 6 symbols remaining: AMD, UMC, ASX, KEY, CSX, BAC. trend_template_batch.py failed TLS again (14th consecutive session). Signal: GREEN. Next session: 2026-07-15.)*
