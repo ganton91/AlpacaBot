@@ -5,28 +5,7 @@ A position is added when a new entry is made (Step 5) and removed only when full
 The bot reads this file at the start of Step 3 to make correct position management decisions.
 This file tracks HISTORY only — current state (price, qty, stop) is always read from Alpaca.
 
-Last updated: 2026-07-14
-
----
-
-## BAC
-- **Status**: pending
-- **Order ID**: abd940c4-457d-4b64-a63d-00992aa0f343
-- **Entry date**: 2026-07-14
-- **Planned entry**: $61.20 (consolidation high / Option A trigger)
-- **Planned qty**: 117
-- **Setup**: Breakout A
-- **Initial stop**: $56.84 (consolidation low)
-
-**Stop history:**
-- 2026-07-14: $56.84 — initial stop (order pending fill)
-
-**Partial profits:**
-- none
-
-**Total closed**: 0%
-
-**Last updated**: 2026-07-14
+Last updated: 2026-07-15
 
 ---
 
@@ -79,4 +58,25 @@ ACTIVE (replace the pending block with this once fill is confirmed in Step 3):
 
 ---
 
-*(1 pending as of 2026-07-14: BAC Option A order placed — 117 shares, stop trigger $61.51, limit $61.81, stop loss $56.84, order ID abd940c4-457d-4b64-a63d-00992aa0f343. BAC earnings reported today Jul 14 (beat: $1.21 vs $1.13 est), next earnings Oct 14. CSX disqualified — earnings Jul 22 (8 days). Watchlist: removed C (failed Trend Template); 6 symbols remaining: AMD, UMC, ASX, KEY, CSX, BAC. trend_template_batch.py failed TLS again (14th consecutive session). Signal: GREEN. Next session: 2026-07-15.)*
+## BAC
+- **Status**: pending
+- **Order ID**: 96816f94-5081-4fa6-90cc-7aa23d3fc4d1
+- **Entry date**: 2026-07-15
+- **Planned entry**: $62.02 (consolidation high / Option A trigger)
+- **Planned qty**: 49
+- **Setup**: Breakout A
+- **Initial stop**: $56.84 (consolidation low)
+
+**Stop history:**
+- 2026-07-15: $56.84 — initial stop (order pending fill)
+
+**Partial profits:**
+- none
+
+**Total closed**: 0%
+
+**Last updated**: 2026-07-15
+
+---
+
+*(1 pending as of 2026-07-15: BAC Option A order placed — 49 shares, stop trigger $62.33, limit $62.64, stop loss $56.84, order ID 96816f94-5081-4fa6-90cc-7aa23d3fc4d1. Prior BAC order (abd940c4) expired unfilled — price never reached $61.51 trigger. CSX disqualified — earnings Jul 22 (7 days). AAPL added to watchlist (passed Trend Template) but skipped for entry — consolidation range 13.66%, risk 12.02% exceeds 10% max. AAPL earnings Jul 30 (15 days). trend_template_batch.py failed TLS again (15th consecutive session). Signal: YELLOW (QQQ below 50MA). Next session: 2026-07-16.)*
