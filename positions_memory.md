@@ -5,7 +5,7 @@ A position is added when a new entry is made (Step 5) and removed only when full
 The bot reads this file at the start of Step 3 to make correct position management decisions.
 This file tracks HISTORY only — current state (price, qty, stop) is always read from Alpaca.
 
-Last updated: 2026-07-17
+Last updated: 2026-07-20
 
 ---
 
@@ -58,4 +58,4 @@ ACTIVE (replace the pending block with this once fill is confirmed in Step 3):
 
 ---
 
-*(No open positions as of 2026-07-16. BAC Option A order (96816f94) expired unfilled — price never reached $62.33 trigger. CSX disqualified — earnings Jul 22 (6 days). AAPL disqualified — earnings Jul 30 (14 days, at boundary). trend_template_batch.py failed TLS again (16th consecutive session). Signal: YELLOW (QQQ below 50MA). Next session: 2026-07-17.)*
+*(No open positions as of 2026-07-20. Signal: RED (both SPY and QQQ below 50MA). Account 100% cash. No new entries permitted. Next session: 2026-07-21.)*
