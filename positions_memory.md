@@ -5,7 +5,7 @@ A position is added when a new entry is made (Step 5) and removed only when full
 The bot reads this file at the start of Step 3 to make correct position management decisions.
 This file tracks HISTORY only — current state (price, qty, stop) is always read from Alpaca.
 
-Last updated: 2026-07-23
+Last updated: 2026-07-24
 
 ---
 
@@ -58,4 +58,4 @@ ACTIVE (replace the pending block with this once fill is confirmed in Step 3):
 
 ---
 
-*(No open positions as of 2026-07-23. Signal: RED (both SPY and QQQ below 50MA). Account 100% cash. Steps 4–5 skipped per RED signal rule — no new longs permitted. Next session: 2026-07-24.)*
+*(No open positions as of 2026-07-24. Signal: RED (both SPY and QQQ below 50MA — SPY $738.90 vs 50MA $745.04; QQQ $684.33 vs 50MA $718.21). VIX 18.58 falling. Account 100% cash. Steps 4–5 skipped per RED signal rule — no new longs permitted. Next session: 2026-07-27.)*
