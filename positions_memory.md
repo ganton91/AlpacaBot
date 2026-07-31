@@ -5,7 +5,7 @@ A position is added when a new entry is made (Step 5) and removed only when full
 The bot reads this file at the start of Step 3 to make correct position management decisions.
 This file tracks HISTORY only — current state (price, qty, stop) is always read from Alpaca.
 
-Last updated: 2026-07-30
+Last updated: 2026-07-31
 
 ---
 
@@ -58,4 +58,42 @@ ACTIVE (replace the pending block with this once fill is confirmed in Step 3):
 
 ---
 
-*(No open positions as of 2026-07-30. Signal: RED (both SPY and QQQ below 50MA — SPY $741.63 vs 50MA $744.69; QQQ $683.60 vs 50MA $715.28). VIX 17.09 falling. Account 100% cash. Steps 4–5 skipped per RED signal rule — no new longs permitted. Next session: 2026-07-31.)*
+## AMZN
+- **Status**: pending
+- **Order ID**: 94926e3b-da7e-464d-af7e-33f111d05b6e
+- **Entry date**: 2026-07-31
+- **Planned entry**: $271.46 (EP current price — Option C)
+- **Planned qty**: 27
+- **Setup**: EP (Option C)
+- **Initial stop**: $262.09 (gap day low)
+
+**Stop history:**
+- 2026-07-31: $262.09 — initial stop (order pending fill)
+
+**Partial profits:**
+- none
+
+**Total closed**: 0%
+
+**Last updated**: 2026-07-31
+
+---
+
+## BAC
+- **Status**: pending
+- **Order ID**: b641a2e9-93db-49b8-a88d-cc79d6d55ab8
+- **Entry date**: 2026-07-31
+- **Planned entry**: $62.98 (consolidation high — Option A trigger)
+- **Planned qty**: 88
+- **Setup**: Breakout A
+- **Initial stop**: $60.07 (consolidation low)
+
+**Stop history:**
+- 2026-07-31: $60.07 — initial stop (order pending fill)
+
+**Partial profits:**
+- none
+
+**Total closed**: 0%
+
+**Last updated**: 2026-07-31
