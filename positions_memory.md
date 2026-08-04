@@ -5,7 +5,7 @@ A position is added when a new entry is made (Step 5) and removed only when full
 The bot reads this file at the start of Step 3 to make correct position management decisions.
 This file tracks HISTORY only — current state (price, qty, stop) is always read from Alpaca.
 
-Last updated: 2026-08-03
+Last updated: 2026-08-04
 
 ---
 
@@ -59,41 +59,41 @@ ACTIVE (replace the pending block with this once fill is confirmed in Step 3):
 ---
 
 ## BAC
-- **Status**: pending
-- **Order ID**: 2202e3f1-884e-46cb-8279-3f6c4fda1663
-- **Entry date**: 2026-08-03
-- **Planned entry**: $62.98 (consolidation high — Option A trigger)
-- **Planned qty**: 88
+- **Status**: active
+- **Entry date**: 2026-08-03 (fill confirmed 2026-08-04)
+- **Entry price**: $63.29 (actual — Alpaca avg_entry_price)
+- **Original qty**: 88 (actual filled qty)
 - **Setup**: Breakout A
 - **Initial stop**: $60.07 (consolidation low)
 
 **Stop history:**
 - 2026-08-03: $60.07 — initial stop (order pending fill)
+- 2026-08-04: $60.07 — GTC stop reinstated (OTO leg expired as DAY order)
 
 **Partial profits:**
 - none
 
 **Total closed**: 0%
 
-**Last updated**: 2026-08-03
+**Last updated**: 2026-08-04
 
 ---
 
 ## KEY
 - **Status**: pending
-- **Order ID**: 78fe2010-75d8-45a1-87c3-c4004fb302d2
-- **Entry date**: 2026-08-03
-- **Planned entry**: $23.32 (consolidation high — Option A trigger)
-- **Planned qty**: 217
+- **Order ID**: 62c2fb09-b830-4960-aed6-a6a3b93decc3
+- **Entry date**: 2026-08-04
+- **Planned entry**: $23.27 (consolidation high — Option A trigger)
+- **Planned qty**: 226
 - **Setup**: Breakout A
 - **Initial stop**: $22.14 (consolidation low)
 
 **Stop history:**
-- 2026-08-03: $22.14 — initial stop (order pending fill)
+- 2026-08-04: $22.14 — initial stop (order pending fill)
 
 **Partial profits:**
 - none
 
 **Total closed**: 0%
 
-**Last updated**: 2026-08-03
+**Last updated**: 2026-08-04
