@@ -5,7 +5,7 @@ A position is added when a new entry is made (Step 5) and removed only when full
 The bot reads this file at the start of Step 3 to make correct position management decisions.
 This file tracks HISTORY only — current state (price, qty, stop) is always read from Alpaca.
 
-Last updated: 2026-08-11
+Last updated: 2026-08-12
 
 ---
 
@@ -55,6 +55,27 @@ ACTIVE (replace the pending block with this once fill is confirmed in Step 3):
 **Last updated**: YYYY-MM-DD
 
 -->
+
+---
+
+## CSX
+- **Status**: pending
+- **Order ID**: 4d22868a-f327-484a-b031-d967a29863b6
+- **Entry date**: 2026-08-12
+- **Planned entry**: $51.59 (consolidation high)
+- **Planned qty**: 118
+- **Setup**: Breakout A
+- **Initial stop**: $49.43 (consolidation low)
+
+**Stop history:**
+- 2026-08-12: $49.43 — initial stop (order pending fill)
+
+**Partial profits:**
+- none
+
+**Total closed**: 0%
+
+**Last updated**: 2026-08-12
 
 ---
 
