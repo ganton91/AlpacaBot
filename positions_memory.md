@@ -5,7 +5,7 @@ A position is added when a new entry is made (Step 5) and removed only when full
 The bot reads this file at the start of Step 3 to make correct position management decisions.
 This file tracks HISTORY only — current state (price, qty, stop) is always read from Alpaca.
 
-Last updated: 2026-08-14
+Last updated: 2026-08-17
 
 ---
 
@@ -58,27 +58,6 @@ ACTIVE (replace the pending block with this once fill is confirmed in Step 3):
 
 ---
 
-## CSX
-- **Status**: pending
-- **Order ID**: b671ae38-9f86-43d7-8ae8-b436ae1cce2a
-- **Entry date**: 2026-08-14
-- **Planned entry**: $51.59 (consolidation high)
-- **Planned qty**: 118
-- **Setup**: Breakout A
-- **Initial stop**: $49.43 (consolidation low)
-
-**Stop history:**
-- 2026-08-14: $49.43 — initial stop (order pending fill)
-
-**Partial profits:**
-- none
-
-**Total closed**: 0%
-
-**Last updated**: 2026-08-14
-
----
-
 ## BAC
 - **Status**: active
 - **Entry date**: 2026-08-03 (fill confirmed 2026-08-04)
@@ -96,7 +75,48 @@ ACTIVE (replace the pending block with this once fill is confirmed in Step 3):
 
 **Total closed**: 0%
 
-**Last updated**: 2026-08-14
+**Last updated**: 2026-08-17
 
 ---
 
+## CSX
+- **Status**: pending
+- **Order ID**: 2933193e-b28d-4e0e-b0e5-4a8bdbd26ff5
+- **Entry date**: 2026-08-17
+- **Planned entry**: $51.59 (consolidation high)
+- **Planned qty**: 118
+- **Setup**: Breakout A
+- **Initial stop**: $49.43 (consolidation low)
+
+**Stop history:**
+- 2026-08-17: $49.43 — initial stop (order pending fill)
+
+**Partial profits:**
+- none
+
+**Total closed**: 0%
+
+**Last updated**: 2026-08-17
+
+---
+
+## BMY
+- **Status**: pending
+- **Order ID**: 608dad99-92ee-4a96-aa86-bf071cacdb2d
+- **Entry date**: 2026-08-17
+- **Planned entry**: $66.31 (consolidation high)
+- **Planned qty**: 77
+- **Setup**: Breakout A
+- **Initial stop**: $63.00 (consolidation low)
+
+**Stop history:**
+- 2026-08-17: $63.00 — initial stop (order pending fill)
+
+**Partial profits:**
+- none
+
+**Total closed**: 0%
+
+**Last updated**: 2026-08-17
+
+---
