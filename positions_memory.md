@@ -5,7 +5,7 @@ A position is added when a new entry is made (Step 5) and removed only when full
 The bot reads this file at the start of Step 3 to make correct position management decisions.
 This file tracks HISTORY only — current state (price, qty, stop) is always read from Alpaca.
 
-Last updated: 2026-08-18
+Last updated: 2026-08-19
 
 ---
 
@@ -58,65 +58,23 @@ ACTIVE (replace the pending block with this once fill is confirmed in Step 3):
 
 ---
 
-## BAC
-- **Status**: active
-- **Entry date**: 2026-08-03 (fill confirmed 2026-08-04)
-- **Entry price**: $63.29 (actual — Alpaca avg_entry_price)
-- **Original qty**: 88 (actual filled qty)
-- **Setup**: Breakout A
-- **Initial stop**: $60.07 (consolidation low)
-
-**Stop history:**
-- 2026-08-03: $60.07 — initial stop (order pending fill)
-- 2026-08-04: $60.07 — GTC stop reinstated (OTO leg expired as DAY order)
-
-**Partial profits:**
-- none
-
-**Total closed**: 0%
-
-**Last updated**: 2026-08-18
-
----
-
-## CSX
-- **Status**: pending
-- **Order ID**: b565d370-d83d-4dd5-b697-dbab16be4f18
-- **Entry date**: 2026-08-18
-- **Planned entry**: $51.59 (consolidation high)
-- **Planned qty**: 137
-- **Setup**: Breakout A
-- **Initial stop**: $49.72 (consolidation low)
-
-**Stop history:**
-- 2026-08-18: $49.72 — initial stop (order pending fill)
-
-**Partial profits:**
-- none
-
-**Total closed**: 0%
-
-**Last updated**: 2026-08-18
-
----
-
 ## BMY
-- **Status**: pending
-- **Order ID**: b74b711c-eaa4-4085-91a6-9a13f4def4ec
-- **Entry date**: 2026-08-18
-- **Planned entry**: $66.38 (consolidation high)
-- **Planned qty**: 75
+- **Status**: active
+- **Entry date**: 2026-08-18 (fill confirmed 2026-08-19)
+- **Entry price**: $66.98 (actual — Alpaca avg_entry_price)
+- **Original qty**: 75 (actual filled qty)
 - **Setup**: Breakout A
 - **Initial stop**: $63.00 (consolidation low)
 
 **Stop history:**
 - 2026-08-18: $63.00 — initial stop (order pending fill)
+- 2026-08-19: $63.00 — GTC stop reinstated (OTO leg expired as DAY order)
 
 **Partial profits:**
 - none
 
 **Total closed**: 0%
 
-**Last updated**: 2026-08-18
+**Last updated**: 2026-08-19
 
 ---
