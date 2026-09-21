@@ -5,7 +5,7 @@ A position is added when a new entry is made (Step 5) and removed only when full
 The bot reads this file at the start of Step 3 to make correct position management decisions.
 This file tracks HISTORY only — current state (price, qty, stop) is always read from Alpaca.
 
-Last updated: 2026-09-18
+Last updated: 2026-09-21
 
 ---
 
@@ -30,45 +30,45 @@ Last updated: 2026-09-18
 
 ---
 
+## SAN
+- **Status**: pending
+- **Order ID**: b74a8bfd-1424-4e05-a326-3eec4764db9c
+- **Entry date**: 2026-09-21
+- **Planned entry**: $14.98 (consolidation high / Option A trigger)
+- **Planned qty**: 376
+- **Setup**: Breakout A
+- **Initial stop**: $14.30 (consolidation low)
+
+**Stop history:**
+- 2026-09-21: $14.30 — initial stop (order pending fill)
+
+**Partial profits:**
+- none
+
+**Total closed**: 0%
+
+**Last updated**: 2026-09-21
+
+---
+
 ## AAPL
 - **Status**: pending
-- **Order ID**: c5c0f855-dd20-4309-b58c-12b61f812b21
-- **Entry date**: 2026-09-18
-- **Planned entry**: $338.41 (consolidation high / Option A trigger)
+- **Order ID**: 67227c88-53c4-491b-8c7b-7324d4c3e9a3
+- **Entry date**: 2026-09-21
+- **Planned entry**: $339.62 (consolidation high / Option A trigger)
 - **Planned qty**: 8
 - **Setup**: Breakout A
 - **Initial stop**: $309.92 (consolidation low)
 
 **Stop history:**
-- 2026-09-18: $309.92 — initial stop (order pending fill)
+- 2026-09-21: $309.92 — initial stop (order pending fill)
 
 **Partial profits:**
 - none
 
 **Total closed**: 0%
 
-**Last updated**: 2026-09-18
-
----
-
-## GOOGL
-- **Status**: pending
-- **Order ID**: 80f3f113-904b-411b-bdd3-38770cddc4f5
-- **Entry date**: 2026-09-18
-- **Planned entry**: $359.37 (consolidation high / Option A trigger)
-- **Planned qty**: 8
-- **Setup**: Breakout A
-- **Initial stop**: $327.79 (consolidation low)
-
-**Stop history:**
-- 2026-09-18: $327.79 — initial stop (order pending fill)
-
-**Partial profits:**
-- none
-
-**Total closed**: 0%
-
-**Last updated**: 2026-09-18
+**Last updated**: 2026-09-21
 
 ---
 
