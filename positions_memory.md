@@ -5,7 +5,28 @@ A position is added when a new entry is made (Step 5) and removed only when full
 The bot reads this file at the start of Step 3 to make correct position management decisions.
 This file tracks HISTORY only — current state (price, qty, stop) is always read from Alpaca.
 
-Last updated: 2026-09-21
+Last updated: 2026-09-22
+
+---
+
+## APH
+- **Status**: pending
+- **Order ID**: 91694f84-80a4-4fe8-9aef-c1cd9b836d6f
+- **Entry date**: 2026-09-22
+- **Planned entry**: $84.48 (consolidation high / Option A trigger)
+- **Planned qty**: 33
+- **Setup**: Breakout A
+- **Initial stop**: $76.74 (consolidation low)
+
+**Stop history:**
+- 2026-09-22: $76.74 — initial stop (order pending fill)
+
+**Partial profits:**
+- none
+
+**Total closed**: 0%
+
+**Last updated**: 2026-09-22
 
 ---
 
@@ -30,45 +51,24 @@ Last updated: 2026-09-21
 
 ---
 
-## SAN
-- **Status**: pending
-- **Order ID**: b74a8bfd-1424-4e05-a326-3eec4764db9c
-- **Entry date**: 2026-09-21
-- **Planned entry**: $14.98 (consolidation high / Option A trigger)
-- **Planned qty**: 376
-- **Setup**: Breakout A
-- **Initial stop**: $14.30 (consolidation low)
-
-**Stop history:**
-- 2026-09-21: $14.30 — initial stop (order pending fill)
-
-**Partial profits:**
-- none
-
-**Total closed**: 0%
-
-**Last updated**: 2026-09-21
-
----
-
 ## AAPL
-- **Status**: pending
-- **Order ID**: 67227c88-53c4-491b-8c7b-7324d4c3e9a3
-- **Entry date**: 2026-09-21
-- **Planned entry**: $339.62 (consolidation high / Option A trigger)
-- **Planned qty**: 8
+- **Status**: active
+- **Entry date**: 2026-09-21 (fill confirmed 2026-09-22)
+- **Entry price**: $342.72 (actual — Alpaca avg_entry_price)
+- **Original qty**: 8 (actual filled qty)
 - **Setup**: Breakout A
 - **Initial stop**: $309.92 (consolidation low)
 
 **Stop history:**
 - 2026-09-21: $309.92 — initial stop (order pending fill)
+- 2026-09-22: $309.92 — GTC safety net stop reinstated (no active stop found; order id: 9aff2900-82b3-4f8c-9c34-7eb2d9f20bf8)
 
 **Partial profits:**
 - none
 
 **Total closed**: 0%
 
-**Last updated**: 2026-09-21
+**Last updated**: 2026-09-22
 
 ---
 
