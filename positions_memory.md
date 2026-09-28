@@ -5,7 +5,7 @@ A position is added when a new entry is made (Step 5) and removed only when full
 The bot reads this file at the start of Step 3 to make correct position management decisions.
 This file tracks HISTORY only — current state (price, qty, stop) is always read from Alpaca.
 
-Last updated: 2026-09-25
+Last updated: 2026-09-28
 
 ---
 
@@ -26,49 +26,7 @@ Last updated: 2026-09-25
 
 **Total closed**: 0%
 
-**Last updated**: 2026-09-25
-
----
-
-## SAN
-- **Status**: pending
-- **Order ID**: 53f041d9-d504-4083-add7-b41f140b3f74
-- **Entry date**: 2026-09-25
-- **Planned entry**: $14.85 (consolidation high / Option A trigger)
-- **Planned qty**: 686
-- **Setup**: Breakout A
-- **Initial stop**: $14.15 (consolidation low)
-
-**Stop history:**
-- 2026-09-25: $14.15 — initial stop (order pending fill)
-
-**Partial profits:**
-- none
-
-**Total closed**: 0%
-
-**Last updated**: 2026-09-25
-
----
-
-## AAPL
-- **Status**: active
-- **Entry date**: 2026-09-21 (fill confirmed 2026-09-22)
-- **Entry price**: $342.72 (actual — Alpaca avg_entry_price)
-- **Original qty**: 8 (actual filled qty)
-- **Setup**: Breakout A
-- **Initial stop**: $309.92 (consolidation low)
-
-**Stop history:**
-- 2026-09-21: $309.92 — initial stop (order pending fill)
-- 2026-09-22: $309.92 — GTC safety net stop reinstated (no active stop found; order id: 9aff2900-82b3-4f8c-9c34-7eb2d9f20bf8)
-
-**Partial profits:**
-- none
-
-**Total closed**: 0%
-
-**Last updated**: 2026-09-22
+**Last updated**: 2026-09-28
 
 ---
 
