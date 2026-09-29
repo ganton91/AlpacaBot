@@ -5,7 +5,7 @@ A position is added when a new entry is made (Step 5) and removed only when full
 The bot reads this file at the start of Step 3 to make correct position management decisions.
 This file tracks HISTORY only — current state (price, qty, stop) is always read from Alpaca.
 
-Last updated: 2026-09-28
+Last updated: 2026-09-29
 
 ---
 
@@ -26,7 +26,7 @@ Last updated: 2026-09-28
 
 **Total closed**: 0%
 
-**Last updated**: 2026-09-28
+**Last updated**: 2026-09-29
 
 ---
 
